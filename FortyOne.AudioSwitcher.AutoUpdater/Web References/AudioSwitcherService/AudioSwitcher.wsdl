@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+                  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/"
+                  xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+                  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+                  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="CheckForUpdate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="assemblyVersion" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckForUpdateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CheckForUpdateResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUpdateInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="assemblyVersion" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUpdateInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUpdateInfoResult" type="tns:AudioSwitcherVersionInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AudioSwitcherVersionInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="VersionInfo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="URL" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ChangeLog" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SendBugReport">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="confirmation" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userComment" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="details" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stackTrace" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendBugReportResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendBugReportResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="CheckForUpdateSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckForUpdate" />
+  </wsdl:message>
+  <wsdl:message name="CheckForUpdateSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckForUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUpdateInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUpdateInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetUpdateInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUpdateInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendBugReportSoapIn">
+    <wsdl:part name="parameters" element="tns:SendBugReport" />
+  </wsdl:message>
+  <wsdl:message name="SendBugReportSoapOut">
+    <wsdl:part name="parameters" element="tns:SendBugReportResponse" />
+  </wsdl:message>
+  <wsdl:portType name="AudioSwitcherSoap">
+    <wsdl:operation name="CheckForUpdate">
+      <wsdl:input message="tns:CheckForUpdateSoapIn" />
+      <wsdl:output message="tns:CheckForUpdateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUpdateInfo">
+      <wsdl:input message="tns:GetUpdateInfoSoapIn" />
+      <wsdl:output message="tns:GetUpdateInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendBugReport">
+      <wsdl:input message="tns:SendBugReportSoapIn" />
+      <wsdl:output message="tns:SendBugReportSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AudioSwitcherSoap" type="tns:AudioSwitcherSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CheckForUpdate">
+      <soap:operation soapAction="http://tempuri.org/CheckForUpdate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUpdateInfo">
+      <soap:operation soapAction="http://tempuri.org/GetUpdateInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendBugReport">
+      <soap:operation soapAction="http://tempuri.org/SendBugReport" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="AudioSwitcherSoap12" type="tns:AudioSwitcherSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CheckForUpdate">
+      <soap12:operation soapAction="http://tempuri.org/CheckForUpdate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUpdateInfo">
+      <soap12:operation soapAction="http://tempuri.org/GetUpdateInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendBugReport">
+      <soap12:operation soapAction="http://tempuri.org/SendBugReport" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AudioSwitcher">
+    <wsdl:port name="AudioSwitcherSoap" binding="tns:AudioSwitcherSoap">
+      <soap:address location="http://services.fortyone.net.nz/AudioSwitcher/AudioSwitcher.asmx" />
+    </wsdl:port>
+    <wsdl:port name="AudioSwitcherSoap12" binding="tns:AudioSwitcherSoap12">
+      <soap12:address location="http://services.fortyone.net.nz/AudioSwitcher/AudioSwitcher.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
