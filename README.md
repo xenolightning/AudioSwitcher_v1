@@ -1,4 +1,4 @@
-AudioSwitcher_v1
+AudioSwitcher Version 1.x.x.x
 ================
 
-Version 1 orf Audio Switcher
+The source for Version 1 of Audio Switcher
