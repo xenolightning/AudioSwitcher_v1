@@ -32,14 +32,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Web.Services" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -89,10 +87,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://services.fortyone.net.nz/AudioSwitcher/AudioSwitcher.asmx">
+    <WebReferenceUrl Include="http://services.audioswit.ch/AudioSwitcher.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\AudioSwitcherService\</RelPath>
-      <UpdateFromURL>http://services.fortyone.net.nz/AudioSwitcher/AudioSwitcher.asmx</UpdateFromURL>
+      <UpdateFromURL>http://services.audioswit.ch/AudioSwitcher.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

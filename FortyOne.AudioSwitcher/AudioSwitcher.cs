@@ -42,7 +42,7 @@ namespace FortyOne.AudioSwitcher
             get
             {
                 if (listBoxPlayback.SelectedItems.Count > 0)
-                    return ((AudioDevice) listBoxPlayback.SelectedItems[0].Tag);
+                    return ((AudioDevice)listBoxPlayback.SelectedItems[0].Tag);
                 return null;
             }
         }
@@ -52,7 +52,7 @@ namespace FortyOne.AudioSwitcher
             get
             {
                 if (listBoxRecording.SelectedItems.Count > 0)
-                    return ((AudioDevice) listBoxRecording.SelectedItems[0].Tag);
+                    return ((AudioDevice)listBoxRecording.SelectedItems[0].Tag);
                 return null;
             }
         }
@@ -282,14 +282,14 @@ namespace FortyOne.AudioSwitcher
             {
                 var t = new Timer();
                 t.Tick += t_Tick;
-                t.Interval = 500;
+                t.Interval = SystemInformation.DoubleClickTime;
                 t.Start();
             }
         }
 
         private void t_Tick(object sender, EventArgs e)
         {
-            ((Timer) sender).Stop();
+            ((Timer)sender).Stop();
             if (DoubleClickHappened)
                 return;
 
@@ -301,13 +301,16 @@ namespace FortyOne.AudioSwitcher
 
                     AudioDeviceManager.GetAudioDevice(devid).SetAsDefaultDevice();
 
+                    if (ConfigurationSettings.DualSwitchMode)
+                        AudioDeviceManager.GetAudioDevice(devid).SetAsDefaultCommunicationDevice();
+
                     RefreshPlaybackDevices();
                 }
             }
             else
             {
                 RefreshNotifyIconItems();
-                MethodInfo mi = typeof (NotifyIcon).GetMethod("ShowContextMenu",
+                MethodInfo mi = typeof(NotifyIcon).GetMethod("ShowContextMenu",
                     BindingFlags.Instance | BindingFlags.NonPublic);
                 mi.Invoke(notifyIcon1, null);
             }
@@ -443,17 +446,17 @@ namespace FortyOne.AudioSwitcher
                 spinPollMinutes.Enabled = true;
 
                 if (ConfigurationSettings.PollForUpdates < 0)
-                    ConfigurationSettings.PollForUpdates = ConfigurationSettings.PollForUpdates*-1;
+                    ConfigurationSettings.PollForUpdates = ConfigurationSettings.PollForUpdates * -1;
 
                 if (ConfigurationSettings.PollForUpdates < spinPollMinutes.Minimum)
-                    ConfigurationSettings.PollForUpdates = (int) spinPollMinutes.Value;
+                    ConfigurationSettings.PollForUpdates = (int)spinPollMinutes.Value;
 
                 spinPollMinutes.Value = ConfigurationSettings.PollForUpdates;
             }
             else
             {
                 spinPollMinutes.Enabled = false;
-                ConfigurationSettings.PollForUpdates = (int) (-1*spinPollMinutes.Value);
+                ConfigurationSettings.PollForUpdates = (int)(-1 * spinPollMinutes.Value);
             }
         }
 
@@ -470,11 +473,11 @@ namespace FortyOne.AudioSwitcher
 
             UpdateTimer = new Timer();
 
-            ConfigurationSettings.PollForUpdates = (int) spinPollMinutes.Value;
+            ConfigurationSettings.PollForUpdates = (int)spinPollMinutes.Value;
 
             if (ConfigurationSettings.PollForUpdates > 0)
             {
-                UpdateTimer.Interval = (int) TimeSpan.FromHours(ConfigurationSettings.PollForUpdates).TotalMilliseconds;
+                UpdateTimer.Interval = (int)TimeSpan.FromHours(ConfigurationSettings.PollForUpdates).TotalMilliseconds;
                 UpdateTimer.Tick += CheckForUpdates;
                 UpdateTimer.Enabled = true;
                 UpdateTimer.Start();
@@ -519,7 +522,7 @@ namespace FortyOne.AudioSwitcher
         {
             if (hotKeyBindingSource.Current != null)
             {
-                var hkf = new HotKeyForm((HotKey) hotKeyBindingSource.Current);
+                var hkf = new HotKeyForm((HotKey)hotKeyBindingSource.Current);
                 hkf.ShowDialog(this);
                 RefreshGrid();
             }
@@ -529,7 +532,7 @@ namespace FortyOne.AudioSwitcher
         {
             if (hotKeyBindingSource.Current != null)
             {
-                HotKeyManager.DeleteHotKey((HotKey) hotKeyBindingSource.Current);
+                HotKeyManager.DeleteHotKey((HotKey)hotKeyBindingSource.Current);
                 RefreshGrid();
             }
         }
@@ -556,6 +559,7 @@ namespace FortyOne.AudioSwitcher
             chkAutoStartWithWindows.Checked = ConfigurationSettings.AutoStartWithWindows;
             chkDisableHotKeys.Checked = ConfigurationSettings.DisableHotKeys;
             chkQuickSwitch.Checked = ConfigurationSettings.EnableQuickSwitch;
+            chkDualSwitchMode.Checked = ConfigurationSettings.DualSwitchMode;
             //chkNotifyUpdates.Checked = ConfigurationSettings.CheckForUpdatesOnStartup;
             chkPollForUpdates.Checked = ConfigurationSettings.PollForUpdates >= 1;
             spinPollMinutes.Enabled = chkPollForUpdates.Checked;
@@ -565,7 +569,7 @@ namespace FortyOne.AudioSwitcher
 
             FavouriteDeviceManager.FavouriteDevicesChanged += AudioDeviceManger_FavouriteDevicesChanged;
             FavouriteDeviceManager.LoadFavouriteDevices(
-                ConfigurationSettings.FavouriteDevices.Split(new[] {",", "[", "]"},
+                ConfigurationSettings.FavouriteDevices.Split(new[] { ",", "[", "]" },
                     StringSplitOptions.RemoveEmptyEntries));
 
 
@@ -963,7 +967,7 @@ namespace FortyOne.AudioSwitcher
             RefreshPlaybackDropDownButton();
             for (int i = 0; i < listBoxPlayback.Items.Count; i++)
             {
-                if (((AudioDevice) listBoxPlayback.Items[i].Tag).ID == id)
+                if (((AudioDevice)listBoxPlayback.Items[i].Tag).ID == id)
                 {
                     listBoxPlayback.Items[i].Selected = true;
                     break;
@@ -994,7 +998,7 @@ namespace FortyOne.AudioSwitcher
             RefreshRecordingDropDownButton();
             for (int i = 0; i < listBoxRecording.Items.Count; i++)
             {
-                if (((AudioDevice) listBoxRecording.Items[i].Tag).ID == id)
+                if (((AudioDevice)listBoxRecording.Items[i].Tag).ID == id)
                 {
                     listBoxRecording.Items[i].Selected = true;
                     break;
@@ -1024,6 +1028,9 @@ namespace FortyOne.AudioSwitcher
                     return;
 
                 hk.Device.SetAsDefaultDevice();
+
+                if (ConfigurationSettings.DualSwitchMode)
+                    hk.Device.SetAsDefaultCommunicationDevice();
             }
         }
 
@@ -1060,8 +1067,11 @@ namespace FortyOne.AudioSwitcher
         {
             if (e.ClickedItem != null && e.ClickedItem.Tag is AudioDevice)
             {
-                var dev = (AudioDevice) e.ClickedItem.Tag;
+                var dev = (AudioDevice)e.ClickedItem.Tag;
                 dev.SetAsDefaultDevice();
+
+                if (ConfigurationSettings.DualSwitchMode)
+                    dev.SetAsDefaultCommunicationDevice();
             }
         }
 
@@ -1086,6 +1096,11 @@ namespace FortyOne.AudioSwitcher
             ConfigurationSettings.EnableQuickSwitch = chkQuickSwitch.Checked;
         }
 
+        private void chkDualSwitchMode_CheckedChanged(object sender, EventArgs e)
+        {
+            ConfigurationSettings.DualSwitchMode = chkDualSwitchMode.Checked;
+        }
+
         private void AudioSwitcher_ResizeEnd(object sender, EventArgs e)
         {
             ConfigurationSettings.WindowWidth = Width;
@@ -1101,10 +1116,10 @@ namespace FortyOne.AudioSwitcher
             get
             {
                 object[] attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyTitleAttribute), false);
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
                 if (attributes.Length > 0)
                 {
-                    var titleAttribute = (AssemblyTitleAttribute) attributes[0];
+                    var titleAttribute = (AssemblyTitleAttribute)attributes[0];
                     if (titleAttribute.Title != "")
                     {
                         return titleAttribute.Title;
@@ -1124,12 +1139,12 @@ namespace FortyOne.AudioSwitcher
             get
             {
                 object[] attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyDescriptionAttribute), false);
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
                 }
-                return ((AssemblyDescriptionAttribute) attributes[0]).Description;
+                return ((AssemblyDescriptionAttribute)attributes[0]).Description;
             }
         }
 
@@ -1138,12 +1153,12 @@ namespace FortyOne.AudioSwitcher
             get
             {
                 object[] attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyProductAttribute), false);
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
                 }
-                return ((AssemblyProductAttribute) attributes[0]).Product;
+                return ((AssemblyProductAttribute)attributes[0]).Product;
             }
         }
 
@@ -1152,12 +1167,12 @@ namespace FortyOne.AudioSwitcher
             get
             {
                 object[] attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCopyrightAttribute), false);
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
                 }
-                return ((AssemblyCopyrightAttribute) attributes[0]).Copyright;
+                return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
             }
         }
 
@@ -1166,12 +1181,12 @@ namespace FortyOne.AudioSwitcher
             get
             {
                 object[] attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCompanyAttribute), false);
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
                 }
-                return ((AssemblyCompanyAttribute) attributes[0]).Company;
+                return ((AssemblyCompanyAttribute)attributes[0]).Company;
             }
         }
 

@@ -19,6 +19,7 @@ namespace FortyOne.AudioSwitcher.Configuration
         public const string SETTING_POLLFORUPDATES = "PollForUpdates";
         public const string SETTING_STARTUPRECORDINGDEVICE = "StartupRecordingDeviceID";
         public const string SETTING_STARTUPPLAYBACKDEVICE = "StartupPlaybackDeviceID";
+        public const string SETTING_DUALSWITCHMODE = "DualSwitchMode";
         private static string SectionName = "Settings";
 
         static ConfigurationSettings()
@@ -63,6 +64,9 @@ namespace FortyOne.AudioSwitcher.Configuration
 
             if (!SettingExists(SETTING_STARTUPRECORDINGDEVICE))
                 StartupRecordingDeviceID = "[]";
+
+            if (!SettingExists(SETTING_DUALSWITCHMODE))
+                DualSwitchMode = false;
         }
 
         public static string StartupRecordingDeviceID
@@ -101,6 +105,21 @@ namespace FortyOne.AudioSwitcher.Configuration
             set
             {
                 ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_CHECKFORUPDATESONSTARTUP,
+                    value.ToString());
+            }
+        }
+
+        public static bool DualSwitchMode
+        {
+            get
+            {
+                return
+                    Convert.ToBoolean(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName,
+                        SETTING_DUALSWITCHMODE));
+            }
+            set
+            {
+                ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_DUALSWITCHMODE,
                     value.ToString());
             }
         }

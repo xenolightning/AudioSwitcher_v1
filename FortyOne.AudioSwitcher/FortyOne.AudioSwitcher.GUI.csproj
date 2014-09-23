@@ -89,7 +89,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsInput">
-      <HintPath>..\packages\WindowsInput.dll</HintPath>
+      <HintPath>..\packages\WindowsInput.0.2.0.0\lib\net20\WindowsInput.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -179,7 +179,6 @@
     <Content Include="Icons\e.png" />
     <Content Include="Icons\f.png" />
     <Content Include="Icons\unknown.png" />
-    <Content Include="Resources\AutoUpdater.exe" />
     <Content Include="Icons\3004.png" />
     <Content Include="Icons\3004d.png" />
     <Content Include="Icons\3010.png" />
@@ -216,11 +215,13 @@
     <Content Include="Icons\3051d.png" />
     <Content Include="Resources\112_Plus_Green_16x16_72.png" />
     <Content Include="Resources\112_RefreshArrow_Green_16x16_72.png" />
+    <None Include="Resources\AutoUpdater.exe" />
     <Content Include="Resources\btn_donateCC_LG.png" />
     <Content Include="Resources\delete.png" />
     <Content Include="Resources\edit.png" />
     <None Include="app.config" />
     <None Include="fortyone.pfx" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
