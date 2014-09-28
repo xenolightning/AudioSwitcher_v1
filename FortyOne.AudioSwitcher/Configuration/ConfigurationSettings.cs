@@ -46,7 +46,7 @@ namespace FortyOne.AudioSwitcher.Configuration
                 FavouriteDevices = "[]";
 
             if (!SettingExists(SETTING_WINDOWHEIGHT))
-                WindowHeight = 400;
+                WindowHeight = 420;
 
             if (!SettingExists(SETTING_WINDOWWIDTH))
                 WindowWidth = 300;

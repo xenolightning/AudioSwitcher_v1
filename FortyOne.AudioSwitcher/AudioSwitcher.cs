@@ -113,7 +113,6 @@ namespace FortyOne.AudioSwitcher
 
             lblVersion.Text = "Version: " + AssemblyVersion;
             lblCopyright.Text = AssemblyCopyright;
-            lblCompany.Text = AssemblyCompany;
 
             LoadSettings();
 
@@ -1194,7 +1193,7 @@ namespace FortyOne.AudioSwitcher
 
         private void label7_Click(object sender, EventArgs e)
         {
-            Process.Start("https://twitter.com/nzxeno");
+            Process.Start("https://twitter.com/xenolightning");
         }
     }
 }
