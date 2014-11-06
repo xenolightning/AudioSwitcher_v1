@@ -60,25 +60,25 @@ namespace FortyOne.AudioSwitcher.Configuration
                 PollForUpdates = 0;
 
             if (!SettingExists(SETTING_STARTUPPLAYBACKDEVICE))
-                StartupPlaybackDeviceID = "[]";
+                StartupPlaybackDeviceID = Guid.Empty;
 
             if (!SettingExists(SETTING_STARTUPRECORDINGDEVICE))
-                StartupRecordingDeviceID = "[]";
+                StartupRecordingDeviceID = Guid.Empty;
 
             if (!SettingExists(SETTING_DUALSWITCHMODE))
                 DualSwitchMode = false;
         }
 
-        public static string StartupRecordingDeviceID
+        public static Guid StartupRecordingDeviceID
         {
-            get { return ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_STARTUPRECORDINGDEVICE); }
-            set { ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_STARTUPRECORDINGDEVICE, value); }
+            get { return new Guid(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_STARTUPRECORDINGDEVICE)); }
+            set { ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_STARTUPRECORDINGDEVICE, value.ToString()); }
         }
 
-        public static string StartupPlaybackDeviceID
+        public static Guid StartupPlaybackDeviceID
         {
-            get { return ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_STARTUPPLAYBACKDEVICE); }
-            set { ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_STARTUPPLAYBACKDEVICE, value); }
+            get { return new Guid(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_STARTUPPLAYBACKDEVICE)); }
+            set { ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_STARTUPPLAYBACKDEVICE, value.ToString()); }
         }
 
         public static int PollForUpdates
@@ -199,13 +199,9 @@ namespace FortyOne.AudioSwitcher.Configuration
                 {
                     RegistryKey key =
                         Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-                    try
-                    {
+
+                    if (key != null && key.GetValue("AudioSwitcher") != null)
                         key.DeleteValue("AudioSwitcher");
-                    }
-                    catch
-                    {
-                    } //Don't care as it isn't found
                 }
             }
         }

@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FortyOne.AudioSwitcher</RootNamespace>
     <AssemblyName>AudioSwitcher</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -68,12 +68,18 @@
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>fortyone.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AudioSwitcher.AudioApi">
+      <HintPath>..\packages\AudioSwitcher.AudioApi.CoreAudio.1.1.3\lib\net40\AudioSwitcher.AudioApi.dll</HintPath>
+    </Reference>
+    <Reference Include="AudioSwitcher.AudioApi.CoreAudio">
+      <HintPath>..\packages\AudioSwitcher.AudioApi.CoreAudio.1.1.3\lib\net40\AudioSwitcher.AudioApi.CoreAudio.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.EnterpriseServices" />
@@ -92,6 +98,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioDeviceManager.cs" />
     <Compile Include="AudioDeviceUIWrapper.cs" />
     <Compile Include="ChangeLogForm.cs">
       <SubType>Form</SubType>
@@ -149,15 +156,19 @@
     <Compile Include="WinFormExceptionHandler.cs" />
     <EmbeddedResource Include="AudioSwitcher.resx">
       <DependentUpon>AudioSwitcher.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ChangeLogForm.resx">
       <DependentUpon>ChangeLogForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ExceptionDisplayForm.resx">
       <DependentUpon>ExceptionDisplayForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="HotKeyForm.resx">
       <DependentUpon>HotKeyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -171,6 +182,7 @@
     </Compile>
     <EmbeddedResource Include="UpdateForm.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -255,12 +267,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FortyOne.AudioSwitcher.SoundLibrary\FortyOne.AudioSwitcher.SoundLibrary.csproj">
-      <Project>{ACBA2AC9-5AA4-41E6-8312-FA5157ACCB7B}</Project>
-      <Name>FortyOne.AudioSwitcher.SoundLibrary</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WebReferences Include="Web References\" />

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using WindowsInput;
 using WindowsInput.Native;
-using FortyOne.AudioSwitcher.SoundLibrary;
+using AudioSwitcher.AudioApi;
 
 namespace FortyOne.AudioSwitcher.HotKeyData
 {
@@ -33,11 +33,11 @@ namespace FortyOne.AudioSwitcher.HotKeyData
         /// <summary>
         ///     The deviceID the hot key is used for
         /// </summary>
-        public string DeviceID { get; set; }
+        public Guid DeviceId { get; set; }
 
-        public AudioDevice Device
+        public IDevice Device
         {
-            get { return AudioDeviceManager.GetAudioDevice(DeviceID); }
+            get { return AudioDeviceManager.Controller.GetAudioDevice(DeviceId); }
         }
 
         public string DeviceName
