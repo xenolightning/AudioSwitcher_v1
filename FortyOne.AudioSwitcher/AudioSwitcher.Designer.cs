@@ -44,7 +44,6 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.btnRefreshPlayback = new System.Windows.Forms.Button();
             this.tapRecording = new System.Windows.Forms.TabPage();
             this.recordingStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuSetRecordingDefault = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,14 +56,8 @@
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.btnRefreshRecording = new System.Windows.Forms.Button();
             this.tapSettings = new System.Windows.Forms.TabPage();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnCheckUpdate = new System.Windows.Forms.Button();
-            this.btnDeleteHotKey = new System.Windows.Forms.Button();
-            this.btnEditHotKey = new System.Windows.Forms.Button();
-            this.btnAddHotKey = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkDualSwitchMode = new System.Windows.Forms.CheckBox();
             this.spinPollMinutes = new System.Windows.Forms.NumericUpDown();
@@ -74,6 +67,12 @@
             this.chkCloseToTray = new System.Windows.Forms.CheckBox();
             this.chkStartMinimized = new System.Windows.Forms.CheckBox();
             this.chkAutoStartWithWindows = new System.Windows.Forms.CheckBox();
+            this.tapHotkeys = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnDeleteHotKey = new System.Windows.Forms.Button();
+            this.btnEditHotKey = new System.Windows.Forms.Button();
+            this.btnAddHotKey = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tapAbout = new System.Windows.Forms.TabPage();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -93,21 +92,25 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryCleaner = new System.Windows.Forms.Timer(this.components);
             this.UpdateTimer = new System.Windows.Forms.Timer(this.components);
+            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.btnSetPlaybackDefault = new FortyOne.AudioSwitcher.Controls.SplitButton();
             this.btnSetRecordingDefault = new FortyOne.AudioSwitcher.Controls.SplitButton();
             this.deviceNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hotKeyStringDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hotKeyBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.chkShowDiabledDevices = new System.Windows.Forms.CheckBox();
+            this.chkShowDisconnectedDevices = new System.Windows.Forms.CheckBox();
             this.playbackStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tapPlayback.SuspendLayout();
             this.tapRecording.SuspendLayout();
             this.recordingStrip.SuspendLayout();
             this.tapSettings.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinPollMinutes)).BeginInit();
+            this.tapHotkeys.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tapAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.notifyIconStrip.SuspendLayout();
@@ -174,6 +177,7 @@
             this.tabControl1.Controls.Add(this.tapPlayback);
             this.tabControl1.Controls.Add(this.tapRecording);
             this.tabControl1.Controls.Add(this.tapSettings);
+            this.tabControl1.Controls.Add(this.tapHotkeys);
             this.tabControl1.Controls.Add(this.tapAbout);
             this.tabControl1.Location = new System.Drawing.Point(5, 5);
             this.tabControl1.Name = "tabControl1";
@@ -185,10 +189,9 @@
             // 
             this.tapPlayback.Controls.Add(this.btnSetPlaybackDefault);
             this.tapPlayback.Controls.Add(this.listBoxPlayback);
-            this.tapPlayback.Controls.Add(this.btnRefreshPlayback);
             this.tapPlayback.Location = new System.Drawing.Point(4, 22);
             this.tapPlayback.Name = "tapPlayback";
-            this.tapPlayback.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tapPlayback.Padding = new System.Windows.Forms.Padding(3);
             this.tapPlayback.Size = new System.Drawing.Size(267, 348);
             this.tapPlayback.TabIndex = 0;
             this.tapPlayback.Text = "Playback";
@@ -269,25 +272,13 @@
             this.imageList1.Images.SetKeyName(33, "3051d.png");
             this.imageList1.Images.SetKeyName(34, "unknown.png");
             // 
-            // btnRefreshPlayback
-            // 
-            this.btnRefreshPlayback.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRefreshPlayback.Image = ((System.Drawing.Image)(resources.GetObject("btnRefreshPlayback.Image")));
-            this.btnRefreshPlayback.Location = new System.Drawing.Point(6, 319);
-            this.btnRefreshPlayback.Name = "btnRefreshPlayback";
-            this.btnRefreshPlayback.Size = new System.Drawing.Size(25, 23);
-            this.btnRefreshPlayback.TabIndex = 3;
-            this.btnRefreshPlayback.UseVisualStyleBackColor = true;
-            this.btnRefreshPlayback.Click += new System.EventHandler(this.btnRefreshPlayback_Click);
-            // 
             // tapRecording
             // 
             this.tapRecording.Controls.Add(this.btnSetRecordingDefault);
             this.tapRecording.Controls.Add(this.listBoxRecording);
-            this.tapRecording.Controls.Add(this.btnRefreshRecording);
             this.tapRecording.Location = new System.Drawing.Point(4, 22);
             this.tapRecording.Name = "tapRecording";
-            this.tapRecording.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tapRecording.Padding = new System.Windows.Forms.Padding(3);
             this.tapRecording.Size = new System.Drawing.Size(267, 348);
             this.tapRecording.TabIndex = 1;
             this.tapRecording.Text = "Recording";
@@ -366,119 +357,35 @@
             this.listBoxRecording.View = System.Windows.Forms.View.Tile;
             this.listBoxRecording.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listBoxRecording_ItemSelectionChanged);
             // 
-            // btnRefreshRecording
-            // 
-            this.btnRefreshRecording.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRefreshRecording.Image = ((System.Drawing.Image)(resources.GetObject("btnRefreshRecording.Image")));
-            this.btnRefreshRecording.Location = new System.Drawing.Point(6, 319);
-            this.btnRefreshRecording.Name = "btnRefreshRecording";
-            this.btnRefreshRecording.Size = new System.Drawing.Size(25, 23);
-            this.btnRefreshRecording.TabIndex = 5;
-            this.btnRefreshRecording.UseVisualStyleBackColor = true;
-            this.btnRefreshRecording.Click += new System.EventHandler(this.btnRefreshRecording_Click);
-            // 
             // tapSettings
             // 
-            this.tapSettings.Controls.Add(this.groupBox2);
+            this.tapSettings.Controls.Add(this.btnCheckUpdate);
             this.tapSettings.Controls.Add(this.groupBox1);
             this.tapSettings.Location = new System.Drawing.Point(4, 22);
             this.tapSettings.Name = "tapSettings";
-            this.tapSettings.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tapSettings.Padding = new System.Windows.Forms.Padding(3);
             this.tapSettings.Size = new System.Drawing.Size(267, 348);
             this.tapSettings.TabIndex = 3;
             this.tapSettings.Text = "Settings";
             this.tapSettings.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.btnCheckUpdate);
-            this.groupBox2.Controls.Add(this.btnDeleteHotKey);
-            this.groupBox2.Controls.Add(this.btnEditHotKey);
-            this.groupBox2.Controls.Add(this.btnAddHotKey);
-            this.groupBox2.Controls.Add(this.dataGridView1);
-            this.groupBox2.Location = new System.Drawing.Point(7, 193);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(254, 149);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Hot Keys";
-            // 
             // btnCheckUpdate
             // 
-            this.btnCheckUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnCheckUpdate.Location = new System.Drawing.Point(6, 119);
+            this.btnCheckUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCheckUpdate.Location = new System.Drawing.Point(160, 319);
             this.btnCheckUpdate.Name = "btnCheckUpdate";
             this.btnCheckUpdate.Size = new System.Drawing.Size(101, 23);
-            this.btnCheckUpdate.TabIndex = 4;
+            this.btnCheckUpdate.TabIndex = 7;
             this.btnCheckUpdate.Text = "Check for Update";
             this.btnCheckUpdate.UseVisualStyleBackColor = true;
-            this.btnCheckUpdate.Click += new System.EventHandler(this.btnCheckUpdate_Click);
-            // 
-            // btnDeleteHotKey
-            // 
-            this.btnDeleteHotKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDeleteHotKey.Image = global::FortyOne.AudioSwitcher.Properties.Resources.delete;
-            this.btnDeleteHotKey.Location = new System.Drawing.Point(158, 119);
-            this.btnDeleteHotKey.Name = "btnDeleteHotKey";
-            this.btnDeleteHotKey.Size = new System.Drawing.Size(26, 25);
-            this.btnDeleteHotKey.TabIndex = 3;
-            this.btnDeleteHotKey.UseVisualStyleBackColor = true;
-            this.btnDeleteHotKey.Click += new System.EventHandler(this.btnDeleteHotKey_Click);
-            // 
-            // btnEditHotKey
-            // 
-            this.btnEditHotKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEditHotKey.Image = global::FortyOne.AudioSwitcher.Properties.Resources.edit;
-            this.btnEditHotKey.Location = new System.Drawing.Point(190, 119);
-            this.btnEditHotKey.Name = "btnEditHotKey";
-            this.btnEditHotKey.Size = new System.Drawing.Size(26, 25);
-            this.btnEditHotKey.TabIndex = 2;
-            this.btnEditHotKey.UseVisualStyleBackColor = true;
-            this.btnEditHotKey.Click += new System.EventHandler(this.btnEditHotKey_Click);
-            // 
-            // btnAddHotKey
-            // 
-            this.btnAddHotKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddHotKey.Image = ((System.Drawing.Image)(resources.GetObject("btnAddHotKey.Image")));
-            this.btnAddHotKey.Location = new System.Drawing.Point(222, 119);
-            this.btnAddHotKey.Name = "btnAddHotKey";
-            this.btnAddHotKey.Size = new System.Drawing.Size(26, 25);
-            this.btnAddHotKey.TabIndex = 1;
-            this.btnAddHotKey.UseVisualStyleBackColor = true;
-            this.btnAddHotKey.Click += new System.EventHandler(this.btnAddHotKey_Click);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.AutoGenerateColumns = false;
-            this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.deviceNameDataGridViewTextBoxColumn,
-            this.hotKeyStringDataGridViewTextBoxColumn});
-            this.dataGridView1.DataSource = this.hotKeyBindingSource;
-            this.dataGridView1.Location = new System.Drawing.Point(6, 19);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.ShowEditingIcon = false;
-            this.dataGridView1.Size = new System.Drawing.Size(242, 93);
-            this.dataGridView1.TabIndex = 0;
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.chkShowDisconnectedDevices);
+            this.groupBox1.Controls.Add(this.chkShowDiabledDevices);
             this.groupBox1.Controls.Add(this.chkDualSwitchMode);
             this.groupBox1.Controls.Add(this.spinPollMinutes);
             this.groupBox1.Controls.Add(this.chkPollForUpdates);
@@ -489,7 +396,7 @@
             this.groupBox1.Controls.Add(this.chkAutoStartWithWindows);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(255, 181);
+            this.groupBox1.Size = new System.Drawing.Size(255, 307);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
@@ -595,8 +502,94 @@
             this.chkAutoStartWithWindows.UseVisualStyleBackColor = true;
             this.chkAutoStartWithWindows.CheckedChanged += new System.EventHandler(this.chkAutoStartWithWindows_CheckedChanged);
             // 
+            // tapHotkeys
+            // 
+            this.tapHotkeys.Controls.Add(this.groupBox2);
+            this.tapHotkeys.Location = new System.Drawing.Point(4, 22);
+            this.tapHotkeys.Name = "tapHotkeys";
+            this.tapHotkeys.Padding = new System.Windows.Forms.Padding(3);
+            this.tapHotkeys.Size = new System.Drawing.Size(267, 348);
+            this.tapHotkeys.TabIndex = 4;
+            this.tapHotkeys.Text = "Hotkeys";
+            this.tapHotkeys.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.btnDeleteHotKey);
+            this.groupBox2.Controls.Add(this.btnEditHotKey);
+            this.groupBox2.Controls.Add(this.btnAddHotKey);
+            this.groupBox2.Controls.Add(this.dataGridView1);
+            this.groupBox2.Location = new System.Drawing.Point(6, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(254, 339);
+            this.groupBox2.TabIndex = 8;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Hot Keys";
+            // 
+            // btnDeleteHotKey
+            // 
+            this.btnDeleteHotKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDeleteHotKey.Image = global::FortyOne.AudioSwitcher.Properties.Resources.delete;
+            this.btnDeleteHotKey.Location = new System.Drawing.Point(158, 309);
+            this.btnDeleteHotKey.Name = "btnDeleteHotKey";
+            this.btnDeleteHotKey.Size = new System.Drawing.Size(26, 25);
+            this.btnDeleteHotKey.TabIndex = 3;
+            this.btnDeleteHotKey.UseVisualStyleBackColor = true;
+            this.btnDeleteHotKey.Click += new System.EventHandler(this.btnDeleteHotKey_Click);
+            // 
+            // btnEditHotKey
+            // 
+            this.btnEditHotKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnEditHotKey.Image = global::FortyOne.AudioSwitcher.Properties.Resources.edit;
+            this.btnEditHotKey.Location = new System.Drawing.Point(190, 309);
+            this.btnEditHotKey.Name = "btnEditHotKey";
+            this.btnEditHotKey.Size = new System.Drawing.Size(26, 25);
+            this.btnEditHotKey.TabIndex = 2;
+            this.btnEditHotKey.UseVisualStyleBackColor = true;
+            this.btnEditHotKey.Click += new System.EventHandler(this.btnEditHotKey_Click);
+            // 
+            // btnAddHotKey
+            // 
+            this.btnAddHotKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddHotKey.Image = ((System.Drawing.Image)(resources.GetObject("btnAddHotKey.Image")));
+            this.btnAddHotKey.Location = new System.Drawing.Point(222, 309);
+            this.btnAddHotKey.Name = "btnAddHotKey";
+            this.btnAddHotKey.Size = new System.Drawing.Size(26, 25);
+            this.btnAddHotKey.TabIndex = 1;
+            this.btnAddHotKey.UseVisualStyleBackColor = true;
+            this.btnAddHotKey.Click += new System.EventHandler(this.btnAddHotKey_Click);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView1.AutoGenerateColumns = false;
+            this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.deviceNameDataGridViewTextBoxColumn,
+            this.hotKeyStringDataGridViewTextBoxColumn});
+            this.dataGridView1.DataSource = this.hotKeyBindingSource;
+            this.dataGridView1.Location = new System.Drawing.Point(6, 19);
+            this.dataGridView1.MultiSelect = false;
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView1.ShowEditingIcon = false;
+            this.dataGridView1.Size = new System.Drawing.Size(242, 283);
+            this.dataGridView1.TabIndex = 0;
+            // 
             // tapAbout
             // 
+            this.tapAbout.Controls.Add(this.linkLabel2);
             this.tapAbout.Controls.Add(this.label7);
             this.tapAbout.Controls.Add(this.label6);
             this.tapAbout.Controls.Add(this.linkLabel1);
@@ -611,7 +604,7 @@
             this.tapAbout.Controls.Add(this.label1);
             this.tapAbout.Location = new System.Drawing.Point(4, 22);
             this.tapAbout.Name = "tapAbout";
-            this.tapAbout.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tapAbout.Padding = new System.Windows.Forms.Padding(3);
             this.tapAbout.Size = new System.Drawing.Size(267, 348);
             this.tapAbout.TabIndex = 2;
             this.tapAbout.Text = "About";
@@ -717,7 +710,7 @@
             // lblCopyright
             // 
             this.lblCopyright.AutoSize = true;
-            this.lblCopyright.Location = new System.Drawing.Point(14, 68);
+            this.lblCopyright.Location = new System.Drawing.Point(14, 89);
             this.lblCopyright.Name = "lblCopyright";
             this.lblCopyright.Size = new System.Drawing.Size(51, 13);
             this.lblCopyright.TabIndex = 2;
@@ -726,7 +719,7 @@
             // lblVersion
             // 
             this.lblVersion.AutoSize = true;
-            this.lblVersion.Location = new System.Drawing.Point(14, 44);
+            this.lblVersion.Location = new System.Drawing.Point(14, 67);
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(45, 13);
             this.lblVersion.TabIndex = 1;
@@ -782,6 +775,17 @@
             // 
             this.UpdateTimer.Interval = 60000;
             // 
+            // linkLabel2
+            // 
+            this.linkLabel2.AutoSize = true;
+            this.linkLabel2.Location = new System.Drawing.Point(14, 43);
+            this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.Size = new System.Drawing.Size(111, 13);
+            this.linkLabel2.TabIndex = 15;
+            this.linkLabel2.TabStop = true;
+            this.linkLabel2.Text = "http://audioswit.ch/er";
+            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
+            // 
             // btnSetPlaybackDefault
             // 
             this.btnSetPlaybackDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -828,11 +832,33 @@
             // 
             this.hotKeyBindingSource.DataSource = typeof(FortyOne.AudioSwitcher.HotKeyData.HotKey);
             // 
+            // chkShowDiabledDevices
+            // 
+            this.chkShowDiabledDevices.AutoSize = true;
+            this.chkShowDiabledDevices.Location = new System.Drawing.Point(12, 180);
+            this.chkShowDiabledDevices.Name = "chkShowDiabledDevices";
+            this.chkShowDiabledDevices.Size = new System.Drawing.Size(139, 17);
+            this.chkShowDiabledDevices.TabIndex = 12;
+            this.chkShowDiabledDevices.Text = "Show Disabled Devices";
+            this.chkShowDiabledDevices.UseVisualStyleBackColor = true;
+            this.chkShowDiabledDevices.CheckedChanged += new System.EventHandler(this.chkShowDiabledDevices_CheckedChanged);
+            // 
+            // chkShowDisconnectedDevices
+            // 
+            this.chkShowDisconnectedDevices.AutoSize = true;
+            this.chkShowDisconnectedDevices.Location = new System.Drawing.Point(12, 203);
+            this.chkShowDisconnectedDevices.Name = "chkShowDisconnectedDevices";
+            this.chkShowDisconnectedDevices.Size = new System.Drawing.Size(164, 17);
+            this.chkShowDisconnectedDevices.TabIndex = 13;
+            this.chkShowDisconnectedDevices.Text = "Show Disconnected Devices";
+            this.chkShowDisconnectedDevices.UseVisualStyleBackColor = true;
+            this.chkShowDisconnectedDevices.CheckedChanged += new System.EventHandler(this.chkShowDisconnectedDevices_CheckedChanged);
+            // 
             // AudioSwitcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 381);
+            this.ClientSize = new System.Drawing.Size(284, 382);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
@@ -854,11 +880,12 @@
             this.tapRecording.PerformLayout();
             this.recordingStrip.ResumeLayout(false);
             this.tapSettings.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinPollMinutes)).EndInit();
+            this.tapHotkeys.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tapAbout.ResumeLayout(false);
             this.tapAbout.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -879,8 +906,6 @@
         private System.Windows.Forms.ContextMenuStrip recordingStrip;
         private System.Windows.Forms.ToolStripMenuItem mnuSetRecordingDefault;
         private System.Windows.Forms.ToolStripMenuItem mnuSetRecordingCommunicationDefault;
-        private System.Windows.Forms.Button btnRefreshPlayback;
-        private System.Windows.Forms.Button btnRefreshRecording;
         private System.Windows.Forms.TabPage tapAbout;
         private System.Windows.Forms.Label lblCopyright;
         private System.Windows.Forms.Label lblVersion;
@@ -894,16 +919,9 @@
         private System.Windows.Forms.CheckBox chkAutoStartWithWindows;
         private System.Windows.Forms.CheckBox chkStartMinimized;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.BindingSource hotKeyBindingSource;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnAddHotKey;
-        private System.Windows.Forms.Button btnDeleteHotKey;
-        private System.Windows.Forms.Button btnEditHotKey;
-        private System.Windows.Forms.DataGridViewTextBoxColumn deviceNameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn hotKeyStringDataGridViewTextBoxColumn;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem mnuFavouritePlaybackDevice;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
@@ -922,7 +940,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.ToolStripMenuItem setHotKeyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setHotKeyToolStripMenuItem1;
-        private System.Windows.Forms.Button btnCheckUpdate;
         private Controls.SplitButton btnSetPlaybackDefault;
         private Controls.SplitButton btnSetRecordingDefault;
         private System.Windows.Forms.Label label3;
@@ -938,6 +955,18 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox chkDualSwitchMode;
+        private System.Windows.Forms.TabPage tapHotkeys;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button btnDeleteHotKey;
+        private System.Windows.Forms.Button btnEditHotKey;
+        private System.Windows.Forms.Button btnAddHotKey;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn deviceNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn hotKeyStringDataGridViewTextBoxColumn;
+        private System.Windows.Forms.Button btnCheckUpdate;
+        private System.Windows.Forms.LinkLabel linkLabel2;
+        private System.Windows.Forms.CheckBox chkShowDisconnectedDevices;
+        private System.Windows.Forms.CheckBox chkShowDiabledDevices;
     }
 }
 

@@ -88,6 +88,8 @@ namespace FortyOne.AudioSwitcher
         private string _input = "";
         private AudioSwitcherVersionInfo _retrievedVersion;
 
+        private DeviceState DeviceStateFilter = DeviceState.Active;
+
         public AudioSwitcher()
         {
             InitializeComponent();
@@ -299,8 +301,6 @@ namespace FortyOne.AudioSwitcher
 
                     if (ConfigurationSettings.DualSwitchMode)
                         AudioDeviceManager.Controller.GetAudioDevice(devid).SetAsDefaultCommunications();
-
-                    RefreshPlaybackDevices();
                 }
             }
             else
@@ -555,6 +555,9 @@ namespace FortyOne.AudioSwitcher
             chkPollForUpdates.Checked = ConfigurationSettings.PollForUpdates >= 1;
             spinPollMinutes.Enabled = chkPollForUpdates.Checked;
 
+            chkShowDiabledDevices.Checked = ConfigurationSettings.ShowDisabledDevices;
+            chkShowDisconnectedDevices.Checked = ConfigurationSettings.ShowDisconnectedDevices;
+
             Width = ConfigurationSettings.WindowWidth;
             Height = ConfigurationSettings.WindowHeight;
 
@@ -576,6 +579,13 @@ namespace FortyOne.AudioSwitcher
                 if (runKey != null && runKey.GetValue("AudioSwitcher") != null)
                     runKey.DeleteValue("AudioSwitcher");
             }
+
+            if (ConfigurationSettings.ShowDisabledDevices)
+                DeviceStateFilter |= DeviceState.Disabled;
+
+
+            if (ConfigurationSettings.ShowDisconnectedDevices)
+                DeviceStateFilter |= DeviceState.Unplugged;
         }
 
         //Subscribe to favourite devices changing to save it to the configuration file instantly
@@ -592,12 +602,12 @@ namespace FortyOne.AudioSwitcher
         {
             listBoxPlayback.SuspendLayout();
             listBoxPlayback.Items.Clear();
-            foreach (IDevice ad in AudioDeviceManager.Controller.GetPlaybackDevices(DeviceState.Active | DeviceState.Unplugged))
+            foreach (IDevice ad in AudioDeviceManager.Controller.GetPlaybackDevices(DeviceStateFilter))
             {
                 var li = new ListViewItem();
-                li.Text = ad.Description;
+                li.Text = ad.ShortName;
                 li.Tag = ad;
-                li.SubItems.Add(new ListViewItem.ListViewSubItem(li, ad.ShortName));
+                li.SubItems.Add(new ListViewItem.ListViewSubItem(li, ad.Description));
                 try
                 {
                     string imageKey = ad.IconPath.Substring(ad.IconPath.IndexOf("-") + 1);
@@ -692,12 +702,12 @@ namespace FortyOne.AudioSwitcher
             listBoxRecording.SuspendLayout();
             listBoxRecording.Items.Clear();
 
-            foreach (IDevice ad in AudioDeviceManager.Controller.GetCaptureDevices(DeviceState.Active | DeviceState.Unplugged))
+            foreach (IDevice ad in AudioDeviceManager.Controller.GetCaptureDevices(DeviceStateFilter))
             {
                 var li = new ListViewItem();
-                li.Text = ad.Description;
+                li.Text = ad.ShortName;
                 li.Tag = ad;
-                li.SubItems.Add(new ListViewItem.ListViewSubItem(li, ad.ShortName));
+                li.SubItems.Add(new ListViewItem.ListViewSubItem(li, ad.Description));
                 try
                 {
                     string imageKey = ad.IconPath.Substring(ad.IconPath.IndexOf("-") + 1);
@@ -794,14 +804,14 @@ namespace FortyOne.AudioSwitcher
             int playbackCount = 0;
             int recordingCount = 0;
 
-            IEnumerable<IDevice> list = AudioDeviceManager.Controller.GetPlaybackDevices(DeviceState.Active | DeviceState.Unplugged);
+            IEnumerable<IDevice> list = AudioDeviceManager.Controller.GetPlaybackDevices(DeviceStateFilter);
 
             foreach (IDevice ad in list)
             {
                 if (FavouriteDeviceManager.FavouriteDeviceCount > 0 && !FavouriteDeviceManager.IsFavouriteDevice(ad))
                     continue;
 
-                var item = new ToolStripMenuItem(ad.FullName);
+                var item = new ToolStripMenuItem(String.Format("{0} ({1})", ad.ShortName, ad.Description));
                 item.Tag = ad;
                 item.Checked = ad.IsDefaultDevice;
                 notifyIconStrip.Items.Add(item);
@@ -811,9 +821,9 @@ namespace FortyOne.AudioSwitcher
             if (playbackCount > 0)
                 notifyIconStrip.Items.Add(new ToolStripSeparator());
 
-            list = AudioDeviceManager.Controller.GetCaptureDevices(DeviceState.Active | DeviceState.Unplugged);
+            list = AudioDeviceManager.Controller.GetCaptureDevices(DeviceStateFilter);
 
-            foreach (IDevice ad in AudioDeviceManager.Controller.GetCaptureDevices(DeviceState.Active | DeviceState.Unplugged))
+            foreach (IDevice ad in list)
             {
                 if (FavouriteDeviceManager.FavouriteDeviceCount > 0 && !FavouriteDeviceManager.IsFavouriteDevice(ad))
                     continue;
@@ -919,12 +929,12 @@ namespace FortyOne.AudioSwitcher
 
         private void btnRefreshRecording_Click(object sender, EventArgs e)
         {
-            RefreshRecordingDevices();
+            //RefreshRecordingDevices();
         }
 
         private void btnRefreshPlayback_Click(object sender, EventArgs e)
         {
-            RefreshPlaybackDevices();
+            //RefreshPlaybackDevices();
         }
 
         private void mnuSetPlaybackCommunicationDefault_Click(object sender, EventArgs e)
@@ -1024,8 +1034,8 @@ namespace FortyOne.AudioSwitcher
 
         private void Form1_Activated(object sender, EventArgs e)
         {
-            RefreshPlaybackDevices();
-            RefreshRecordingDevices();
+            //RefreshPlaybackDevices();
+            //RefreshRecordingDevices();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1165,6 +1175,51 @@ namespace FortyOne.AudioSwitcher
         private void label7_Click(object sender, EventArgs e)
         {
             Process.Start("https://twitter.com/xenolightning");
+        }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://audioswit.ch/er");
+        }
+
+        private void chkShowDiabledDevices_CheckedChanged(object sender, EventArgs e)
+        {
+            ConfigurationSettings.ShowDisabledDevices = chkShowDiabledDevices.Checked;
+
+            //Set, or remove the disconnected filter
+            if (ConfigurationSettings.ShowDisabledDevices)
+                DeviceStateFilter |= DeviceState.Disabled;
+            else
+                DeviceStateFilter ^= DeviceState.Disabled;
+
+            if (this.IsHandleCreated)
+            {
+                this.BeginInvoke((Action) (() =>
+                {
+                    RefreshPlaybackDevices();
+                    RefreshRecordingDevices();
+                }));
+            }
+        }
+
+        private void chkShowDisconnectedDevices_CheckedChanged(object sender, EventArgs e)
+        {
+            ConfigurationSettings.ShowDisconnectedDevices = chkShowDisconnectedDevices.Checked;
+
+            //Set, or remove the disconnected filter
+            if (ConfigurationSettings.ShowDisconnectedDevices)
+                DeviceStateFilter |= DeviceState.Unplugged;
+            else
+                DeviceStateFilter ^= DeviceState.Unplugged;
+
+            if (this.IsHandleCreated)
+            {
+                this.BeginInvoke((Action)(() =>
+                {
+                    RefreshPlaybackDevices();
+                    RefreshRecordingDevices();
+                }));
+            }
         }
     }
 }

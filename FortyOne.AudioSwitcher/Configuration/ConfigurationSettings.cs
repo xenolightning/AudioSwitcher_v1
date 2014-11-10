@@ -20,6 +20,9 @@ namespace FortyOne.AudioSwitcher.Configuration
         public const string SETTING_STARTUPRECORDINGDEVICE = "StartupRecordingDeviceID";
         public const string SETTING_STARTUPPLAYBACKDEVICE = "StartupPlaybackDeviceID";
         public const string SETTING_DUALSWITCHMODE = "DualSwitchMode";
+        public const string SETTING_SHOWDISABLEDDEVICES = "ShowDisabledDevices";
+        public const string SETTING_SHOWDISCONNECTEDDDEVICES = "ShowDisconnectedDevices";
+
         private static string SectionName = "Settings";
 
         static ConfigurationSettings()
@@ -67,6 +70,12 @@ namespace FortyOne.AudioSwitcher.Configuration
 
             if (!SettingExists(SETTING_DUALSWITCHMODE))
                 DualSwitchMode = false;
+
+            if (!SettingExists(SETTING_SHOWDISABLEDDEVICES))
+                ShowDisabledDevices = false;
+
+            if (!SettingExists(SETTING_SHOWDISCONNECTEDDDEVICES))
+                ShowDisconnectedDevices = false;
         }
 
         public static Guid StartupRecordingDeviceID
@@ -121,6 +130,32 @@ namespace FortyOne.AudioSwitcher.Configuration
             {
                 ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_DUALSWITCHMODE,
                     value.ToString());
+            }
+        }
+
+        public static bool ShowDisabledDevices
+        {
+            get
+            {
+                return
+                    Convert.ToBoolean(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_SHOWDISABLEDDEVICES));
+            }
+            set
+            {
+                ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_SHOWDISABLEDDEVICES, value.ToString());
+            }
+        }
+
+        public static bool ShowDisconnectedDevices
+        {
+            get
+            {
+                return
+                    Convert.ToBoolean(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_SHOWDISCONNECTEDDDEVICES));
+            }
+            set
+            {
+                ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_SHOWDISCONNECTEDDDEVICES, value.ToString());
             }
         }
 
