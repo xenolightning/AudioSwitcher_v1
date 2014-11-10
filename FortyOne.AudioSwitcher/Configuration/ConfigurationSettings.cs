@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
@@ -6,6 +7,8 @@ namespace FortyOne.AudioSwitcher.Configuration
 {
     public static class ConfigurationSettings
     {
+        public const string GUID_REGEX = @"([a-z0-9]{8}[-][a-z0-9]{4}[-][a-z0-9]{4}[-][a-z0-9]{4}[-][a-z0-9]{12})";
+
         public const string SETTING_CLOSETOTRAY = "CloseToTray";
         public const string SETTING_AUTOSTARTWITHWINDOWS = "AutoStartWithWindows";
         public const string SETTING_STARTMINIMIZED = "StartMinimized";
@@ -49,7 +52,7 @@ namespace FortyOne.AudioSwitcher.Configuration
                 FavouriteDevices = "[]";
 
             if (!SettingExists(SETTING_WINDOWHEIGHT))
-                WindowHeight = 420;
+                WindowHeight = 400;
 
             if (!SettingExists(SETTING_WINDOWWIDTH))
                 WindowWidth = 300;
@@ -80,13 +83,27 @@ namespace FortyOne.AudioSwitcher.Configuration
 
         public static Guid StartupRecordingDeviceID
         {
-            get { return new Guid(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_STARTUPRECORDINGDEVICE)); }
+            get
+            {
+                var r = new Regex(GUID_REGEX);
+                foreach(var match in r.Matches(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_STARTUPRECORDINGDEVICE)))
+                    return new Guid(match.ToString());
+
+                return Guid.Empty;
+            }
             set { ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_STARTUPRECORDINGDEVICE, value.ToString()); }
         }
 
         public static Guid StartupPlaybackDeviceID
         {
-            get { return new Guid(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_STARTUPPLAYBACKDEVICE)); }
+            get
+            {
+                var r = new Regex(GUID_REGEX);
+                foreach (var match in r.Matches(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_STARTUPPLAYBACKDEVICE)))
+                    return new Guid(match.ToString());
+
+                return Guid.Empty;
+            }
             set { ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_STARTUPPLAYBACKDEVICE, value.ToString()); }
         }
 

@@ -27,6 +27,9 @@ namespace FortyOne.AudioSwitcher
 
             exception = ex;
 
+
+            txtErrorDetails.Text = ex.ToString();
+
             //if(Form.ActiveForm != null)
             //    Form.ActiveForm.Cursor = Cursors.Default;
 

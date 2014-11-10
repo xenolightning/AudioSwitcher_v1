@@ -65,13 +65,13 @@
     </DefineConstants>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>fortyone.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>fortyone.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AudioSwitcher.AudioApi">
@@ -82,14 +82,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Services" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -226,6 +219,7 @@
     <Content Include="Icons\3051d.png" />
     <Content Include="Resources\112_Plus_Green_16x16_72.png" />
     <Content Include="Resources\112_RefreshArrow_Green_16x16_72.png" />
+    <None Include="fortyone.snk" />
     <None Include="Resources\AutoUpdater.exe" />
     <Content Include="Resources\btn_donateCC_LG.png" />
     <Content Include="Resources\delete.png" />
