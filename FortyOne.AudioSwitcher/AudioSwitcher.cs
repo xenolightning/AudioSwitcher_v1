@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using AudioSwitcher.AudioApi;
@@ -565,7 +566,14 @@ namespace FortyOne.AudioSwitcher
 
             var favDeviceStr = ConfigurationSettings.FavouriteDevices.Split(new[] { ",", "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
 
-            FavouriteDeviceManager.LoadFavouriteDevices(Array.ConvertAll(favDeviceStr, x => new Guid(x)));
+            FavouriteDeviceManager.LoadFavouriteDevices(Array.ConvertAll(favDeviceStr, x =>
+            {
+                var r = new Regex(ConfigurationSettings.GUID_REGEX);
+                foreach(var match in r.Matches(x))
+                    return new Guid(match.ToString());
+
+                return Guid.Empty;
+            }));
 
             RegistryKey runKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             //Ensure the registry key is added/removed
