@@ -90,7 +90,6 @@ namespace FortyOne.AudioSwitcher
                     body += "Operating System: " + Environment.OSVersion + (IntPtr.Size == 8 ? " 64-bit" : " 32-bit") +
                             Environment.NewLine;
                     body += "Administrator Privileges: " + IsUserAdministrator() + Environment.NewLine;
-                    body += "Client Email Address: " + txtEmail.Text + Environment.NewLine;
 
                     string x = client.SendBugReport(guid, txtErrorDetails.Text, body, exception.ToString());
 
