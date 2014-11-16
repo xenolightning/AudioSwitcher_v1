@@ -1,6 +1,9 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using FortyOne.AudioSwitcher.Properties;
 using Microsoft.Win32;
 
 namespace FortyOne.AudioSwitcher.Configuration
@@ -27,8 +30,18 @@ namespace FortyOne.AudioSwitcher.Configuration
         public const string SETTING_SHOWDISCONNECTEDDDEVICES = "ShowDisconnectedDevices";
 
         private static string SectionName = "Settings";
+        private static ConfigurationWriter _configWriter;
 
         static ConfigurationSettings()
+        {
+        }
+
+        public static void SetPath(string iniPath)
+        {
+            _configWriter = new ConfigurationWriter(iniPath);
+        }
+
+        public static void CreateDefaults()
         {
             if (!SettingExists(SETTING_CLOSETOTRAY))
                 CloseToTray = false;
@@ -86,12 +99,12 @@ namespace FortyOne.AudioSwitcher.Configuration
             get
             {
                 var r = new Regex(GUID_REGEX);
-                foreach(var match in r.Matches(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_STARTUPRECORDINGDEVICE)))
+                foreach(var match in r.Matches(_configWriter.IniReadValue(SectionName, SETTING_STARTUPRECORDINGDEVICE)))
                     return new Guid(match.ToString());
 
                 return Guid.Empty;
             }
-            set { ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_STARTUPRECORDINGDEVICE, value.ToString()); }
+            set { _configWriter.IniWriteValue(SectionName, SETTING_STARTUPRECORDINGDEVICE, value.ToString()); }
         }
 
         public static Guid StartupPlaybackDeviceID
@@ -99,12 +112,12 @@ namespace FortyOne.AudioSwitcher.Configuration
             get
             {
                 var r = new Regex(GUID_REGEX);
-                foreach (var match in r.Matches(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_STARTUPPLAYBACKDEVICE)))
+                foreach (var match in r.Matches(_configWriter.IniReadValue(SectionName, SETTING_STARTUPPLAYBACKDEVICE)))
                     return new Guid(match.ToString());
 
                 return Guid.Empty;
             }
-            set { ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_STARTUPPLAYBACKDEVICE, value.ToString()); }
+            set { _configWriter.IniWriteValue(SectionName, SETTING_STARTUPPLAYBACKDEVICE, value.ToString()); }
         }
 
         public static int PollForUpdates
@@ -112,11 +125,11 @@ namespace FortyOne.AudioSwitcher.Configuration
             get
             {
                 return
-                    Convert.ToInt32(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_POLLFORUPDATES));
+                    Convert.ToInt32(_configWriter.IniReadValue(SectionName, SETTING_POLLFORUPDATES));
             }
             set
             {
-                ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_POLLFORUPDATES, value.ToString());
+                _configWriter.IniWriteValue(SectionName, SETTING_POLLFORUPDATES, value.ToString());
             }
         }
 
@@ -125,12 +138,12 @@ namespace FortyOne.AudioSwitcher.Configuration
             get
             {
                 return
-                    Convert.ToBoolean(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName,
+                    Convert.ToBoolean(_configWriter.IniReadValue(SectionName,
                         SETTING_CHECKFORUPDATESONSTARTUP));
             }
             set
             {
-                ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_CHECKFORUPDATESONSTARTUP,
+                _configWriter.IniWriteValue(SectionName, SETTING_CHECKFORUPDATESONSTARTUP,
                     value.ToString());
             }
         }
@@ -140,12 +153,12 @@ namespace FortyOne.AudioSwitcher.Configuration
             get
             {
                 return
-                    Convert.ToBoolean(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName,
+                    Convert.ToBoolean(_configWriter.IniReadValue(SectionName,
                         SETTING_DUALSWITCHMODE));
             }
             set
             {
-                ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_DUALSWITCHMODE,
+                _configWriter.IniWriteValue(SectionName, SETTING_DUALSWITCHMODE,
                     value.ToString());
             }
         }
@@ -155,11 +168,11 @@ namespace FortyOne.AudioSwitcher.Configuration
             get
             {
                 return
-                    Convert.ToBoolean(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_SHOWDISABLEDDEVICES));
+                    Convert.ToBoolean(_configWriter.IniReadValue(SectionName, SETTING_SHOWDISABLEDDEVICES));
             }
             set
             {
-                ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_SHOWDISABLEDDEVICES, value.ToString());
+                _configWriter.IniWriteValue(SectionName, SETTING_SHOWDISABLEDDEVICES, value.ToString());
             }
         }
 
@@ -168,11 +181,11 @@ namespace FortyOne.AudioSwitcher.Configuration
             get
             {
                 return
-                    Convert.ToBoolean(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_SHOWDISCONNECTEDDDEVICES));
+                    Convert.ToBoolean(_configWriter.IniReadValue(SectionName, SETTING_SHOWDISCONNECTEDDDEVICES));
             }
             set
             {
-                ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_SHOWDISCONNECTEDDDEVICES, value.ToString());
+                _configWriter.IniWriteValue(SectionName, SETTING_SHOWDISCONNECTEDDDEVICES, value.ToString());
             }
         }
 
@@ -180,39 +193,39 @@ namespace FortyOne.AudioSwitcher.Configuration
         {
             get
             {
-                return Convert.ToInt32(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_WINDOWWIDTH));
+                return Convert.ToInt32(_configWriter.IniReadValue(SectionName, SETTING_WINDOWWIDTH));
             }
-            set { ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_WINDOWWIDTH, value.ToString()); }
+            set { _configWriter.IniWriteValue(SectionName, SETTING_WINDOWWIDTH, value.ToString()); }
         }
 
         public static int WindowHeight
         {
             get
             {
-                return Convert.ToInt32(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_WINDOWHEIGHT));
+                return Convert.ToInt32(_configWriter.IniReadValue(SectionName, SETTING_WINDOWHEIGHT));
             }
-            set { ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_WINDOWHEIGHT, value.ToString()); }
+            set { _configWriter.IniWriteValue(SectionName, SETTING_WINDOWHEIGHT, value.ToString()); }
         }
 
         public static string FavouriteDevices
         {
-            get { return ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_FAVOURITEDEVICES); }
-            set { ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_FAVOURITEDEVICES, value); }
+            get { return _configWriter.IniReadValue(SectionName, SETTING_FAVOURITEDEVICES); }
+            set { _configWriter.IniWriteValue(SectionName, SETTING_FAVOURITEDEVICES, value); }
         }
 
         public static string HotKeys
         {
-            get { return ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_HOTKEYS); }
-            set { ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_HOTKEYS, value); }
+            get { return _configWriter.IniReadValue(SectionName, SETTING_HOTKEYS); }
+            set { _configWriter.IniWriteValue(SectionName, SETTING_HOTKEYS, value); }
         }
 
         public static bool CloseToTray
         {
             get
             {
-                return Convert.ToBoolean(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_CLOSETOTRAY));
+                return Convert.ToBoolean(_configWriter.IniReadValue(SectionName, SETTING_CLOSETOTRAY));
             }
-            set { ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_CLOSETOTRAY, value.ToString()); }
+            set { _configWriter.IniWriteValue(SectionName, SETTING_CLOSETOTRAY, value.ToString()); }
         }
 
         public static bool StartMinimized
@@ -220,11 +233,11 @@ namespace FortyOne.AudioSwitcher.Configuration
             get
             {
                 return
-                    Convert.ToBoolean(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_STARTMINIMIZED));
+                    Convert.ToBoolean(_configWriter.IniReadValue(SectionName, SETTING_STARTMINIMIZED));
             }
             set
             {
-                ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_STARTMINIMIZED, value.ToString());
+                _configWriter.IniWriteValue(SectionName, SETTING_STARTMINIMIZED, value.ToString());
             }
         }
 
@@ -233,12 +246,12 @@ namespace FortyOne.AudioSwitcher.Configuration
             get
             {
                 return
-                    Convert.ToBoolean(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName,
+                    Convert.ToBoolean(_configWriter.IniReadValue(SectionName,
                         SETTING_AUTOSTARTWITHWINDOWS));
             }
             set
             {
-                ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_AUTOSTARTWITHWINDOWS,
+                _configWriter.IniWriteValue(SectionName, SETTING_AUTOSTARTWITHWINDOWS,
                     value.ToString());
 
                 if (AutoStartWithWindows)
@@ -263,11 +276,11 @@ namespace FortyOne.AudioSwitcher.Configuration
             get
             {
                 return
-                    Convert.ToBoolean(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, SETTING_DISABLEHOTKEYS));
+                    Convert.ToBoolean(_configWriter.IniReadValue(SectionName, SETTING_DISABLEHOTKEYS));
             }
             set
             {
-                ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_DISABLEHOTKEYS, value.ToString());
+                _configWriter.IniWriteValue(SectionName, SETTING_DISABLEHOTKEYS, value.ToString());
             }
         }
 
@@ -276,12 +289,12 @@ namespace FortyOne.AudioSwitcher.Configuration
             get
             {
                 return
-                    Convert.ToBoolean(ConfigurationWriter.ConfigWriter.IniReadValue(SectionName,
+                    Convert.ToBoolean(_configWriter.IniReadValue(SectionName,
                         SETTING_ENABLEQUICKSWITCH));
             }
             set
             {
-                ConfigurationWriter.ConfigWriter.IniWriteValue(SectionName, SETTING_ENABLEQUICKSWITCH, value.ToString());
+                _configWriter.IniWriteValue(SectionName, SETTING_ENABLEQUICKSWITCH, value.ToString());
             }
         }
 
@@ -289,7 +302,7 @@ namespace FortyOne.AudioSwitcher.Configuration
         {
             try
             {
-                ConfigurationWriter.ConfigWriter.IniReadValue(SectionName, name);
+                _configWriter.IniReadValue(SectionName, name);
                 return true;
             }
             catch

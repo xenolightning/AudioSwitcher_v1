@@ -106,11 +106,6 @@ namespace FortyOne.AudioSwitcher
             {
             }
 
-            //Set up the config
-            ConfigurationWriter.ConfigWriter.SetPath(
-                Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName,
-                    Resources.ConfigurationFile));
-
             lblVersion.Text = "Version: " + AssemblyVersion;
             lblCopyright.Text = AssemblyCopyright;
 
