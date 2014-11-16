@@ -230,6 +230,9 @@ namespace FortyOne.AudioSwitcher
 
         private void mnuFavouritePlaybackDevice_Click(object sender, EventArgs e)
         {
+            if (SelectedPlaybackDevice == null)
+                return;
+
             Guid id = SelectedPlaybackDevice.Id;
             //if checked then we need to remove
 
@@ -243,6 +246,9 @@ namespace FortyOne.AudioSwitcher
 
         private void mnuFavouriteRecordingDevice_Click(object sender, EventArgs e)
         {
+            if (SelectedRecordingDevice == null)
+                return;
+
             Guid id = SelectedRecordingDevice.Id;
 
             if (mnuFavouriteRecordingDevice.Checked)
@@ -1034,9 +1040,11 @@ namespace FortyOne.AudioSwitcher
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 if (ConfigurationSettings.CloseToTray)
+                {
                     e.Cancel = true;
-                Hide();
-                MinimizeFootprint();
+                    Hide();
+                    MinimizeFootprint();
+                }
             }
         }
 
