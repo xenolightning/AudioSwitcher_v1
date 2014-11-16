@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using AudioSwitcher.AudioApi;
 using FortyOne.AudioSwitcher.AudioSwitcherService;
@@ -123,8 +124,7 @@ namespace FortyOne.AudioSwitcher
 
             if (ConfigurationSettings.CheckForUpdatesOnStartup || ConfigurationSettings.PollForUpdates >= 1)
             {
-                var t = new Thread(CheckForUpdates);
-                t.Start();
+                Task.Factory.StartNew(CheckForUpdates);
             }
 
             IDevice dev = AudioDeviceManager.Controller.GetAudioDevice(ConfigurationSettings.StartupPlaybackDeviceID);

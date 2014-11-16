@@ -94,11 +94,16 @@ namespace FortyOne.AudioSwitcher
 
             while (true)
             {
-                IDevice ad = AudioDeviceManager.Controller.GetAudioDevice(FavouriteDeviceIDs[i%FavouriteDeviceIDs.Count]);
-                if (ad.DeviceType == DeviceType.Playback)
-                    return FavouriteDeviceIDs[i%FavouriteDeviceIDs.Count];
+                var id = FavouriteDeviceIDs[i%FavouriteDeviceIDs.Count];
+                IDevice ad = AudioDeviceManager.Controller.GetAudioDevice(id);
 
                 i++;
+
+                if (ad == null)
+                    continue;
+
+                if (ad.DeviceType == DeviceType.Playback)
+                    return id;
 
                 if (i == index)
                     break;
