@@ -27,9 +27,6 @@ namespace FortyOne.AudioSwitcher
 
             exception = ex;
 
-
-            txtErrorDetails.Text = ex.ToString();
-
             //if(Form.ActiveForm != null)
             //    Form.ActiveForm.Cursor = Cursors.Default;
 
@@ -95,7 +92,10 @@ namespace FortyOne.AudioSwitcher
 
                     if (x != "")
                     {
-                        MessageBox.Show(this, "Bug Report Received. Thank you!\r\nBug ID: " + x);
+                        var bugConfStr = String.Format(
+                            "Bug Report Received. Thank you!\r\nBug ID: {0}\r\nBug Url: {1}{0}", x,
+                            "https://github.com/xenolightning/AudioSwitcher_v1/issues/");
+                        MessageBox.Show(this, bugConfStr);
                         Close();
                     }
                     else

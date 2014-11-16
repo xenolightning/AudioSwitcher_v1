@@ -569,7 +569,7 @@ namespace FortyOne.AudioSwitcher
             FavouriteDeviceManager.LoadFavouriteDevices(Array.ConvertAll(favDeviceStr, x =>
             {
                 var r = new Regex(ConfigurationSettings.GUID_REGEX);
-                foreach(var match in r.Matches(x))
+                foreach (var match in r.Matches(x))
                     return new Guid(match.ToString());
 
                 return Guid.Empty;
@@ -848,7 +848,14 @@ namespace FortyOne.AudioSwitcher
 
             notifyIconStrip.Items.Add(exitToolStripMenuItem);
 
-            notifyIcon1.Text = AudioDeviceManager.Controller.DefaultPlaybackDevice.FullName;
+            //The maximum length of the noitfy text is 64 characters. This keeps it under
+
+            var notifyText = AudioDeviceManager.Controller.DefaultPlaybackDevice.FullName;
+
+            if (notifyText.Length > 64)
+                notifyText = notifyText.Substring(0, 60) + "...";
+
+            notifyIcon1.Text = notifyText;
         }
 
         private void RefreshPlaybackDropDownButton()
@@ -1202,7 +1209,7 @@ namespace FortyOne.AudioSwitcher
 
             if (this.IsHandleCreated)
             {
-                this.BeginInvoke((Action) (() =>
+                this.BeginInvoke((Action)(() =>
                 {
                     RefreshPlaybackDevices();
                     RefreshRecordingDevices();
