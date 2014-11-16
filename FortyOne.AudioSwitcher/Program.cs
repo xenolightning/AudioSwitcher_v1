@@ -76,7 +76,7 @@ namespace FortyOne.AudioSwitcher
             catch
             {
                 MessageBox.Show(
-                    String.Format("Error creating setting file [{0}]. Make sure you have write access to this file.", settingsPath));
+                    String.Format("Error creating setting file [{0}]. Make sure you have write access to this file.\r\nOr try running as Administrator", settingsPath));
                 return;
             }
 
