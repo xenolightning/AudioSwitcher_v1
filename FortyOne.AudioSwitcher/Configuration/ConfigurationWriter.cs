@@ -62,12 +62,11 @@ namespace FortyOne.AudioSwitcher.Configuration
         /// <returns></returns>
         public string IniReadValue(string Section, string Key)
         {
-            var temp = new StringBuilder(4096);
-            int i = GetPrivateProfileString(Section, Key, "", temp,
-                4096, _path);
+            var temp = new StringBuilder(8192);
+            int i = GetPrivateProfileString(Section, Key, "", temp, 8192, _path);
 
             if (string.IsNullOrEmpty(temp.ToString()))
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException(Section + " - " + Key);
 
             return temp.ToString();
         }

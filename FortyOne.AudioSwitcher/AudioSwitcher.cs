@@ -971,8 +971,8 @@ namespace FortyOne.AudioSwitcher
 
         private void PostPlaybackMenuClick(Guid id)
         {
-            RefreshPlaybackDevices();
-            RefreshPlaybackDropDownButton();
+            //RefreshPlaybackDevices();
+            //RefreshPlaybackDropDownButton();
             for (int i = 0; i < listBoxPlayback.Items.Count; i++)
             {
                 if (((IDevice)listBoxPlayback.Items[i].Tag).Id == id)
@@ -995,8 +995,8 @@ namespace FortyOne.AudioSwitcher
 
         private void PostRecordingMenuClick(Guid id)
         {
-            RefreshRecordingDevices();
-            RefreshRecordingDropDownButton();
+            //RefreshRecordingDevices();
+            //RefreshRecordingDropDownButton();
             for (int i = 0; i < listBoxRecording.Items.Count; i++)
             {
                 if (((IDevice)listBoxRecording.Items[i].Tag).Id == id)

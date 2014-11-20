@@ -184,7 +184,7 @@
             this.tabControl1.Location = new System.Drawing.Point(5, 5);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(263, 325);
+            this.tabControl1.Size = new System.Drawing.Size(278, 354);
             this.tabControl1.TabIndex = 0;
             // 
             // tapPlayback
@@ -194,7 +194,7 @@
             this.tapPlayback.Location = new System.Drawing.Point(4, 22);
             this.tapPlayback.Name = "tapPlayback";
             this.tapPlayback.Padding = new System.Windows.Forms.Padding(3);
-            this.tapPlayback.Size = new System.Drawing.Size(255, 299);
+            this.tapPlayback.Size = new System.Drawing.Size(270, 328);
             this.tapPlayback.TabIndex = 0;
             this.tapPlayback.Text = "Playback";
             this.tapPlayback.UseVisualStyleBackColor = true;
@@ -205,7 +205,7 @@
             this.btnSetPlaybackDefault.AutoSize = true;
             this.btnSetPlaybackDefault.ContextMenuStrip = this.playbackStrip;
             this.btnSetPlaybackDefault.Enabled = false;
-            this.btnSetPlaybackDefault.Location = new System.Drawing.Point(166, 270);
+            this.btnSetPlaybackDefault.Location = new System.Drawing.Point(181, 299);
             this.btnSetPlaybackDefault.Name = "btnSetPlaybackDefault";
             this.btnSetPlaybackDefault.Size = new System.Drawing.Size(83, 23);
             this.btnSetPlaybackDefault.SplitMenuStrip = this.playbackStrip;
@@ -229,7 +229,7 @@
             this.listBoxPlayback.Location = new System.Drawing.Point(6, 6);
             this.listBoxPlayback.MultiSelect = false;
             this.listBoxPlayback.Name = "listBoxPlayback";
-            this.listBoxPlayback.Size = new System.Drawing.Size(243, 258);
+            this.listBoxPlayback.Size = new System.Drawing.Size(258, 287);
             this.listBoxPlayback.TabIndex = 5;
             this.listBoxPlayback.TileSize = new System.Drawing.Size(200, 50);
             this.listBoxPlayback.UseCompatibleStateImageBehavior = false;
@@ -871,12 +871,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(269, 332);
+            this.ClientSize = new System.Drawing.Size(284, 361);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(285, 371);
+            this.MinimumSize = new System.Drawing.Size(300, 400);
             this.Name = "AudioSwitcher";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Audio Switcher";

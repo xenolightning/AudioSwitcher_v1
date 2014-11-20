@@ -67,7 +67,7 @@ namespace FortyOne.AudioSwitcher
             try
             {
                 //Load/Create default settings
-                AddDirectorySecurity(settingsPath, WindowsIdentity.GetCurrent().Name, FileSystemRights.CreateFiles,
+                AddDirectorySecurity(Path.GetDirectoryName(settingsPath), WindowsIdentity.GetCurrent().Name, FileSystemRights.CreateFiles,
                     AccessControlType.Allow);
 
                 ConfigurationSettings.SetPath(settingsPath);
