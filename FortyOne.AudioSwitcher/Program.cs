@@ -2,7 +2,9 @@
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security;
 using System.Security.AccessControl;
+using System.Security.Permissions;
 using System.Security.Principal;
 using System.Windows.Forms;
 using FortyOne.AudioSwitcher.Configuration;
@@ -67,8 +69,15 @@ namespace FortyOne.AudioSwitcher
             try
             {
                 //Load/Create default settings
-                AddDirectorySecurity(Path.GetDirectoryName(settingsPath), WindowsIdentity.GetCurrent().Name, FileSystemRights.CreateFiles,
-                    AccessControlType.Allow);
+                //AddDirectorySecurity(Path.GetDirectoryName(settingsPath), WindowsIdentity.GetCurrent().Name, FileSystemRights.CreateFiles,
+                //    AccessControlType.Allow);
+
+                //1. Provide early notification that the user does not have permission to write.
+                FileIOPermission writePermission = new FileIOPermission(FileIOPermissionAccess.Write, settingsPath);
+                if (!SecurityManager.IsGranted(writePermission))
+                {
+                    throw new SecurityException();
+                }
 
                 ConfigurationSettings.SetPath(settingsPath);
                 ConfigurationSettings.CreateDefaults();
@@ -92,27 +101,6 @@ namespace FortyOne.AudioSwitcher
                 var edf = new ExceptionDisplayForm(title, text, ex);
                 edf.ShowDialog();
             }
-        }
-
-        public static void AddDirectorySecurity(string fileName, string account, FileSystemRights rights, AccessControlType controlType)
-        {
-            // Create a new DirectoryInfo object.
-            DirectoryInfo dInfo = new DirectoryInfo(fileName);
-
-
-            // Get a DirectorySecurity object that represents the 
-            // current security settings.
-            DirectorySecurity dSecurity = dInfo.GetAccessControl();
-
-
-            // Add the FileSystemAccessRule to the security settings. 
-            dSecurity.AddAccessRule(new FileSystemAccessRule(account,
-            rights, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None,
-            controlType));
-
-
-            // Set the new access settings.
-            dInfo.SetAccessControl(dSecurity);
         }
 
         private static void Application_ApplicationExit(object sender, EventArgs e)
