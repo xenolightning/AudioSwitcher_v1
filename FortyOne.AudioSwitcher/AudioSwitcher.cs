@@ -484,6 +484,9 @@ namespace FortyOne.AudioSwitcher
 
         private void mnuSetPlaybackStartupDevice_Click(object sender, EventArgs e)
         {
+            if (SelectedPlaybackDevice == null)
+                return;
+
             if (ConfigurationSettings.StartupPlaybackDeviceID == SelectedPlaybackDevice.Id)
                 ConfigurationSettings.StartupPlaybackDeviceID = Guid.Empty;
             else
@@ -494,6 +497,9 @@ namespace FortyOne.AudioSwitcher
 
         private void mnuSetRecordingStartupDevice_Click(object sender, EventArgs e)
         {
+            if (SelectedRecordingDevice == null)
+                return;
+
             if (ConfigurationSettings.StartupRecordingDeviceID == SelectedRecordingDevice.Id)
                 ConfigurationSettings.StartupRecordingDeviceID = Guid.Empty;
             else
@@ -943,18 +949,11 @@ namespace FortyOne.AudioSwitcher
 
         #region Events
 
-        private void btnRefreshRecording_Click(object sender, EventArgs e)
-        {
-            //RefreshRecordingDevices();
-        }
-
-        private void btnRefreshPlayback_Click(object sender, EventArgs e)
-        {
-            //RefreshPlaybackDevices();
-        }
-
         private void mnuSetPlaybackCommunicationDefault_Click(object sender, EventArgs e)
         {
+            if (SelectedPlaybackDevice == null)
+                return;
+
             Guid id = SelectedPlaybackDevice.Id;
             SelectedPlaybackDevice.SetAsDefaultCommunications();
             PostPlaybackMenuClick(id);
@@ -962,6 +961,9 @@ namespace FortyOne.AudioSwitcher
 
         private void mnuSetPlaybackDefault_Click(object sender, EventArgs e)
         {
+            if (SelectedPlaybackDevice == null)
+                return;
+
             Guid id = SelectedPlaybackDevice.Id;
             SelectedPlaybackDevice.SetAsDefault();
             PostPlaybackMenuClick(id);
@@ -983,6 +985,9 @@ namespace FortyOne.AudioSwitcher
 
         private void mnuSetRecordingDefault_Click(object sender, EventArgs e)
         {
+            if (SelectedRecordingDevice == null)
+                return;
+
             Guid id = SelectedRecordingDevice.Id;
             SelectedRecordingDevice.SetAsDefault();
             PostRecordingMenuClick(id);
@@ -1004,6 +1009,9 @@ namespace FortyOne.AudioSwitcher
 
         private void mnuSetRecordingCommunicationDefault_Click(object sender, EventArgs e)
         {
+            if (SelectedRecordingDevice == null)
+                return;
+
             Guid id = SelectedRecordingDevice.Id;
             SelectedRecordingDevice.SetAsDefaultCommunications();
             PostRecordingMenuClick(id);
@@ -1238,6 +1246,18 @@ namespace FortyOne.AudioSwitcher
                     RefreshRecordingDevices();
                 }));
             }
+        }
+
+        private void playbackStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (SelectedPlaybackDevice == null)
+                e.Cancel = true;
+        }
+
+        private void recordingStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (SelectedRecordingDevice == null)
+                e.Cancel = true;
         }
     }
 }

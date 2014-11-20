@@ -76,11 +76,11 @@
   <ItemGroup>
     <Reference Include="AudioSwitcher.AudioApi, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AudioSwitcher.AudioApi.CoreAudio.1.1.5\lib\net40\AudioSwitcher.AudioApi.dll</HintPath>
+      <HintPath>..\packages\AudioSwitcher.AudioApi.CoreAudio.1.1.6\lib\net40\AudioSwitcher.AudioApi.dll</HintPath>
     </Reference>
     <Reference Include="AudioSwitcher.AudioApi.CoreAudio, Version=1.1.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AudioSwitcher.AudioApi.CoreAudio.1.1.5\lib\net40\AudioSwitcher.AudioApi.CoreAudio.dll</HintPath>
+      <HintPath>..\packages\AudioSwitcher.AudioApi.CoreAudio.1.1.6\lib\net40\AudioSwitcher.AudioApi.CoreAudio.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
