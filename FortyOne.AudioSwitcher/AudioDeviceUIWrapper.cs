@@ -13,12 +13,12 @@ namespace FortyOne.AudioSwitcher
 
         public string DeviceName
         {
-            get { return Device.ShortName; }
+            get { return Device.Name; }
         }
 
         public string DeviceDescription
         {
-            get { return Device.Description; }
+            get { return Device.InterfaceName; }
         }
 
         public string State

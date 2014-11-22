@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -617,12 +618,12 @@ namespace FortyOne.AudioSwitcher
         {
             listBoxPlayback.SuspendLayout();
             listBoxPlayback.Items.Clear();
-            foreach (IDevice ad in AudioDeviceManager.Controller.GetPlaybackDevices(DeviceStateFilter))
+            foreach (IDevice ad in AudioDeviceManager.Controller.GetPlaybackDevices(DeviceStateFilter).ToList())
             {
                 var li = new ListViewItem();
-                li.Text = ad.ShortName;
+                li.Text = ad.Name;
                 li.Tag = ad;
-                li.SubItems.Add(new ListViewItem.ListViewSubItem(li, ad.Description));
+                li.SubItems.Add(new ListViewItem.ListViewSubItem(li, ad.InterfaceName));
                 try
                 {
                     string imageKey = ad.IconPath.Substring(ad.IconPath.IndexOf("-") + 1);
@@ -717,12 +718,12 @@ namespace FortyOne.AudioSwitcher
             listBoxRecording.SuspendLayout();
             listBoxRecording.Items.Clear();
 
-            foreach (IDevice ad in AudioDeviceManager.Controller.GetCaptureDevices(DeviceStateFilter))
+            foreach (IDevice ad in AudioDeviceManager.Controller.GetCaptureDevices(DeviceStateFilter).ToList())
             {
                 var li = new ListViewItem();
-                li.Text = ad.ShortName;
+                li.Text = ad.Name;
                 li.Tag = ad;
-                li.SubItems.Add(new ListViewItem.ListViewSubItem(li, ad.Description));
+                li.SubItems.Add(new ListViewItem.ListViewSubItem(li, ad.InterfaceName));
                 try
                 {
                     string imageKey = ad.IconPath.Substring(ad.IconPath.IndexOf("-") + 1);
@@ -819,14 +820,14 @@ namespace FortyOne.AudioSwitcher
             int playbackCount = 0;
             int recordingCount = 0;
 
-            IEnumerable<IDevice> list = AudioDeviceManager.Controller.GetPlaybackDevices(DeviceStateFilter);
+            IEnumerable<IDevice> list = AudioDeviceManager.Controller.GetPlaybackDevices(DeviceStateFilter).ToList();
 
             foreach (IDevice ad in list)
             {
                 if (FavouriteDeviceManager.FavouriteDeviceCount > 0 && !FavouriteDeviceManager.IsFavouriteDevice(ad))
                     continue;
 
-                var item = new ToolStripMenuItem(String.Format("{0} ({1})", ad.ShortName, ad.Description));
+                var item = new ToolStripMenuItem(ad.FullName);
                 item.Tag = ad;
                 item.Checked = ad.IsDefaultDevice;
                 notifyIconStrip.Items.Add(item);
@@ -836,7 +837,7 @@ namespace FortyOne.AudioSwitcher
             if (playbackCount > 0)
                 notifyIconStrip.Items.Add(new ToolStripSeparator());
 
-            list = AudioDeviceManager.Controller.GetCaptureDevices(DeviceStateFilter);
+            list = AudioDeviceManager.Controller.GetCaptureDevices(DeviceStateFilter).ToList();
 
             foreach (IDevice ad in list)
             {
