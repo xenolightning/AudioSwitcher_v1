@@ -68,7 +68,7 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>fortyone.snk</AssemblyOriginatorKeyFile>
@@ -86,6 +86,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -270,10 +272,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://services.fortyone.net.nz/AudioSwitcher/AudioSwitcher.asmx">
+    <WebReferenceUrl Include="http://services.audioswit.ch/AudioSwitcher.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\AudioSwitcherService\</RelPath>
-      <UpdateFromURL>http://services.fortyone.net.nz/AudioSwitcher/AudioSwitcher.asmx</UpdateFromURL>
+      <UpdateFromURL>http://services.audioswit.ch/AudioSwitcher.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
