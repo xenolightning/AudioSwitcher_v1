@@ -1,0 +1,1 @@
+..\packages\ilmerge.2.13.0307\ilmerge /target:winexe /out:AudioSwitcher.exe ..\FortyOne.AudioSwitcher\bin\Release\AudioSwitcher.exe ..\FortyOne.AudioSwitcher\bin\Release\AudioSwitcher.AudioApi.dll ..\FortyOne.AudioSwitcher\bin\Release\AudioSwitcher.AudioApi.CoreAudio.dll ..\FortyOne.AudioSwitcher\bin\Release\WindowsInput.dll

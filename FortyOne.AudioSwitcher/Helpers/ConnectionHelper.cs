@@ -25,7 +25,10 @@ namespace FortyOne.AudioSwitcher.Helpers
         public static AudioSwitcherService.AudioSwitcher GetAudioSwitcherProxy()
         {
             if (IsServerOnline)
-                return new AudioSwitcherService.AudioSwitcher();
+                return new AudioSwitcherService.AudioSwitcher()
+                {
+                    Url = Resources.WebServiceURL
+                };
             return null;
         }
     }

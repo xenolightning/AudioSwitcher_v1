@@ -1,24 +1,24 @@
-﻿using FortyOne.AudioSwitcher.SoundLibrary;
+﻿using AudioSwitcher.AudioApi;
 
 namespace FortyOne.AudioSwitcher
 {
     public class AudioDeviceUIWrapper
     {
-        private readonly AudioDevice Device;
+        private readonly IDevice Device;
 
-        public AudioDeviceUIWrapper(AudioDevice ad)
+        public AudioDeviceUIWrapper(IDevice ad)
         {
             Device = ad;
         }
 
         public string DeviceName
         {
-            get { return Device.DeviceName; }
+            get { return Device.Name; }
         }
 
         public string DeviceDescription
         {
-            get { return Device.DeviceName; }
+            get { return Device.InterfaceName; }
         }
 
         public string State
@@ -27,11 +27,11 @@ namespace FortyOne.AudioSwitcher
             {
                 switch (Device.State)
                 {
-                    case AudioDeviceState.Active:
+                    case DeviceState.Active:
                         return "Ready";
-                    case AudioDeviceState.Disabled:
+                    case DeviceState.Disabled:
                         return "Disabled";
-                    case AudioDeviceState.Unplugged:
+                    case DeviceState.Unplugged:
                         return "Not Plugged In";
                 }
                 return "Unknown";

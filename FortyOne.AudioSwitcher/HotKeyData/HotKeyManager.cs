@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using FortyOne.AudioSwitcher.Configuration;
 
@@ -35,7 +36,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
                 if (string.IsNullOrEmpty(hotkeydata))
                     return;
 
-                string[] entries = hotkeydata.Split(new[] {",", "[", "]"}, StringSplitOptions.RemoveEmptyEntries);
+                string[] entries = hotkeydata.Split(new[] { ",", "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
 
                 _hotkeys.Clear();
 
@@ -44,9 +45,15 @@ namespace FortyOne.AudioSwitcher.HotKeyData
                     int key = int.Parse(entries[i++]);
                     int modifiers = int.Parse(entries[i++]);
                     var hk = new HotKey();
-                    hk.DeviceID = entries[i];
-                    hk.Modifiers = (Modifiers) modifiers;
-                    hk.Key = (Keys) key;
+
+                    var r = new Regex(ConfigurationSettings.GUID_REGEX);
+                    var matches = r.Matches(entries[i]);
+                    if (matches.Count == 0)
+                        continue;
+                    hk.DeviceId = new Guid(matches[0].ToString());
+
+                    hk.Modifiers = (Modifiers)modifiers;
+                    hk.Key = (Keys)key;
                     _hotkeys.Add(hk);
                     hk.HotKeyPressed += hk_HotKeyPressed;
                     hk.RegisterHotkey();
@@ -69,7 +76,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
             string hotkeydata = "";
             foreach (HotKey hk in _hotkeys)
             {
-                hotkeydata += "[" + (int) hk.Key + "," + (int) hk.Modifiers + "," + hk.DeviceID + "]";
+                hotkeydata += "[" + (int)hk.Key + "," + (int)hk.Modifiers + "," + hk.DeviceId + "]";
             }
             ConfigurationSettings.HotKeys = hotkeydata;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using AudioSwitcher.AudioApi;
 using FortyOne.AudioSwitcher.HotKeyData;
-using FortyOne.AudioSwitcher.SoundLibrary;
 
 namespace FortyOne.AudioSwitcher
 {
@@ -26,10 +26,10 @@ namespace FortyOne.AudioSwitcher
             hotkey = new HotKey();
 
             cmbDevices.Items.Clear();
-            foreach (AudioDevice ad in AudioDeviceManager.PlayBackDevices)
+            foreach (IDevice ad in AudioDeviceManager.Controller.GetPlaybackDevices())
                 cmbDevices.Items.Add(ad);
 
-            foreach (AudioDevice ad in AudioDeviceManager.RecordingDevices)
+            foreach (IDevice ad in AudioDeviceManager.Controller.GetCaptureDevices())
                 cmbDevices.Items.Add(ad);
 
             cmbDevices.DisplayMember = "FullName";
@@ -41,7 +41,7 @@ namespace FortyOne.AudioSwitcher
         {
             linkedHotKey = hk;
 
-            hotkey.DeviceID = hk.DeviceID;
+            hotkey.DeviceId = hk.DeviceId;
             hotkey.Key = hk.Key;
             hotkey.Modifiers = hk.Modifiers;
 
@@ -59,7 +59,7 @@ namespace FortyOne.AudioSwitcher
 
             foreach (object o in cmbDevices.Items)
             {
-                if (((AudioDevice) o).ID == hotkey.DeviceID)
+                if (((IDevice) o).Id == hotkey.DeviceId)
                 {
                     cmbDevices.SelectedIndex = cmbDevices.Items.IndexOf(o);
                     break;
@@ -146,7 +146,7 @@ namespace FortyOne.AudioSwitcher
 
         private void cmbDevices_SelectedIndexChanged(object sender, EventArgs e)
         {
-            hotkey.DeviceID = ((AudioDevice) cmbDevices.SelectedItem).ID;
+            hotkey.DeviceId = ((IDevice) cmbDevices.SelectedItem).Id;
         }
 
         private void HotKeyForm_FormClosed(object sender, FormClosedEventArgs e)

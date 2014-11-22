@@ -1,19 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using FortyOne.AudioSwitcher.SoundLibrary;
-using FortyOne.AudioSwitcher.SoundLibrary.Audio;
+using AudioSwitcher.AudioApi;
 
 namespace FortyOne.AudioSwitcher
 {
     public static class FavouriteDeviceManager
     {
-        public delegate void FavouriteDeviceIDsChangedEventHandler(List<string> IDs);
+        public delegate void FavouriteDeviceIDsChangedEventHandler(List<Guid> ids);
 
-        private static List<string> FavouriteDeviceIDs = new List<string>();
+        private static List<Guid> FavouriteDeviceIDs = new List<Guid>();
 
         static FavouriteDeviceManager()
         {
-            FavouriteDeviceIDs = new List<string>();
+            FavouriteDeviceIDs = new List<Guid>();
         }
 
         public static int FavouriteDeviceCount
@@ -21,25 +21,25 @@ namespace FortyOne.AudioSwitcher
             get { return FavouriteDeviceIDs.Count; }
         }
 
-        public static ReadOnlyCollection<string> FavouriteDevices
+        public static ReadOnlyCollection<Guid> FavouriteDevices
         {
-            get { return new ReadOnlyCollection<string>(FavouriteDeviceIDs); }
+            get { return new ReadOnlyCollection<Guid>(FavouriteDeviceIDs); }
         }
 
         public static event FavouriteDeviceIDsChangedEventHandler FavouriteDevicesChanged;
 
-        public static bool LoadFavouriteDevices(List<string> favouriteIDs)
+        public static bool LoadFavouriteDevices(List<Guid> favouriteIDs)
         {
             return LoadFavouriteDevices(favouriteIDs.ToArray());
         }
 
-        public static bool LoadFavouriteDevices(string[] favouriteIDs)
+        public static bool LoadFavouriteDevices(Guid[] favouriteIDs)
         {
-            FavouriteDeviceIDs = new List<string>();
+            FavouriteDeviceIDs = new List<Guid>();
 
-            foreach (string s in favouriteIDs)
+            foreach (Guid s in favouriteIDs)
             {
-                if (AudioDeviceManager.GetAudioDevice(s) != null)
+                if (AudioDeviceManager.Controller.GetAudioDevice(s) != null)
                     AddFavouriteDevice(s);
                 else
                     RemoveFavouriteDevice(s);
@@ -47,35 +47,35 @@ namespace FortyOne.AudioSwitcher
             return true;
         }
 
-        public static bool IsFavouriteDevice(AudioDevice ad)
+        public static bool IsFavouriteDevice(IDevice ad)
         {
-            return FavouriteDeviceIDs.Contains(ad.ID);
+            return FavouriteDeviceIDs.Contains(ad.Id);
         }
 
-        public static bool IsFavouriteDevice(string ID)
+        public static bool IsFavouriteDevice(Guid id)
         {
-            return FavouriteDeviceIDs.Contains(ID);
+            return FavouriteDeviceIDs.Contains(id);
         }
 
-        public static string AddFavouriteDevice(string ID)
+        public static Guid AddFavouriteDevice(Guid id)
         {
-            if (FavouriteDeviceIDs.Contains(ID))
-                return "";
+            if (FavouriteDeviceIDs.Contains(id))
+                return Guid.Empty;
 
-            FavouriteDeviceIDs.Add(ID);
+            FavouriteDeviceIDs.Add(id);
 
             FireFavouriteDeviceChanged();
 
-            return ID;
+            return id;
         }
 
-        public static string RemoveFavouriteDevice(string ID)
+        public static Guid RemoveFavouriteDevice(Guid id)
         {
-            FavouriteDeviceIDs.Remove(ID);
+            FavouriteDeviceIDs.Remove(id);
 
             FireFavouriteDeviceChanged();
 
-            return ID;
+            return id;
         }
 
         private static void FireFavouriteDeviceChanged()
@@ -84,27 +84,32 @@ namespace FortyOne.AudioSwitcher
                 FavouriteDevicesChanged(FavouriteDeviceIDs);
         }
 
-        public static string GetNextFavouritePlaybackDevice()
+        public static Guid GetNextFavouritePlaybackDevice()
         {
             //Start at the next device
-            int index = (FavouriteDeviceIDs.IndexOf(AudioDeviceManager.DefaultPlaybackDevice.ID) + 1)%
+            int index = (FavouriteDeviceIDs.IndexOf(AudioDeviceManager.Controller.DefaultPlaybackDevice.Id) + 1)%
                         FavouriteDeviceIDs.Count;
 
             int i = index;
 
             while (true)
             {
-                AudioDevice ad = AudioDeviceManager.GetAudioDevice(FavouriteDeviceIDs[i%FavouriteDeviceIDs.Count]);
-                if (ad.DataFlow == EDataFlow.eRender)
-                    return FavouriteDeviceIDs[i%FavouriteDeviceIDs.Count];
+                var id = FavouriteDeviceIDs[i%FavouriteDeviceIDs.Count];
+                IDevice ad = AudioDeviceManager.Controller.GetAudioDevice(id);
 
                 i++;
+
+                if (ad == null)
+                    continue;
+
+                if (ad.DeviceType == DeviceType.Playback)
+                    return id;
 
                 if (i == index)
                     break;
             }
 
-            return "";
+            return Guid.Empty;
         }
     }
 }

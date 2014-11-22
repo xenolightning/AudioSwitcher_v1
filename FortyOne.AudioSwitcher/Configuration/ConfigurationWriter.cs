@@ -7,26 +7,16 @@ namespace FortyOne.AudioSwitcher.Configuration
 {
     public class ConfigurationWriter
     {
-        private static ConfigurationWriter pConfigWriter;
 
-        private string path;
+        private string _path;
 
         /// <summary>
         ///     INIFile Constructor.
         /// </summary>
         /// <PARAM name="INIPath"></PARAM>
-        private ConfigurationWriter()
+        public ConfigurationWriter(string iniPath)
         {
-        }
-
-        public static ConfigurationWriter ConfigWriter
-        {
-            get
-            {
-                if (pConfigWriter == null)
-                    pConfigWriter = new ConfigurationWriter();
-                return pConfigWriter;
-            }
+            SetPath(iniPath);
         }
 
         [DllImport("kernel32")]
@@ -38,12 +28,12 @@ namespace FortyOne.AudioSwitcher.Configuration
             string key, string def, StringBuilder retVal,
             int size, string filePath);
 
-        public void SetPath(string INIPath)
+        public void SetPath(string iniPath)
         {
-            if (!File.Exists(INIPath))
-                File.Create(INIPath).Close();
+            if (!File.Exists(iniPath))
+                File.Create(iniPath).Close();
 
-            path = INIPath;
+            _path = iniPath;
         }
 
         /// <summary>
@@ -57,10 +47,10 @@ namespace FortyOne.AudioSwitcher.Configuration
         /// Value Name
         public void IniWriteValue(string Section, string Key, string Value)
         {
-            if (!File.Exists(path))
-                File.Create(path).Close();
+            if (!File.Exists(_path))
+                File.Create(_path).Close();
 
-            WritePrivateProfileString(Section, Key, Value, path);
+            WritePrivateProfileString(Section, Key, Value, _path);
         }
 
         /// <summary>
@@ -72,12 +62,11 @@ namespace FortyOne.AudioSwitcher.Configuration
         /// <returns></returns>
         public string IniReadValue(string Section, string Key)
         {
-            var temp = new StringBuilder(4096);
-            int i = GetPrivateProfileString(Section, Key, "", temp,
-                4096, path);
+            var temp = new StringBuilder(8192);
+            int i = GetPrivateProfileString(Section, Key, "", temp, 8192, _path);
 
             if (string.IsNullOrEmpty(temp.ToString()))
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException(Section + " - " + Key);
 
             return temp.ToString();
         }

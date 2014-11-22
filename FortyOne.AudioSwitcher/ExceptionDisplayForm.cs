@@ -87,13 +87,15 @@ namespace FortyOne.AudioSwitcher
                     body += "Operating System: " + Environment.OSVersion + (IntPtr.Size == 8 ? " 64-bit" : " 32-bit") +
                             Environment.NewLine;
                     body += "Administrator Privileges: " + IsUserAdministrator() + Environment.NewLine;
-                    body += "Client Email Address: " + txtEmail.Text + Environment.NewLine;
 
                     string x = client.SendBugReport(guid, txtErrorDetails.Text, body, exception.ToString());
 
                     if (x != "")
                     {
-                        MessageBox.Show(this, "Bug Report Received. Thank you!\r\nBug ID: " + x);
+                        var bugConfStr = String.Format(
+                            "Bug Report Received. Thank you!\r\nBug ID: {0}\r\nBug Url: {1}{0}", x,
+                            "https://github.com/xenolightning/AudioSwitcher_v1/issues/");
+                        MessageBox.Show(this, bugConfStr);
                         Close();
                     }
                     else

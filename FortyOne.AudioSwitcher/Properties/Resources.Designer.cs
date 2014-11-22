@@ -71,16 +71,6 @@ namespace FortyOne.AudioSwitcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap _112_RefreshArrow_Green_16x16_72 {
-            get {
-                object obj = ResourceManager.GetObject("_112_RefreshArrow_Green_16x16_72", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] AutoUpdater {

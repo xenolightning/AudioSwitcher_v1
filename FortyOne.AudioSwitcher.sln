@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FortyOne.AudioSwitcher.GUI", "FortyOne.AudioSwitcher\FortyOne.AudioSwitcher.GUI.csproj", "{6D5622FD-B609-40E2-8E01-1B619752867E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FortyOne.AudioSwitcher.SoundLibrary", "FortyOne.AudioSwitcher.SoundLibrary\FortyOne.AudioSwitcher.SoundLibrary.csproj", "{ACBA2AC9-5AA4-41E6-8312-FA5157ACCB7B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FortyOne.AudioSwitcher.AutoUpdater", "FortyOne.AudioSwitcher.AutoUpdater\FortyOne.AudioSwitcher.AutoUpdater.csproj", "{EE863E6B-0256-44E9-83FB-D3A3DDE62B40}"
 EndProject
 Global
@@ -34,21 +32,6 @@ Global
 		{6D5622FD-B609-40E2-8E01-1B619752867E}.Release|x64.Build.0 = Release|Any CPU
 		{6D5622FD-B609-40E2-8E01-1B619752867E}.Release|x86.ActiveCfg = Release|Any CPU
 		{6D5622FD-B609-40E2-8E01-1B619752867E}.Release|x86.Build.0 = Release|Any CPU
-		{ACBA2AC9-5AA4-41E6-8312-FA5157ACCB7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ACBA2AC9-5AA4-41E6-8312-FA5157ACCB7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ACBA2AC9-5AA4-41E6-8312-FA5157ACCB7B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{ACBA2AC9-5AA4-41E6-8312-FA5157ACCB7B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{ACBA2AC9-5AA4-41E6-8312-FA5157ACCB7B}.Debug|x64.ActiveCfg = Debug|x64
-		{ACBA2AC9-5AA4-41E6-8312-FA5157ACCB7B}.Debug|x64.Build.0 = Debug|x64
-		{ACBA2AC9-5AA4-41E6-8312-FA5157ACCB7B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{ACBA2AC9-5AA4-41E6-8312-FA5157ACCB7B}.Debug|x86.Build.0 = Debug|Any CPU
-		{ACBA2AC9-5AA4-41E6-8312-FA5157ACCB7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ACBA2AC9-5AA4-41E6-8312-FA5157ACCB7B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ACBA2AC9-5AA4-41E6-8312-FA5157ACCB7B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{ACBA2AC9-5AA4-41E6-8312-FA5157ACCB7B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{ACBA2AC9-5AA4-41E6-8312-FA5157ACCB7B}.Release|x64.ActiveCfg = Release|x64
-		{ACBA2AC9-5AA4-41E6-8312-FA5157ACCB7B}.Release|x64.Build.0 = Release|x64
-		{ACBA2AC9-5AA4-41E6-8312-FA5157ACCB7B}.Release|x86.ActiveCfg = Release|Any CPU
 		{EE863E6B-0256-44E9-83FB-D3A3DDE62B40}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{EE863E6B-0256-44E9-83FB-D3A3DDE62B40}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{EE863E6B-0256-44E9-83FB-D3A3DDE62B40}.Debug|Mixed Platforms.Build.0 = Debug|x86

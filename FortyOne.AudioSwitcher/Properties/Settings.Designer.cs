@@ -26,7 +26,7 @@ namespace FortyOne.AudioSwitcher.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://services.fortyone.net.nz/AudioSwitcher/AudioSwitcher.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://services.audioswit.ch/AudioSwitcher.asmx")]
         public string AudioSwitcher_AudioSwitcherService_AudioSwitcher {
             get {
                 return ((string)(this["AudioSwitcher_AudioSwitcherService_AudioSwitcher"]));
