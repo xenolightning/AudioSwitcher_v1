@@ -480,7 +480,7 @@ namespace FortyOne.AudioSwitcher
 
         private void linkLabel1_Click(object sender, EventArgs e)
         {
-            Process.Start("http://services.fortyone.net.nz/audioswitcher/versions/");
+            Process.Start("http://services.audioswit.ch/versions/");
         }
 
         private void mnuSetPlaybackStartupDevice_Click(object sender, EventArgs e)
