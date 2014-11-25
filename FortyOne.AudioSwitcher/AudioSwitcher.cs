@@ -860,7 +860,7 @@ namespace FortyOne.AudioSwitcher
 
             var notifyText = AudioDeviceManager.Controller.DefaultPlaybackDevice.FullName;
 
-            if (notifyText.Length > 64)
+            if (notifyText.Length >= 64)
                 notifyText = notifyText.Substring(0, 60) + "...";
 
             notifyIcon1.Text = notifyText;
