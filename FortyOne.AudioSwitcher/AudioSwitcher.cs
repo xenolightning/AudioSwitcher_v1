@@ -752,7 +752,10 @@ namespace FortyOne.AudioSwitcher
                 li.SubItems.Add(new ListViewItem.ListViewSubItem(li, ad.InterfaceName));
                 try
                 {
-                    string imageKey = ad.IconPath.Substring(ad.IconPath.IndexOf("-") + 1);
+                    string imageKey = ad.IconPath.Substring(ad.IconPath.IndexOf(",") + 1).Replace("-", "");
+                    if (ICON_MAP.ContainsKey(imageKey))
+                        imageKey = ICON_MAP[imageKey];
+
                     if (ad.IsDefaultDevice)
                     {
                         li.SubItems.Add(new ListViewItem.ListViewSubItem(li, "Default Device"));
