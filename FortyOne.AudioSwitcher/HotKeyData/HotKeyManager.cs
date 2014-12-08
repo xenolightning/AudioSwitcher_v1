@@ -56,7 +56,15 @@ namespace FortyOne.AudioSwitcher.HotKeyData
                     hk.Key = (Keys)key;
                     _hotkeys.Add(hk);
                     hk.HotKeyPressed += hk_HotKeyPressed;
-                    hk.RegisterHotkey();
+                    try
+                    {
+                        hk.RegisterHotkey();
+                    }
+                    catch
+                    {
+                        //Don't care about hotkeys that can't be registered
+                        //This is to stop hotkeys from disappearing
+                    }
                 }
             }
             catch
