@@ -9,6 +9,7 @@ namespace FortyOne.AudioSwitcher.Configuration
     {
 
         private string _path;
+        private readonly object _mutex = new object();
 
         /// <summary>
         ///     INIFile Constructor.
@@ -47,10 +48,13 @@ namespace FortyOne.AudioSwitcher.Configuration
         /// Value Name
         public void IniWriteValue(string Section, string Key, string Value)
         {
-            if (!File.Exists(_path))
-                File.Create(_path).Close();
+            lock (_mutex)
+            {
+                if (!File.Exists(_path))
+                    File.Create(_path).Close();
 
-            WritePrivateProfileString(Section, Key, Value, _path);
+                WritePrivateProfileString(Section, Key, Value, _path);
+            }
         }
 
         /// <summary>
@@ -62,13 +66,16 @@ namespace FortyOne.AudioSwitcher.Configuration
         /// <returns></returns>
         public string IniReadValue(string Section, string Key)
         {
-            var temp = new StringBuilder(8192);
-            int i = GetPrivateProfileString(Section, Key, "", temp, 8192, _path);
+            lock (_mutex)
+            {
+                var temp = new StringBuilder(8192);
+                int i = GetPrivateProfileString(Section, Key, "", temp, 8192, _path);
 
-            if (string.IsNullOrEmpty(temp.ToString()))
-                throw new KeyNotFoundException(Section + " - " + Key);
+                if (string.IsNullOrEmpty(temp.ToString()))
+                    throw new KeyNotFoundException(Section + " - " + Key);
 
-            return temp.ToString();
+                return temp.ToString();
+            }
         }
     }
 }

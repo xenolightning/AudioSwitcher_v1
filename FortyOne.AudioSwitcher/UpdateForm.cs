@@ -46,14 +46,21 @@ namespace FortyOne.AudioSwitcher
 
         private void btnUpdateNow_Click(object sender, EventArgs e)
         {
-            string updaterPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName,
-                "AutoUpdater.exe");
-            if (!File.Exists(updaterPath))
-                File.WriteAllBytes(updaterPath, Resources.AutoUpdater);
+            try
+            {
+                string updaterPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName,
+                    "AutoUpdater.exe");
+                if (!File.Exists(updaterPath))
+                    File.WriteAllBytes(updaterPath, Resources.AutoUpdater);
 
-            Process.Start(updaterPath,
-                Process.GetCurrentProcess().Id + " \"" + Assembly.GetEntryAssembly().Location + "\"");
-            Application.Exit();
+                Process.Start(updaterPath,
+                    Process.GetCurrentProcess().Id + " \"" + Assembly.GetEntryAssembly().Location + "\"");
+                Application.Exit();
+            }
+            catch
+            {
+                MessageBox.Show("Cannot Update Automatically.\r\nPlease manually download update.");
+            }
         }
 
         private void label3_Click(object sender, EventArgs e)
