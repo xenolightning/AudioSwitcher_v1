@@ -1028,8 +1028,7 @@ namespace FortyOne.AudioSwitcher
             {
                 var hk = sender as HotKey;
 
-                if (hk.DeviceId == AudioDeviceManager.Controller.DefaultCaptureDevice.Id ||
-                    hk.DeviceId == AudioDeviceManager.Controller.DefaultPlaybackDevice.Id)
+                if (hk.Device == null || hk.Device.IsDefaultDevice)
                     return;
 
                 hk.Device.SetAsDefault();
@@ -1049,6 +1048,8 @@ namespace FortyOne.AudioSwitcher
                     Hide();
                     MinimizeFootprint();
                 }
+
+                HotKeyManager.SaveHotKeys();
             }
         }
 
