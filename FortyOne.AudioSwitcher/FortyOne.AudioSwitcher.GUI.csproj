@@ -78,11 +78,11 @@
   <ItemGroup>
     <Reference Include="AudioSwitcher.AudioApi, Version=1.1.0.0, Culture=neutral, PublicKeyToken=5d3d81ef23a33a3f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AudioSwitcher.AudioApi.CoreAudio.1.2.2\lib\net40\AudioSwitcher.AudioApi.dll</HintPath>
+      <HintPath>..\packages\AudioSwitcher.AudioApi.CoreAudio.1.3.2\lib\net40\AudioSwitcher.AudioApi.dll</HintPath>
     </Reference>
-    <Reference Include="AudioSwitcher.AudioApi.CoreAudio, Version=1.2.2.0, Culture=neutral, PublicKeyToken=5d3d81ef23a33a3f, processorArchitecture=MSIL">
+    <Reference Include="AudioSwitcher.AudioApi.CoreAudio, Version=1.3.2.0, Culture=neutral, PublicKeyToken=5d3d81ef23a33a3f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AudioSwitcher.AudioApi.CoreAudio.1.2.2\lib\net40\AudioSwitcher.AudioApi.CoreAudio.dll</HintPath>
+      <HintPath>..\packages\AudioSwitcher.AudioApi.CoreAudio.1.3.2\lib\net40\AudioSwitcher.AudioApi.CoreAudio.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -223,9 +223,11 @@
     <Content Include="Icons\3050d.png" />
     <Content Include="Icons\3051.png" />
     <Content Include="Icons\3051d.png" />
+    <Content Include="ILMerge.exe" />
     <Content Include="Resources\112_Plus_Green_16x16_72.png" />
     <Content Include="Resources\112_RefreshArrow_Green_16x16_72.png" />
     <None Include="fortyone.snk" />
+    <None Include="ILMerge.doc" />
     <None Include="Resources\AutoUpdater.exe" />
     <Content Include="Resources\btn_donateCC_LG.png" />
     <Content Include="Resources\delete.png" />

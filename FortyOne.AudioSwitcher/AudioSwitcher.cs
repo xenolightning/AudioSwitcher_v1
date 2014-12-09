@@ -7,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AudioSwitcher.AudioApi;
@@ -84,6 +83,27 @@ namespace FortyOne.AudioSwitcher
             "http://www.youtube.com/watch?v=fWNaR-rxAic",
             "http://www.youtube.com/watch?v=X2WH8mHJnhM",
             "http://www.youtube.com/watch?v=2Z4m4lnjxkY"
+        };
+
+        private readonly Dictionary<string, string> ICON_MAP = new Dictionary<string, string>()
+        {
+            {"0","3004"},
+            {"1","3010"},
+            {"2","3011"},
+            {"3","3012"},
+            {"4","3013"},
+            {"5","3014"},
+            {"6","3015"},
+            {"7","3016"},
+            {"8","3017"},
+            {"9","3018"},
+            {"10","3019"},
+            {"11","3020"},
+            {"12","3021"},
+            {"13","3030"},
+            {"14","3031"},
+            {"15","3050"},
+            {"16","3051"},
         };
 
         private bool _doubleClickHappened;
@@ -445,6 +465,9 @@ namespace FortyOne.AudioSwitcher
                 if (ConfigurationSettings.PollForUpdates < spinPollMinutes.Minimum)
                     ConfigurationSettings.PollForUpdates = (int)spinPollMinutes.Value;
 
+                if (ConfigurationSettings.PollForUpdates > spinPollMinutes.Maximum)
+                    ConfigurationSettings.PollForUpdates = (int)spinPollMinutes.Value;
+
                 spinPollMinutes.Value = ConfigurationSettings.PollForUpdates;
             }
             else
@@ -626,7 +649,10 @@ namespace FortyOne.AudioSwitcher
                 li.SubItems.Add(new ListViewItem.ListViewSubItem(li, ad.InterfaceName));
                 try
                 {
-                    string imageKey = ad.IconPath.Substring(ad.IconPath.IndexOf("-") + 1);
+                    string imageKey = ad.IconPath.Substring(ad.IconPath.IndexOf(",") + 1).Replace("-", "");
+                    if (ICON_MAP.ContainsKey(imageKey))
+                        imageKey = ICON_MAP[imageKey];
+
                     if (ad.IsDefaultDevice)
                     {
                         li.SubItems.Add(new ListViewItem.ListViewSubItem(li, "Default Device"));
@@ -726,7 +752,10 @@ namespace FortyOne.AudioSwitcher
                 li.SubItems.Add(new ListViewItem.ListViewSubItem(li, ad.InterfaceName));
                 try
                 {
-                    string imageKey = ad.IconPath.Substring(ad.IconPath.IndexOf("-") + 1);
+                    string imageKey = ad.IconPath.Substring(ad.IconPath.IndexOf(",") + 1).Replace("-", "");
+                    if (ICON_MAP.ContainsKey(imageKey))
+                        imageKey = ICON_MAP[imageKey];
+
                     if (ad.IsDefaultDevice)
                     {
                         li.SubItems.Add(new ListViewItem.ListViewSubItem(li, "Default Device"));
