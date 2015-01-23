@@ -17,6 +17,12 @@ namespace FortyOne.AudioSwitcher
         [DllImport("User32.dll")]
         private static extern int SetForegroundWindow(IntPtr hWnd);
 
+        public static ConfigurationSettings Settings
+        {
+            get;
+            private set;
+        }
+
         /// <summary>
         ///     The main entry point for the application.
         /// </summary>
@@ -64,23 +70,46 @@ namespace FortyOne.AudioSwitcher
                 //This shouldn't prevent the application from running
             }
 
-            var settingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName,
-                Resources.ConfigurationFile);
+            string settingsPath = "";
             try
             {
                 //Load/Create default settings
                 //AddDirectorySecurity(Path.GetDirectoryName(settingsPath), WindowsIdentity.GetCurrent().Name, FileSystemRights.CreateFiles,
                 //    AccessControlType.Allow);
 
-                //1. Provide early notification that the user does not have permission to write.
-                FileIOPermission writePermission = new FileIOPermission(FileIOPermissionAccess.Write, settingsPath);
-                if (!SecurityManager.IsGranted(writePermission))
-                {
-                    throw new SecurityException();
-                }
+                var oldSettingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName, Resources.OldConfigFile);
+                settingsPath = oldSettingsPath;
 
-                ConfigurationSettings.SetPath(settingsPath);
-                ConfigurationSettings.CreateDefaults();
+                //1. Provide early notification that the user does not have permission to write.
+                var writePermission = new FileIOPermission(FileIOPermissionAccess.Write, settingsPath);
+                if (!SecurityManager.IsGranted(writePermission))
+                    throw new SecurityException();
+
+                settingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName, Resources.ConfigFile);
+                writePermission = new FileIOPermission(FileIOPermissionAccess.Write, settingsPath);
+                if (!SecurityManager.IsGranted(writePermission))
+                    throw new SecurityException();
+
+                ISettingsSource jsonSource = new JsonSettings();
+                jsonSource.SetFilePath(settingsPath);
+
+                Settings = new ConfigurationSettings(jsonSource);
+
+                if (File.Exists(oldSettingsPath))
+                {
+                    //Load old settings and copy them to json
+                    ISettingsSource iniSource = new IniSettings();
+                    iniSource.SetFilePath(oldSettingsPath);
+
+                    var oldSettings = new ConfigurationSettings(iniSource);
+                    Settings.LoadFrom(oldSettings);
+
+                    File.Delete(oldSettingsPath);
+                }
+                else
+                {
+                    Settings.CreateDefaults();
+                }
             }
             catch
             {

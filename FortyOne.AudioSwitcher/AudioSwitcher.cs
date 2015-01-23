@@ -82,6 +82,7 @@ namespace FortyOne.AudioSwitcher
             "http://www.youtube.com/watch?v=QJO3ROT-A4E",
             "http://www.youtube.com/watch?v=fWNaR-rxAic",
             "http://www.youtube.com/watch?v=X2WH8mHJnhM",
+            "http://www.youtube.com/watch?v=dQw4w9WgXcQ",
             "http://www.youtube.com/watch?v=2Z4m4lnjxkY"
         };
 
@@ -138,17 +139,17 @@ namespace FortyOne.AudioSwitcher
             HotKeyManager.HotKeyPressed += HotKeyManager_HotKeyPressed;
             hotKeyBindingSource.DataSource = HotKeyManager.HotKeys;
 
-            if (ConfigurationSettings.CheckForUpdatesOnStartup || ConfigurationSettings.PollForUpdates >= 1)
+            if (Program.Settings.CheckForUpdatesOnStartup || Program.Settings.PollForUpdates >= 1)
             {
                 Task.Factory.StartNew(CheckForUpdates);
             }
 
-            IDevice dev = AudioDeviceManager.Controller.GetAudioDevice(ConfigurationSettings.StartupPlaybackDeviceID);
+            IDevice dev = AudioDeviceManager.Controller.GetAudioDevice(Program.Settings.StartupPlaybackDeviceID);
 
             if (dev != null)
                 dev.SetAsDefault();
 
-            dev = AudioDeviceManager.Controller.GetAudioDevice(ConfigurationSettings.StartupRecordingDeviceID);
+            dev = AudioDeviceManager.Controller.GetAudioDevice(Program.Settings.StartupRecordingDeviceID);
 
             if (dev != null)
                 dev.SetAsDefault();
@@ -230,7 +231,7 @@ namespace FortyOne.AudioSwitcher
 
         protected override void SetVisibleCore(bool value)
         {
-            if (ConfigurationSettings.StartMinimized && _firstStart)
+            if (Program.Settings.StartMinimized && _firstStart)
             {
                 value = false;
                 _firstStart = false;
@@ -277,8 +278,8 @@ namespace FortyOne.AudioSwitcher
 
         private void chkDisableHotKeys_CheckedChanged(object sender, EventArgs e)
         {
-            ConfigurationSettings.DisableHotKeys = chkDisableHotKeys.Checked;
-            if (ConfigurationSettings.DisableHotKeys)
+            Program.Settings.DisableHotKeys = chkDisableHotKeys.Checked;
+            if (Program.Settings.DisableHotKeys)
             {
                 foreach (HotKey hk in HotKeyManager.HotKeys)
                 {
@@ -314,7 +315,7 @@ namespace FortyOne.AudioSwitcher
             if (_doubleClickHappened)
                 return;
 
-            if (ConfigurationSettings.EnableQuickSwitch)
+            if (Program.Settings.EnableQuickSwitch)
             {
                 if (FavouriteDeviceManager.FavouriteDeviceCount > 0)
                 {
@@ -322,7 +323,7 @@ namespace FortyOne.AudioSwitcher
 
                     AudioDeviceManager.Controller.GetAudioDevice(devid).SetAsDefault();
 
-                    if (ConfigurationSettings.DualSwitchMode)
+                    if (Program.Settings.DualSwitchMode)
                         AudioDeviceManager.Controller.GetAudioDevice(devid).SetAsDefaultCommunications();
                 }
             }
@@ -459,21 +460,21 @@ namespace FortyOne.AudioSwitcher
             {
                 spinPollMinutes.Enabled = true;
 
-                if (ConfigurationSettings.PollForUpdates < 0)
-                    ConfigurationSettings.PollForUpdates = ConfigurationSettings.PollForUpdates * -1;
+                if (Program.Settings.PollForUpdates < 0)
+                    Program.Settings.PollForUpdates = Program.Settings.PollForUpdates * -1;
 
-                if (ConfigurationSettings.PollForUpdates < spinPollMinutes.Minimum)
-                    ConfigurationSettings.PollForUpdates = (int)spinPollMinutes.Value;
+                if (Program.Settings.PollForUpdates < spinPollMinutes.Minimum)
+                    Program.Settings.PollForUpdates = (int)spinPollMinutes.Value;
 
-                if (ConfigurationSettings.PollForUpdates > spinPollMinutes.Maximum)
-                    ConfigurationSettings.PollForUpdates = (int)spinPollMinutes.Value;
+                if (Program.Settings.PollForUpdates > spinPollMinutes.Maximum)
+                    Program.Settings.PollForUpdates = (int)spinPollMinutes.Value;
 
-                spinPollMinutes.Value = ConfigurationSettings.PollForUpdates;
+                spinPollMinutes.Value = Program.Settings.PollForUpdates;
             }
             else
             {
                 spinPollMinutes.Enabled = false;
-                ConfigurationSettings.PollForUpdates = (int)(-1 * spinPollMinutes.Value);
+                Program.Settings.PollForUpdates = (int)(-1 * spinPollMinutes.Value);
             }
         }
 
@@ -490,11 +491,11 @@ namespace FortyOne.AudioSwitcher
 
             UpdateTimer = new Timer();
 
-            ConfigurationSettings.PollForUpdates = (int)spinPollMinutes.Value;
+            Program.Settings.PollForUpdates = (int)spinPollMinutes.Value;
 
-            if (ConfigurationSettings.PollForUpdates > 0)
+            if (Program.Settings.PollForUpdates > 0)
             {
-                UpdateTimer.Interval = (int)TimeSpan.FromHours(ConfigurationSettings.PollForUpdates).TotalMilliseconds;
+                UpdateTimer.Interval = (int)TimeSpan.FromHours(Program.Settings.PollForUpdates).TotalMilliseconds;
                 UpdateTimer.Tick += CheckForUpdates;
                 UpdateTimer.Enabled = true;
                 UpdateTimer.Start();
@@ -511,10 +512,10 @@ namespace FortyOne.AudioSwitcher
             if (SelectedPlaybackDevice == null)
                 return;
 
-            if (ConfigurationSettings.StartupPlaybackDeviceID == SelectedPlaybackDevice.Id)
-                ConfigurationSettings.StartupPlaybackDeviceID = Guid.Empty;
+            if (Program.Settings.StartupPlaybackDeviceID == SelectedPlaybackDevice.Id)
+                Program.Settings.StartupPlaybackDeviceID = Guid.Empty;
             else
-                ConfigurationSettings.StartupPlaybackDeviceID = SelectedPlaybackDevice.Id;
+                Program.Settings.StartupPlaybackDeviceID = SelectedPlaybackDevice.Id;
 
             RefreshPlaybackDropDownButton();
         }
@@ -524,10 +525,10 @@ namespace FortyOne.AudioSwitcher
             if (SelectedRecordingDevice == null)
                 return;
 
-            if (ConfigurationSettings.StartupRecordingDeviceID == SelectedRecordingDevice.Id)
-                ConfigurationSettings.StartupRecordingDeviceID = Guid.Empty;
+            if (Program.Settings.StartupRecordingDeviceID == SelectedRecordingDevice.Id)
+                Program.Settings.StartupRecordingDeviceID = Guid.Empty;
             else
-                ConfigurationSettings.StartupRecordingDeviceID = SelectedRecordingDevice.Id;
+                Program.Settings.StartupRecordingDeviceID = SelectedRecordingDevice.Id;
 
             RefreshRecordingDropDownButton();
         }
@@ -575,27 +576,27 @@ namespace FortyOne.AudioSwitcher
         private void LoadSettings()
         {
             //Fix to stop the registry thing being removed and not re-added
-            ConfigurationSettings.AutoStartWithWindows = ConfigurationSettings.AutoStartWithWindows;
+            Program.Settings.AutoStartWithWindows = Program.Settings.AutoStartWithWindows;
 
-            chkCloseToTray.Checked = ConfigurationSettings.CloseToTray;
-            chkStartMinimized.Checked = ConfigurationSettings.StartMinimized;
-            chkAutoStartWithWindows.Checked = ConfigurationSettings.AutoStartWithWindows;
-            chkDisableHotKeys.Checked = ConfigurationSettings.DisableHotKeys;
-            chkQuickSwitch.Checked = ConfigurationSettings.EnableQuickSwitch;
-            chkDualSwitchMode.Checked = ConfigurationSettings.DualSwitchMode;
-            //chkNotifyUpdates.Checked = ConfigurationSettings.CheckForUpdatesOnStartup;
-            chkPollForUpdates.Checked = ConfigurationSettings.PollForUpdates >= 1;
+            chkCloseToTray.Checked = Program.Settings.CloseToTray;
+            chkStartMinimized.Checked = Program.Settings.StartMinimized;
+            chkAutoStartWithWindows.Checked = Program.Settings.AutoStartWithWindows;
+            chkDisableHotKeys.Checked = Program.Settings.DisableHotKeys;
+            chkQuickSwitch.Checked = Program.Settings.EnableQuickSwitch;
+            chkDualSwitchMode.Checked = Program.Settings.DualSwitchMode;
+            //chkNotifyUpdates.Checked = Program.Settings.CheckForUpdatesOnStartup;
+            chkPollForUpdates.Checked = Program.Settings.PollForUpdates >= 1;
             spinPollMinutes.Enabled = chkPollForUpdates.Checked;
 
-            chkShowDiabledDevices.Checked = ConfigurationSettings.ShowDisabledDevices;
-            chkShowDisconnectedDevices.Checked = ConfigurationSettings.ShowDisconnectedDevices;
+            chkShowDiabledDevices.Checked = Program.Settings.ShowDisabledDevices;
+            chkShowDisconnectedDevices.Checked = Program.Settings.ShowDisconnectedDevices;
 
-            Width = ConfigurationSettings.WindowWidth;
-            Height = ConfigurationSettings.WindowHeight;
+            Width = Program.Settings.WindowWidth;
+            Height = Program.Settings.WindowHeight;
 
             FavouriteDeviceManager.FavouriteDevicesChanged += AudioDeviceManger_FavouriteDevicesChanged;
 
-            var favDeviceStr = ConfigurationSettings.FavouriteDevices.Split(new[] { ",", "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
+            var favDeviceStr = Program.Settings.FavouriteDevices.Split(new[] { ",", "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
 
             FavouriteDeviceManager.LoadFavouriteDevices(Array.ConvertAll(favDeviceStr, x =>
             {
@@ -608,7 +609,7 @@ namespace FortyOne.AudioSwitcher
 
             RegistryKey runKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             //Ensure the registry key is added/removed
-            if (ConfigurationSettings.AutoStartWithWindows)
+            if (Program.Settings.AutoStartWithWindows)
             {
                 if (runKey != null)
                     runKey.SetValue("AudioSwitcher", "\"" + Application.ExecutablePath + "\"");
@@ -619,18 +620,18 @@ namespace FortyOne.AudioSwitcher
                     runKey.DeleteValue("AudioSwitcher");
             }
 
-            if (ConfigurationSettings.ShowDisabledDevices)
+            if (Program.Settings.ShowDisabledDevices)
                 DeviceStateFilter |= DeviceState.Disabled;
 
 
-            if (ConfigurationSettings.ShowDisconnectedDevices)
+            if (Program.Settings.ShowDisconnectedDevices)
                 DeviceStateFilter |= DeviceState.Unplugged;
         }
 
         //Subscribe to favourite devices changing to save it to the configuration file instantly
         private void AudioDeviceManger_FavouriteDevicesChanged(List<Guid> IDs)
         {
-            ConfigurationSettings.FavouriteDevices = "[" + string.Join("],[", IDs.ToArray()) + "]";
+            Program.Settings.FavouriteDevices = "[" + string.Join("],[", IDs.ToArray()) + "]";
         }
 
         #endregion
@@ -918,7 +919,7 @@ namespace FortyOne.AudioSwitcher
             else
                 mnuFavouritePlaybackDevice.CheckState = CheckState.Unchecked;
 
-            if (ConfigurationSettings.StartupPlaybackDeviceID == SelectedPlaybackDevice.Id)
+            if (Program.Settings.StartupPlaybackDeviceID == SelectedPlaybackDevice.Id)
                 mnuSetPlaybackStartupDevice.CheckState = CheckState.Checked;
             else
                 mnuSetPlaybackStartupDevice.CheckState = CheckState.Unchecked;
@@ -958,7 +959,7 @@ namespace FortyOne.AudioSwitcher
             else
                 mnuFavouriteRecordingDevice.CheckState = CheckState.Unchecked;
 
-            if (ConfigurationSettings.StartupRecordingDeviceID == SelectedRecordingDevice.Id)
+            if (Program.Settings.StartupRecordingDeviceID == SelectedRecordingDevice.Id)
                 mnuSetRecordingStartupDevice.CheckState = CheckState.Checked;
             else
                 mnuSetRecordingStartupDevice.CheckState = CheckState.Unchecked;
@@ -1001,8 +1002,8 @@ namespace FortyOne.AudioSwitcher
 
         private void PostPlaybackMenuClick(Guid id)
         {
-            //RefreshPlaybackDevices();
-            //RefreshPlaybackDropDownButton();
+            RefreshPlaybackDevices();
+            RefreshPlaybackDropDownButton();
             for (int i = 0; i < listBoxPlayback.Items.Count; i++)
             {
                 if (((IDevice)listBoxPlayback.Items[i].Tag).Id == id)
@@ -1025,8 +1026,8 @@ namespace FortyOne.AudioSwitcher
 
         private void PostRecordingMenuClick(Guid id)
         {
-            //RefreshRecordingDevices();
-            //RefreshRecordingDropDownButton();
+            RefreshRecordingDevices();
+            RefreshRecordingDropDownButton();
             for (int i = 0; i < listBoxRecording.Items.Count; i++)
             {
                 if (((IDevice)listBoxRecording.Items[i].Tag).Id == id)
@@ -1050,7 +1051,7 @@ namespace FortyOne.AudioSwitcher
         private void HotKeyManager_HotKeyPressed(object sender, EventArgs e)
         {
             //Double check here before handling
-            if (DisableHotKeyFunction || ConfigurationSettings.DisableHotKeys)
+            if (DisableHotKeyFunction || Program.Settings.DisableHotKeys)
                 return;
 
             if (sender is HotKey)
@@ -1062,7 +1063,7 @@ namespace FortyOne.AudioSwitcher
 
                 hk.Device.SetAsDefault();
 
-                if (ConfigurationSettings.DualSwitchMode)
+                if (Program.Settings.DualSwitchMode)
                     hk.Device.SetAsDefaultCommunications();
             }
         }
@@ -1071,7 +1072,7 @@ namespace FortyOne.AudioSwitcher
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                if (ConfigurationSettings.CloseToTray)
+                if (Program.Settings.CloseToTray)
                 {
                     e.Cancel = true;
                     Hide();
@@ -1107,41 +1108,41 @@ namespace FortyOne.AudioSwitcher
                 var dev = (IDevice)e.ClickedItem.Tag;
                 dev.SetAsDefault();
 
-                if (ConfigurationSettings.DualSwitchMode)
+                if (Program.Settings.DualSwitchMode)
                     dev.SetAsDefaultCommunications();
             }
         }
 
         private void chkCloseToTray_CheckedChanged(object sender, EventArgs e)
         {
-            ConfigurationSettings.CloseToTray = chkCloseToTray.Checked;
+            Program.Settings.CloseToTray = chkCloseToTray.Checked;
         }
 
         private void chkAutoStartWithWindows_CheckedChanged(object sender, EventArgs e)
         {
-            ConfigurationSettings.AutoStartWithWindows = chkAutoStartWithWindows.Checked;
+            Program.Settings.AutoStartWithWindows = chkAutoStartWithWindows.Checked;
         }
 
         private void chkStartMinimized_CheckedChanged(object sender, EventArgs e)
         {
-            ConfigurationSettings.StartMinimized = chkStartMinimized.Checked;
+            Program.Settings.StartMinimized = chkStartMinimized.Checked;
         }
 
 
         private void chkQuickSwitch_CheckedChanged(object sender, EventArgs e)
         {
-            ConfigurationSettings.EnableQuickSwitch = chkQuickSwitch.Checked;
+            Program.Settings.EnableQuickSwitch = chkQuickSwitch.Checked;
         }
 
         private void chkDualSwitchMode_CheckedChanged(object sender, EventArgs e)
         {
-            ConfigurationSettings.DualSwitchMode = chkDualSwitchMode.Checked;
+            Program.Settings.DualSwitchMode = chkDualSwitchMode.Checked;
         }
 
         private void AudioSwitcher_ResizeEnd(object sender, EventArgs e)
         {
-            ConfigurationSettings.WindowWidth = Width;
-            ConfigurationSettings.WindowHeight = Height;
+            Program.Settings.WindowWidth = Width;
+            Program.Settings.WindowHeight = Height;
         }
 
         #endregion
@@ -1241,10 +1242,10 @@ namespace FortyOne.AudioSwitcher
 
         private void chkShowDiabledDevices_CheckedChanged(object sender, EventArgs e)
         {
-            ConfigurationSettings.ShowDisabledDevices = chkShowDiabledDevices.Checked;
+            Program.Settings.ShowDisabledDevices = chkShowDiabledDevices.Checked;
 
             //Set, or remove the disconnected filter
-            if (ConfigurationSettings.ShowDisabledDevices)
+            if (Program.Settings.ShowDisabledDevices)
                 DeviceStateFilter |= DeviceState.Disabled;
             else
                 DeviceStateFilter ^= DeviceState.Disabled;
@@ -1261,10 +1262,10 @@ namespace FortyOne.AudioSwitcher
 
         private void chkShowDisconnectedDevices_CheckedChanged(object sender, EventArgs e)
         {
-            ConfigurationSettings.ShowDisconnectedDevices = chkShowDisconnectedDevices.Checked;
+            Program.Settings.ShowDisconnectedDevices = chkShowDisconnectedDevices.Checked;
 
             //Set, or remove the disconnected filter
-            if (ConfigurationSettings.ShowDisconnectedDevices)
+            if (Program.Settings.ShowDisconnectedDevices)
                 DeviceStateFilter |= DeviceState.Unplugged;
             else
                 DeviceStateFilter ^= DeviceState.Unplugged;

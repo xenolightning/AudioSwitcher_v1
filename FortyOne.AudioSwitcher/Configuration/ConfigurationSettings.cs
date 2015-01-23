@@ -1,14 +1,11 @@
 ﻿using System;
-using System.IO;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using FortyOne.AudioSwitcher.Properties;
 using Microsoft.Win32;
 
 namespace FortyOne.AudioSwitcher.Configuration
 {
-    public static class ConfigurationSettings
+    public class ConfigurationSettings
     {
         public const string GUID_REGEX = @"([a-z0-9]{8}[-][a-z0-9]{4}[-][a-z0-9]{4}[-][a-z0-9]{4}[-][a-z0-9]{12})";
 
@@ -29,19 +26,15 @@ namespace FortyOne.AudioSwitcher.Configuration
         public const string SETTING_SHOWDISABLEDDEVICES = "ShowDisabledDevices";
         public const string SETTING_SHOWDISCONNECTEDDDEVICES = "ShowDisconnectedDevices";
 
-        private static string SectionName = "Settings";
-        private static ConfigurationWriter _configWriter;
+        private ISettingsSource _configWriter;
 
-        static ConfigurationSettings()
+        public ConfigurationSettings(ISettingsSource source)
         {
+            _configWriter = source;
+            _configWriter.Load();
         }
 
-        public static void SetPath(string iniPath)
-        {
-            _configWriter = new ConfigurationWriter(iniPath);
-        }
-
-        public static void CreateDefaults()
+        public void CreateDefaults()
         {
             if (!SettingExists(SETTING_CLOSETOTRAY))
                 CloseToTray = false;
@@ -94,215 +87,236 @@ namespace FortyOne.AudioSwitcher.Configuration
                 ShowDisconnectedDevices = false;
         }
 
-        public static Guid StartupRecordingDeviceID
+        public void LoadFrom(ConfigurationSettings otherSettings)
+        {
+            AutoStartWithWindows = otherSettings.AutoStartWithWindows;
+            CheckForUpdatesOnStartup = otherSettings.CheckForUpdatesOnStartup;
+            CloseToTray = otherSettings.CloseToTray;
+            DisableHotKeys = otherSettings.DisableHotKeys;
+            DualSwitchMode = otherSettings.DualSwitchMode;
+            EnableQuickSwitch = otherSettings.EnableQuickSwitch;
+            FavouriteDevices = otherSettings.FavouriteDevices;
+            HotKeys = otherSettings.HotKeys;
+            PollForUpdates = otherSettings.PollForUpdates;
+            ShowDisabledDevices = otherSettings.ShowDisabledDevices;
+            ShowDisconnectedDevices = otherSettings.ShowDisconnectedDevices;
+            StartMinimized = otherSettings.StartMinimized;
+            StartupPlaybackDeviceID = otherSettings.StartupPlaybackDeviceID;
+            StartupRecordingDeviceID = otherSettings.StartupRecordingDeviceID;
+            WindowHeight = otherSettings.WindowHeight;
+            WindowWidth = otherSettings.WindowWidth;
+        }
+
+        public Guid StartupRecordingDeviceID
         {
             get
             {
                 var r = new Regex(GUID_REGEX);
-                foreach(var match in r.Matches(_configWriter.IniReadValue(SectionName, SETTING_STARTUPRECORDINGDEVICE)))
+                foreach (var match in r.Matches(_configWriter.Get(SETTING_STARTUPRECORDINGDEVICE)))
                     return new Guid(match.ToString());
 
                 return Guid.Empty;
             }
-            set { _configWriter.IniWriteValue(SectionName, SETTING_STARTUPRECORDINGDEVICE, value.ToString()); }
+            set { _configWriter.Set(SETTING_STARTUPRECORDINGDEVICE, value.ToString()); }
         }
 
-        public static Guid StartupPlaybackDeviceID
+        public Guid StartupPlaybackDeviceID
         {
             get
             {
                 var r = new Regex(GUID_REGEX);
-                foreach (var match in r.Matches(_configWriter.IniReadValue(SectionName, SETTING_STARTUPPLAYBACKDEVICE)))
+                foreach (var match in r.Matches(_configWriter.Get(SETTING_STARTUPPLAYBACKDEVICE)))
                     return new Guid(match.ToString());
 
                 return Guid.Empty;
             }
-            set { _configWriter.IniWriteValue(SectionName, SETTING_STARTUPPLAYBACKDEVICE, value.ToString()); }
+            set { _configWriter.Set(SETTING_STARTUPPLAYBACKDEVICE, value.ToString()); }
         }
 
-        public static int PollForUpdates
+        public int PollForUpdates
         {
             get
             {
                 return
-                    Convert.ToInt32(_configWriter.IniReadValue(SectionName, SETTING_POLLFORUPDATES));
+                    Convert.ToInt32(_configWriter.Get(SETTING_POLLFORUPDATES));
             }
             set
             {
-                _configWriter.IniWriteValue(SectionName, SETTING_POLLFORUPDATES, value.ToString());
+                _configWriter.Set(SETTING_POLLFORUPDATES, value.ToString());
             }
         }
 
-        public static bool CheckForUpdatesOnStartup
+        public bool CheckForUpdatesOnStartup
         {
             get
             {
                 return
-                    Convert.ToBoolean(_configWriter.IniReadValue(SectionName,
-                        SETTING_CHECKFORUPDATESONSTARTUP));
+                    Convert.ToBoolean(_configWriter.Get(SETTING_CHECKFORUPDATESONSTARTUP));
             }
             set
             {
-                _configWriter.IniWriteValue(SectionName, SETTING_CHECKFORUPDATESONSTARTUP,
+                _configWriter.Set(SETTING_CHECKFORUPDATESONSTARTUP,
                     value.ToString());
             }
         }
 
-        public static bool DualSwitchMode
+        public bool DualSwitchMode
         {
             get
             {
-                return
-                    Convert.ToBoolean(_configWriter.IniReadValue(SectionName,
-                        SETTING_DUALSWITCHMODE));
+                return Convert.ToBoolean(_configWriter.Get(SETTING_DUALSWITCHMODE));
             }
             set
             {
-                _configWriter.IniWriteValue(SectionName, SETTING_DUALSWITCHMODE,
+                _configWriter.Set(SETTING_DUALSWITCHMODE,
                     value.ToString());
             }
         }
 
-        public static bool ShowDisabledDevices
+        public bool ShowDisabledDevices
         {
             get
             {
                 return
-                    Convert.ToBoolean(_configWriter.IniReadValue(SectionName, SETTING_SHOWDISABLEDDEVICES));
+                    Convert.ToBoolean(_configWriter.Get(SETTING_SHOWDISABLEDDEVICES));
             }
             set
             {
-                _configWriter.IniWriteValue(SectionName, SETTING_SHOWDISABLEDDEVICES, value.ToString());
+                _configWriter.Set(SETTING_SHOWDISABLEDDEVICES, value.ToString());
             }
         }
 
-        public static bool ShowDisconnectedDevices
+        public bool ShowDisconnectedDevices
         {
             get
             {
                 return
-                    Convert.ToBoolean(_configWriter.IniReadValue(SectionName, SETTING_SHOWDISCONNECTEDDDEVICES));
+                    Convert.ToBoolean(_configWriter.Get(SETTING_SHOWDISCONNECTEDDDEVICES));
             }
             set
             {
-                _configWriter.IniWriteValue(SectionName, SETTING_SHOWDISCONNECTEDDDEVICES, value.ToString());
+                _configWriter.Set(SETTING_SHOWDISCONNECTEDDDEVICES, value.ToString());
             }
         }
 
-        public static int WindowWidth
+        public int WindowWidth
         {
             get
             {
-                return Convert.ToInt32(_configWriter.IniReadValue(SectionName, SETTING_WINDOWWIDTH));
+                return Convert.ToInt32(_configWriter.Get(SETTING_WINDOWWIDTH));
             }
-            set { _configWriter.IniWriteValue(SectionName, SETTING_WINDOWWIDTH, value.ToString()); }
+            set { _configWriter.Set(SETTING_WINDOWWIDTH, value.ToString()); }
         }
 
-        public static int WindowHeight
+        public int WindowHeight
         {
             get
             {
-                return Convert.ToInt32(_configWriter.IniReadValue(SectionName, SETTING_WINDOWHEIGHT));
+                return Convert.ToInt32(_configWriter.Get(SETTING_WINDOWHEIGHT));
             }
-            set { _configWriter.IniWriteValue(SectionName, SETTING_WINDOWHEIGHT, value.ToString()); }
+            set { _configWriter.Set(SETTING_WINDOWHEIGHT, value.ToString()); }
         }
 
-        public static string FavouriteDevices
+        public string FavouriteDevices
         {
-            get { return _configWriter.IniReadValue(SectionName, SETTING_FAVOURITEDEVICES); }
-            set { _configWriter.IniWriteValue(SectionName, SETTING_FAVOURITEDEVICES, value); }
+            get { return _configWriter.Get(SETTING_FAVOURITEDEVICES); }
+            set { _configWriter.Set(SETTING_FAVOURITEDEVICES, value); }
         }
 
-        public static string HotKeys
+        public string HotKeys
         {
-            get { return _configWriter.IniReadValue(SectionName, SETTING_HOTKEYS); }
-            set { _configWriter.IniWriteValue(SectionName, SETTING_HOTKEYS, value); }
+            get { return _configWriter.Get(SETTING_HOTKEYS); }
+            set { _configWriter.Set(SETTING_HOTKEYS, value); }
         }
 
-        public static bool CloseToTray
+        public bool CloseToTray
         {
             get
             {
-                return Convert.ToBoolean(_configWriter.IniReadValue(SectionName, SETTING_CLOSETOTRAY));
+                return Convert.ToBoolean(_configWriter.Get(SETTING_CLOSETOTRAY));
             }
-            set { _configWriter.IniWriteValue(SectionName, SETTING_CLOSETOTRAY, value.ToString()); }
+            set { _configWriter.Set(SETTING_CLOSETOTRAY, value.ToString()); }
         }
 
-        public static bool StartMinimized
+        public bool StartMinimized
         {
             get
             {
                 return
-                    Convert.ToBoolean(_configWriter.IniReadValue(SectionName, SETTING_STARTMINIMIZED));
+                    Convert.ToBoolean(_configWriter.Get(SETTING_STARTMINIMIZED));
             }
             set
             {
-                _configWriter.IniWriteValue(SectionName, SETTING_STARTMINIMIZED, value.ToString());
+                _configWriter.Set(SETTING_STARTMINIMIZED, value.ToString());
             }
         }
 
-        public static bool AutoStartWithWindows
+        public bool AutoStartWithWindows
         {
             get
             {
                 return
-                    Convert.ToBoolean(_configWriter.IniReadValue(SectionName,
-                        SETTING_AUTOSTARTWITHWINDOWS));
+                    Convert.ToBoolean(_configWriter.Get(SETTING_AUTOSTARTWITHWINDOWS));
             }
             set
             {
-                _configWriter.IniWriteValue(SectionName, SETTING_AUTOSTARTWITHWINDOWS,
-                    value.ToString());
-
-                if (AutoStartWithWindows)
+                try
                 {
-                    RegistryKey add =
-                        Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-                    add.SetValue("AudioSwitcher", "\"" + Application.ExecutablePath + "\"");
+                    if (AutoStartWithWindows)
+                    {
+                        RegistryKey add =
+                            Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                        add.SetValue("AudioSwitcher", "\"" + Application.ExecutablePath + "\"");
+                    }
+                    else
+                    {
+                        RegistryKey key =
+                            Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+                        if (key != null && key.GetValue("AudioSwitcher") != null)
+                            key.DeleteValue("AudioSwitcher");
+                    }
+
+                    _configWriter.Set(SETTING_AUTOSTARTWITHWINDOWS, value.ToString());
                 }
-                else
+                catch
                 {
-                    RegistryKey key =
-                        Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-
-                    if (key != null && key.GetValue("AudioSwitcher") != null)
-                        key.DeleteValue("AudioSwitcher");
+                    _configWriter.Set(SETTING_AUTOSTARTWITHWINDOWS, false.ToString());
                 }
             }
         }
 
-        public static bool DisableHotKeys
+        public bool DisableHotKeys
         {
             get
             {
                 return
-                    Convert.ToBoolean(_configWriter.IniReadValue(SectionName, SETTING_DISABLEHOTKEYS));
+                    Convert.ToBoolean(_configWriter.Get(SETTING_DISABLEHOTKEYS));
             }
             set
             {
-                _configWriter.IniWriteValue(SectionName, SETTING_DISABLEHOTKEYS, value.ToString());
+                _configWriter.Set(SETTING_DISABLEHOTKEYS, value.ToString());
             }
         }
 
-        public static bool EnableQuickSwitch
+        public bool EnableQuickSwitch
         {
             get
             {
                 return
-                    Convert.ToBoolean(_configWriter.IniReadValue(SectionName,
-                        SETTING_ENABLEQUICKSWITCH));
+                    Convert.ToBoolean(_configWriter.Get(SETTING_ENABLEQUICKSWITCH));
             }
             set
             {
-                _configWriter.IniWriteValue(SectionName, SETTING_ENABLEQUICKSWITCH, value.ToString());
+                _configWriter.Set(SETTING_ENABLEQUICKSWITCH, value.ToString());
             }
         }
 
-        public static bool SettingExists(string name)
+        public bool SettingExists(string name)
         {
             try
             {
-                _configWriter.IniReadValue(SectionName, name);
+                _configWriter.Get(name);
                 return true;
             }
             catch

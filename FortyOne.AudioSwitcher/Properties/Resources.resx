@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfigurationFile" xml:space="preserve">
+  <data name="OldConfigFile" xml:space="preserve">
     <value>AudioSwitcher.ini</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
@@ -147,5 +147,8 @@
   </data>
   <data name="AutoUpdater" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AutoUpdater.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ConfigFile" xml:space="preserve">
+    <value>AudioSwitcher.json</value>
   </data>
 </root>

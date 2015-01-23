@@ -146,6 +146,9 @@ namespace FortyOne.AudioSwitcher
 
         private void cmbDevices_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (cmbDevices.SelectedItem == null)
+                return;
+
             hotkey.DeviceId = ((IDevice) cmbDevices.SelectedItem).Id;
         }
 

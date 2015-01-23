@@ -32,7 +32,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
                     hk.UnregsiterHotkey();
                 }
 
-                string hotkeydata = ConfigurationSettings.HotKeys;
+                string hotkeydata = Program.Settings.HotKeys;
                 if (string.IsNullOrEmpty(hotkeydata))
                     return;
 
@@ -69,7 +69,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
             }
             catch
             {
-                ConfigurationSettings.HotKeys = "";
+                Program.Settings.HotKeys = "";
             }
         }
 
@@ -86,7 +86,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
             {
                 hotkeydata += "[" + (int)hk.Key + "," + (int)hk.Modifiers + "," + hk.DeviceId + "]";
             }
-            ConfigurationSettings.HotKeys = hotkeydata;
+            Program.Settings.HotKeys = hotkeydata;
 
             RefreshHotkeys();
         }

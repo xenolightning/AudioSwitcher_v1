@@ -11,13 +11,8 @@ namespace FortyOne.AudioSwitcher.Configuration
         private string _path;
         private readonly object _mutex = new object();
 
-        /// <summary>
-        ///     INIFile Constructor.
-        /// </summary>
-        /// <PARAM name="INIPath"></PARAM>
-        public ConfigurationWriter(string iniPath)
+        public ConfigurationWriter()
         {
-            SetPath(iniPath);
         }
 
         [DllImport("kernel32")]

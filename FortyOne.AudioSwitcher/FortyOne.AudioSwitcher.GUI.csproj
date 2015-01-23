@@ -84,10 +84,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AudioSwitcher.AudioApi.CoreAudio.1.3.2\lib\net40\AudioSwitcher.AudioApi.CoreAudio.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -113,6 +117,9 @@
     <Compile Include="AudioSwitcher.Designer.cs">
       <DependentUpon>AudioSwitcher.cs</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\IniSettings.cs" />
+    <Compile Include="Configuration\ISettingsSource.cs" />
+    <Compile Include="Configuration\JsonSettings.cs" />
     <Compile Include="ExceptionDisplayForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -223,11 +230,9 @@
     <Content Include="Icons\3050d.png" />
     <Content Include="Icons\3051.png" />
     <Content Include="Icons\3051d.png" />
-    <Content Include="ILMerge.exe" />
     <Content Include="Resources\112_Plus_Green_16x16_72.png" />
     <Content Include="Resources\112_RefreshArrow_Green_16x16_72.png" />
     <None Include="fortyone.snk" />
-    <None Include="ILMerge.doc" />
     <None Include="Resources\AutoUpdater.exe" />
     <Content Include="Resources\btn_donateCC_LG.png" />
     <Content Include="Resources\delete.png" />
