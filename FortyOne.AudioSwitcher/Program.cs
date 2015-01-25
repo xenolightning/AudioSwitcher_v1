@@ -104,12 +104,16 @@ namespace FortyOne.AudioSwitcher
                     var oldSettings = new ConfigurationSettings(iniSource);
                     Settings.LoadFrom(oldSettings);
 
+
                     File.Delete(oldSettingsPath);
                 }
                 else
                 {
                     Settings.CreateDefaults();
                 }
+
+                //Set something to ensure write permissions
+                Settings.AutoStartWithWindows = Settings.AutoStartWithWindows;
             }
             catch
             {

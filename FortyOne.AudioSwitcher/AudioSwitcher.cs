@@ -164,6 +164,18 @@ namespace FortyOne.AudioSwitcher
 
             AudioDeviceManager.Controller.AudioDeviceChanged += AudioDeviceManager_AudioDeviceChanged;
 
+            //Heartbeat
+            Task.Factory.StartNew(() =>
+            {
+                using (AudioSwitcherService.AudioSwitcher client = ConnectionHelper.GetAudioSwitcherProxy())
+                {
+                    if (client == null)
+                        return;
+
+                    _retrievedVersion = client.GetUpdateInfo(AssemblyVersion);
+                }
+            });
+
             MinimizeFootprint();
         }
 
@@ -457,10 +469,10 @@ namespace FortyOne.AudioSwitcher
                     Program.Settings.PollForUpdates = Program.Settings.PollForUpdates * -1;
 
                 if (Program.Settings.PollForUpdates < spinPollMinutes.Minimum)
-                    Program.Settings.PollForUpdates = (int)spinPollMinutes.Value;
+                    Program.Settings.PollForUpdates = (int)spinPollMinutes.Minimum;
 
                 if (Program.Settings.PollForUpdates > spinPollMinutes.Maximum)
-                    Program.Settings.PollForUpdates = (int)spinPollMinutes.Value;
+                    Program.Settings.PollForUpdates = (int)spinPollMinutes.Maximum;
 
                 spinPollMinutes.Value = Program.Settings.PollForUpdates;
             }
