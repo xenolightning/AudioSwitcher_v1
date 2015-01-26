@@ -20,21 +20,10 @@ namespace FortyOne.AudioSwitcher
 
         public ExceptionDisplayForm(string title, string text, Exception ex)
         {
-            //
-            // Required for Windows Form Designer support
-            //
             InitializeComponent();
 
             exception = ex;
-
-            //if(Form.ActiveForm != null)
-            //    Form.ActiveForm.Cursor = Cursors.Default;
-
             Text = title;
-            //if (!string.IsNullOrEmpty(text))
-            //    this.txtErrorDetails.Text = text;
-            //else
-            //    this.txtErrorDetails.Text = ex.ToString();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -108,6 +97,12 @@ namespace FortyOne.AudioSwitcher
             {
                 MessageBox.Show("Error Sending bug report. Please try again later");
             }
+        }
+
+        private void ExceptionDisplayForm_Load(object sender, EventArgs e)
+        {
+            if (exception != null)
+                txtError.Text = exception.ToString();
         }
     }
 }

@@ -86,25 +86,18 @@ namespace FortyOne.AudioSwitcher
             "http://www.youtube.com/watch?v=2Z4m4lnjxkY"
         };
 
-        private readonly Dictionary<string, string> ICON_MAP = new Dictionary<string, string>()
+        private readonly Dictionary<DeviceIcon, string> ICON_MAP = new Dictionary<DeviceIcon, string>()
         {
-            {"0","3004"},
-            {"1","3010"},
-            {"2","3011"},
-            {"3","3012"},
-            {"4","3013"},
-            {"5","3014"},
-            {"6","3015"},
-            {"7","3016"},
-            {"8","3017"},
-            {"9","3018"},
-            {"10","3019"},
-            {"11","3020"},
-            {"12","3021"},
-            {"13","3030"},
-            {"14","3031"},
-            {"15","3050"},
-            {"16","3051"},
+            {DeviceIcon.Speakers,"3010"},
+            {DeviceIcon.Headphones,"3011"},
+            {DeviceIcon.LineIn,"3012"},
+            {DeviceIcon.Digital,"3013"},
+            {DeviceIcon.DesktopMicrophone,"3014"},
+            {DeviceIcon.Headset,"3015"},
+            {DeviceIcon.Phone,"3016"},
+            {DeviceIcon.Monitor,"3017"},
+            {DeviceIcon.StereoMix,"3018"},
+            {DeviceIcon.Kinect,"3020"}
         };
 
         private bool _doubleClickHappened;
@@ -170,6 +163,18 @@ namespace FortyOne.AudioSwitcher
 #endif
 
             AudioDeviceManager.Controller.AudioDeviceChanged += AudioDeviceManager_AudioDeviceChanged;
+
+            //Heartbeat
+            Task.Factory.StartNew(() =>
+            {
+                using (AudioSwitcherService.AudioSwitcher client = ConnectionHelper.GetAudioSwitcherProxy())
+                {
+                    if (client == null)
+                        return;
+
+                    _retrievedVersion = client.GetUpdateInfo(AssemblyVersion);
+                }
+            });
 
             MinimizeFootprint();
         }
@@ -464,10 +469,10 @@ namespace FortyOne.AudioSwitcher
                     Program.Settings.PollForUpdates = Program.Settings.PollForUpdates * -1;
 
                 if (Program.Settings.PollForUpdates < spinPollMinutes.Minimum)
-                    Program.Settings.PollForUpdates = (int)spinPollMinutes.Value;
+                    Program.Settings.PollForUpdates = (int)spinPollMinutes.Minimum;
 
                 if (Program.Settings.PollForUpdates > spinPollMinutes.Maximum)
-                    Program.Settings.PollForUpdates = (int)spinPollMinutes.Value;
+                    Program.Settings.PollForUpdates = (int)spinPollMinutes.Maximum;
 
                 spinPollMinutes.Value = Program.Settings.PollForUpdates;
             }
@@ -650,9 +655,9 @@ namespace FortyOne.AudioSwitcher
                 li.SubItems.Add(new ListViewItem.ListViewSubItem(li, ad.InterfaceName));
                 try
                 {
-                    string imageKey = ad.IconPath.Substring(ad.IconPath.IndexOf(",") + 1).Replace("-", "");
-                    if (ICON_MAP.ContainsKey(imageKey))
-                        imageKey = ICON_MAP[imageKey];
+                    string imageKey = "";
+                    if (ICON_MAP.ContainsKey(ad.Icon))
+                        imageKey = ICON_MAP[ad.Icon];
 
                     if (ad.IsDefaultDevice)
                     {
@@ -753,9 +758,9 @@ namespace FortyOne.AudioSwitcher
                 li.SubItems.Add(new ListViewItem.ListViewSubItem(li, ad.InterfaceName));
                 try
                 {
-                    string imageKey = ad.IconPath.Substring(ad.IconPath.IndexOf(",") + 1).Replace("-", "");
-                    if (ICON_MAP.ContainsKey(imageKey))
-                        imageKey = ICON_MAP[imageKey];
+                    string imageKey = "";
+                    if (ICON_MAP.ContainsKey(ad.Icon))
+                        imageKey = ICON_MAP[ad.Icon];
 
                     if (ad.IsDefaultDevice)
                     {
