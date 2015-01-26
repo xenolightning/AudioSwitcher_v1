@@ -21,8 +21,15 @@ namespace FortyOne.AudioSwitcher.Configuration
 
         public void Load()
         {
-            if (File.Exists(_path))
-                _settingsObject = JObject.Parse(File.ReadAllText(_path));
+            try
+            {
+                if (File.Exists(_path))
+                    _settingsObject = JObject.Parse(File.ReadAllText(_path));
+            }
+            catch
+            {
+                _settingsObject = new JObject();
+            }
         }
 
         public void Save()
