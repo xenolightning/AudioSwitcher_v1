@@ -2,10 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Security;
-using System.Security.AccessControl;
 using System.Security.Permissions;
-using System.Security.Principal;
 using System.Windows.Forms;
 using FortyOne.AudioSwitcher.Configuration;
 using FortyOne.AudioSwitcher.Properties;
@@ -74,9 +71,6 @@ namespace FortyOne.AudioSwitcher
             try
             {
                 //Load/Create default settings
-                //AddDirectorySecurity(Path.GetDirectoryName(settingsPath), WindowsIdentity.GetCurrent().Name, FileSystemRights.CreateFiles,
-                //    AccessControlType.Allow);
-
                 string oldSettingsPath = "";
 
                 oldSettingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName, Resources.OldConfigFile);
@@ -88,10 +82,6 @@ namespace FortyOne.AudioSwitcher
 
                 settingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName, Resources.ConfigFile);
                 new FileIOPermission(FileIOPermissionAccess.Write, settingsPath).Demand();
-
-                //settingsPath = Path.Combine(Application.CommonAppDataPath, Resources.ConfigFile);
-                //writePermission = new FileIOPermission(FileIOPermissionAccess.Write, settingsPath);
-                //if (new FileIOPermission(FileIOPermissionAccess.Write, settingsPath).IsUnrestricted())
 
                 //Open and close the settings file to ensure write access
                 File.Open(settingsPath, FileMode.OpenOrCreate, FileAccess.ReadWrite).Close();
