@@ -9,16 +9,16 @@ namespace FortyOne.AudioSwitcher
 {
     public static class AudioDeviceManager
     {
+        private static CoreAudioController _instance;
 
-        static AudioDeviceManager()
-        {
-            Controller = new CoreAudioController();
-        }
 
         public static AudioController Controller
         {
-            get;
-            private set;
+            get
+            {
+                //Lazy initialization of Controller
+                return _instance ?? (_instance = new CoreAudioController());
+            }
         }
 
     }
