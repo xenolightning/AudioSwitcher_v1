@@ -77,18 +77,24 @@ namespace FortyOne.AudioSwitcher
                 //AddDirectorySecurity(Path.GetDirectoryName(settingsPath), WindowsIdentity.GetCurrent().Name, FileSystemRights.CreateFiles,
                 //    AccessControlType.Allow);
 
-                var oldSettingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName, Resources.OldConfigFile);
+                string oldSettingsPath = "";
+
+                oldSettingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName, Resources.OldConfigFile);
                 settingsPath = oldSettingsPath;
 
                 //1. Provide early notification that the user does not have permission to write.
                 var writePermission = new FileIOPermission(FileIOPermissionAccess.Write, settingsPath);
-                if (!SecurityManager.IsGranted(writePermission))
-                    throw new SecurityException();
+                new FileIOPermission(FileIOPermissionAccess.Write, settingsPath).Demand();
 
                 settingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName, Resources.ConfigFile);
-                writePermission = new FileIOPermission(FileIOPermissionAccess.Write, settingsPath);
-                if (!SecurityManager.IsGranted(writePermission))
-                    throw new SecurityException();
+                new FileIOPermission(FileIOPermissionAccess.Write, settingsPath).Demand();
+
+                //settingsPath = Path.Combine(Application.CommonAppDataPath, Resources.ConfigFile);
+                //writePermission = new FileIOPermission(FileIOPermissionAccess.Write, settingsPath);
+                //if (new FileIOPermission(FileIOPermissionAccess.Write, settingsPath).IsUnrestricted())
+
+                //Open and close the settings file to ensure write access
+                File.Open(settingsPath, FileMode.OpenOrCreate, FileAccess.ReadWrite).Close();
 
                 ISettingsSource jsonSource = new JsonSettings();
                 jsonSource.SetFilePath(settingsPath);
@@ -97,14 +103,23 @@ namespace FortyOne.AudioSwitcher
 
                 if (File.Exists(oldSettingsPath))
                 {
-                    //Load old settings and copy them to json
-                    ISettingsSource iniSource = new IniSettings();
-                    iniSource.SetFilePath(oldSettingsPath);
+                    try
+                    {
+                        //Load old settings and copy them to json
+                        ISettingsSource iniSource = new IniSettings();
+                        iniSource.SetFilePath(oldSettingsPath);
 
-                    var oldSettings = new ConfigurationSettings(iniSource);
-                    Settings.LoadFrom(oldSettings);
-
-                    File.Delete(oldSettingsPath);
+                        var oldSettings = new ConfigurationSettings(iniSource);
+                        Settings.LoadFrom(oldSettings);
+                    }
+                    catch
+                    {
+                        Settings.CreateDefaults();
+                    }
+                    finally
+                    {
+                        File.Delete(oldSettingsPath);
+                    }
                 }
                 else
                 {
@@ -114,7 +129,8 @@ namespace FortyOne.AudioSwitcher
             catch
             {
                 MessageBox.Show(
-                    String.Format("Error creating setting file [{0}]. Make sure you have write access to this file.\r\nOr try running as Administrator", settingsPath));
+                    String.Format("Error creating/reading settings file [{0}]. Make sure you have read/write access to this file.\r\nOr try running as Administrator", settingsPath),
+                    "Setings File - Cannot Access");
                 return;
             }
 
