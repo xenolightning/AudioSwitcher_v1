@@ -1296,5 +1296,15 @@ namespace FortyOne.AudioSwitcher
             if (SelectedRecordingDevice == null)
                 e.Cancel = true;
         }
+
+        private void linkIssues_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/xenolightning/AudioSwitcher_v1/issues");
+        }
+
+        private void linkWiki_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/xenolightning/AudioSwitcher_v1/wiki");
+        }
     }
 }
