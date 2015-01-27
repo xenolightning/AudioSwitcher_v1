@@ -893,12 +893,19 @@ namespace FortyOne.AudioSwitcher
 
             //The maximum length of the noitfy text is 64 characters. This keeps it under
 
-            var notifyText = AudioDeviceManager.Controller.DefaultPlaybackDevice.FullName;
+            if (AudioDeviceManager.Controller.DefaultPlaybackDevice != null)
+            {
+                var notifyText = AudioDeviceManager.Controller.DefaultPlaybackDevice.FullName;
 
-            if (notifyText.Length >= 64)
-                notifyText = notifyText.Substring(0, 60) + "...";
+                if (notifyText.Length >= 64)
+                    notifyText = notifyText.Substring(0, 60) + "...";
 
-            notifyIcon1.Text = notifyText;
+                notifyIcon1.Text = notifyText;
+            }
+            else
+            {
+                notifyIcon1.Text = "Audio Switcher";
+            }
         }
 
         private void RefreshPlaybackDropDownButton()
