@@ -899,6 +899,9 @@ namespace FortyOne.AudioSwitcher
                 notifyText = notifyText.Substring(0, 60) + "...";
 
             notifyIcon1.Text = notifyText;
+
+            var imageKey = ICON_MAP[AudioDeviceManager.Controller.DefaultPlaybackDevice.Icon];
+            notifyIcon1.Icon = Icon.FromHandle(((Bitmap)imageList1.Images[imageList1.Images.IndexOfKey(imageKey + ".png")]).GetHicon());
         }
 
         private void RefreshPlaybackDropDownButton()
