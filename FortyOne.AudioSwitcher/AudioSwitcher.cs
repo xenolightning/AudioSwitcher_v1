@@ -106,6 +106,7 @@ namespace FortyOne.AudioSwitcher
         private AudioSwitcherVersionInfo _retrievedVersion;
 
         private DeviceState DeviceStateFilter = DeviceState.Active;
+        public Icon OriginalTrayIcon;
 
         public AudioSwitcher()
         {
@@ -123,6 +124,8 @@ namespace FortyOne.AudioSwitcher
 
             lblVersion.Text = "Version: " + AssemblyVersion;
             lblCopyright.Text = AssemblyCopyright;
+            
+            OriginalTrayIcon = new Icon(notifyIcon1.Icon, 32, 32);
 
             LoadSettings();
 
@@ -595,6 +598,7 @@ namespace FortyOne.AudioSwitcher
 
             chkShowDiabledDevices.Checked = Program.Settings.ShowDisabledDevices;
             chkShowDisconnectedDevices.Checked = Program.Settings.ShowDisconnectedDevices;
+            chkShowDPDeviceIconInTray.Checked = Program.Settings.ShowDPDeviceIconInTray;
 
             Width = Program.Settings.WindowWidth;
             Height = Program.Settings.WindowHeight;
@@ -899,9 +903,21 @@ namespace FortyOne.AudioSwitcher
                 notifyText = notifyText.Substring(0, 60) + "...";
 
             notifyIcon1.Text = notifyText;
-
-            var imageKey = ICON_MAP[AudioDeviceManager.Controller.DefaultPlaybackDevice.Icon];
-            notifyIcon1.Icon = Icon.FromHandle(((Bitmap)imageList1.Images[imageList1.Images.IndexOfKey(imageKey + ".png")]).GetHicon());
+            RefreshTrayIcon();
+           }
+        
+        private void RefreshTrayIcon()
+        {
+            
+            if (Program.Settings.ShowDPDeviceIconInTray)
+            {
+                var imageKey = ICON_MAP[AudioDeviceManager.Controller.DefaultPlaybackDevice.Icon];
+                notifyIcon1.Icon = Icon.FromHandle(((Bitmap)imageList1.Images[imageList1.Images.IndexOfKey(imageKey + ".png")]).GetHicon());
+            }
+            else
+            {
+                notifyIcon1.Icon = OriginalTrayIcon;
+            }
         }
 
         private void RefreshPlaybackDropDownButton()
@@ -1308,6 +1324,12 @@ namespace FortyOne.AudioSwitcher
         private void linkWiki_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("https://github.com/xenolightning/AudioSwitcher_v1/wiki");
+        }
+
+        private void chkShowDPDeviceIconInTray_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.Settings.ShowDPDeviceIconInTray = chkShowDPDeviceIconInTray.Checked;
+            RefreshTrayIcon();
         }
     }
 }

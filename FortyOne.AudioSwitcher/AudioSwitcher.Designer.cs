@@ -81,6 +81,9 @@
             this.hotKeyStringDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hotKeyBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tapAbout = new System.Windows.Forms.TabPage();
+            this.linkWiki = new System.Windows.Forms.LinkLabel();
+            this.linkIssues = new System.Windows.Forms.LinkLabel();
+            this.label3 = new System.Windows.Forms.Label();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -99,9 +102,7 @@
             this.memoryCleaner = new System.Windows.Forms.Timer(this.components);
             this.UpdateTimer = new System.Windows.Forms.Timer(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.label3 = new System.Windows.Forms.Label();
-            this.linkIssues = new System.Windows.Forms.LinkLabel();
-            this.linkWiki = new System.Windows.Forms.LinkLabel();
+            this.chkShowDPDeviceIconInTray = new System.Windows.Forms.CheckBox();
             this.playbackStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tapPlayback.SuspendLayout();
@@ -417,6 +418,7 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.chkShowDPDeviceIconInTray);
             this.groupBox1.Controls.Add(this.chkShowDisconnectedDevices);
             this.groupBox1.Controls.Add(this.chkShowDiabledDevices);
             this.groupBox1.Controls.Add(this.chkDualSwitchMode);
@@ -693,6 +695,37 @@
             this.tapAbout.Text = "About";
             this.tapAbout.UseVisualStyleBackColor = true;
             // 
+            // linkWiki
+            // 
+            this.linkWiki.BackColor = System.Drawing.Color.Transparent;
+            this.linkWiki.Location = new System.Drawing.Point(172, 134);
+            this.linkWiki.Name = "linkWiki";
+            this.linkWiki.Size = new System.Drawing.Size(28, 14);
+            this.linkWiki.TabIndex = 18;
+            this.linkWiki.TabStop = true;
+            this.linkWiki.Text = "wiki";
+            this.linkWiki.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkWiki_LinkClicked);
+            // 
+            // linkIssues
+            // 
+            this.linkIssues.BackColor = System.Drawing.Color.Transparent;
+            this.linkIssues.Location = new System.Drawing.Point(125, 134);
+            this.linkIssues.Name = "linkIssues";
+            this.linkIssues.Size = new System.Drawing.Size(36, 14);
+            this.linkIssues.TabIndex = 17;
+            this.linkIssues.TabStop = true;
+            this.linkIssues.Text = "issues";
+            this.linkIssues.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkIssues_LinkClicked);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(14, 134);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(167, 13);
+            this.label3.TabIndex = 16;
+            this.label3.Text = "Having trouble? Check            or  ";
+            // 
             // linkLabel2
             // 
             this.linkLabel2.AutoSize = true;
@@ -850,36 +883,16 @@
             // 
             this.UpdateTimer.Interval = 60000;
             // 
-            // label3
+            // chkShowDPDeviceIconInTray
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 134);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(167, 13);
-            this.label3.TabIndex = 16;
-            this.label3.Text = "Having trouble? Check            or  ";
-            // 
-            // linkIssues
-            // 
-            this.linkIssues.BackColor = System.Drawing.Color.Transparent;
-            this.linkIssues.Location = new System.Drawing.Point(125, 134);
-            this.linkIssues.Name = "linkIssues";
-            this.linkIssues.Size = new System.Drawing.Size(36, 14);
-            this.linkIssues.TabIndex = 17;
-            this.linkIssues.TabStop = true;
-            this.linkIssues.Text = "issues";
-            this.linkIssues.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkIssues_LinkClicked);
-            // 
-            // linkWiki
-            // 
-            this.linkWiki.BackColor = System.Drawing.Color.Transparent;
-            this.linkWiki.Location = new System.Drawing.Point(172, 134);
-            this.linkWiki.Name = "linkWiki";
-            this.linkWiki.Size = new System.Drawing.Size(28, 14);
-            this.linkWiki.TabIndex = 18;
-            this.linkWiki.TabStop = true;
-            this.linkWiki.Text = "wiki";
-            this.linkWiki.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkWiki_LinkClicked);
+            this.chkShowDPDeviceIconInTray.AutoSize = true;
+            this.chkShowDPDeviceIconInTray.Location = new System.Drawing.Point(12, 226);
+            this.chkShowDPDeviceIconInTray.Name = "chkShowDPDeviceIconInTray";
+            this.chkShowDPDeviceIconInTray.Size = new System.Drawing.Size(228, 17);
+            this.chkShowDPDeviceIconInTray.TabIndex = 14;
+            this.chkShowDPDeviceIconInTray.Text = "Show Default Playback Device icon in tray";
+            this.chkShowDPDeviceIconInTray.UseVisualStyleBackColor = true;
+            this.chkShowDPDeviceIconInTray.CheckedChanged += new System.EventHandler(this.chkShowDPDeviceIconInTray_CheckedChanged);
             // 
             // AudioSwitcher
             // 
@@ -996,6 +1009,7 @@
         private System.Windows.Forms.LinkLabel linkWiki;
         private System.Windows.Forms.LinkLabel linkIssues;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox chkShowDPDeviceIconInTray;
     }
 }
 

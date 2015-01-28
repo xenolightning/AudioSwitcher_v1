@@ -25,6 +25,7 @@ namespace FortyOne.AudioSwitcher.Configuration
         public const string SETTING_DUALSWITCHMODE = "DualSwitchMode";
         public const string SETTING_SHOWDISABLEDDEVICES = "ShowDisabledDevices";
         public const string SETTING_SHOWDISCONNECTEDDDEVICES = "ShowDisconnectedDevices";
+        public const string SETTING_SHOWDPDEVICEIICONINTRAY = "ShowDPDeviceIconInTray";
 
         private ISettingsSource _configWriter;
 
@@ -85,6 +86,9 @@ namespace FortyOne.AudioSwitcher.Configuration
 
             if (!SettingExists(SETTING_SHOWDISCONNECTEDDDEVICES))
                 ShowDisconnectedDevices = false;
+
+            if (!SettingExists(SETTING_SHOWDPDEVICEIICONINTRAY))
+                ShowDPDeviceIconInTray = false;
         }
 
         public void LoadFrom(ConfigurationSettings otherSettings)
@@ -196,6 +200,19 @@ namespace FortyOne.AudioSwitcher.Configuration
             set
             {
                 _configWriter.Set(SETTING_SHOWDISCONNECTEDDDEVICES, value.ToString());
+            }
+        }
+
+        public bool ShowDPDeviceIconInTray
+        {
+            get
+            {
+                return
+                    Convert.ToBoolean(_configWriter.Get(SETTING_SHOWDPDEVICEIICONINTRAY));
+            }
+            set
+            {
+                _configWriter.Set(SETTING_SHOWDPDEVICEIICONINTRAY, value.ToString());
             }
         }
 
