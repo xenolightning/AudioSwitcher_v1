@@ -71,7 +71,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>fortyone.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>fortyone.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
