@@ -61,6 +61,7 @@
             this.tapSettings = new System.Windows.Forms.TabPage();
             this.btnCheckUpdate = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkShowDPDeviceIconInTray = new System.Windows.Forms.CheckBox();
             this.chkShowDisconnectedDevices = new System.Windows.Forms.CheckBox();
             this.chkShowDiabledDevices = new System.Windows.Forms.CheckBox();
             this.chkDualSwitchMode = new System.Windows.Forms.CheckBox();
@@ -102,7 +103,6 @@
             this.memoryCleaner = new System.Windows.Forms.Timer(this.components);
             this.UpdateTimer = new System.Windows.Forms.Timer(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.chkShowDPDeviceIconInTray = new System.Windows.Forms.CheckBox();
             this.playbackStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tapPlayback.SuspendLayout();
@@ -435,6 +435,17 @@
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
+            // 
+            // chkShowDPDeviceIconInTray
+            // 
+            this.chkShowDPDeviceIconInTray.AutoSize = true;
+            this.chkShowDPDeviceIconInTray.Location = new System.Drawing.Point(12, 226);
+            this.chkShowDPDeviceIconInTray.Name = "chkShowDPDeviceIconInTray";
+            this.chkShowDPDeviceIconInTray.Size = new System.Drawing.Size(228, 17);
+            this.chkShowDPDeviceIconInTray.TabIndex = 14;
+            this.chkShowDPDeviceIconInTray.Text = "Show Default Playback Device icon in tray";
+            this.chkShowDPDeviceIconInTray.UseVisualStyleBackColor = true;
+            this.chkShowDPDeviceIconInTray.CheckedChanged += new System.EventHandler(this.chkShowDPDeviceIconInTray_CheckedChanged);
             // 
             // chkShowDisconnectedDevices
             // 
@@ -882,17 +893,6 @@
             // UpdateTimer
             // 
             this.UpdateTimer.Interval = 60000;
-            // 
-            // chkShowDPDeviceIconInTray
-            // 
-            this.chkShowDPDeviceIconInTray.AutoSize = true;
-            this.chkShowDPDeviceIconInTray.Location = new System.Drawing.Point(12, 226);
-            this.chkShowDPDeviceIconInTray.Name = "chkShowDPDeviceIconInTray";
-            this.chkShowDPDeviceIconInTray.Size = new System.Drawing.Size(228, 17);
-            this.chkShowDPDeviceIconInTray.TabIndex = 14;
-            this.chkShowDPDeviceIconInTray.Text = "Show Default Playback Device icon in tray";
-            this.chkShowDPDeviceIconInTray.UseVisualStyleBackColor = true;
-            this.chkShowDPDeviceIconInTray.CheckedChanged += new System.EventHandler(this.chkShowDPDeviceIconInTray_CheckedChanged);
             // 
             // AudioSwitcher
             // 

@@ -105,8 +105,8 @@ namespace FortyOne.AudioSwitcher
         private string _input = "";
         private AudioSwitcherVersionInfo _retrievedVersion;
 
-        private DeviceState DeviceStateFilter = DeviceState.Active;
-        public Icon OriginalTrayIcon;
+        private DeviceState _deviceStateFilter = DeviceState.Active;
+        private readonly Icon _originalTrayIcon;
 
         public AudioSwitcher()
         {
@@ -124,8 +124,8 @@ namespace FortyOne.AudioSwitcher
 
             lblVersion.Text = "Version: " + AssemblyVersion;
             lblCopyright.Text = AssemblyCopyright;
-            
-            OriginalTrayIcon = new Icon(notifyIcon1.Icon, 32, 32);
+
+            _originalTrayIcon = new Icon(notifyIcon1.Icon, 32, 32);
 
             LoadSettings();
 
@@ -630,11 +630,11 @@ namespace FortyOne.AudioSwitcher
             }
 
             if (Program.Settings.ShowDisabledDevices)
-                DeviceStateFilter |= DeviceState.Disabled;
+                _deviceStateFilter |= DeviceState.Disabled;
 
 
             if (Program.Settings.ShowDisconnectedDevices)
-                DeviceStateFilter |= DeviceState.Unplugged;
+                _deviceStateFilter |= DeviceState.Unplugged;
         }
 
         //Subscribe to favourite devices changing to save it to the configuration file instantly
@@ -651,7 +651,7 @@ namespace FortyOne.AudioSwitcher
         {
             listBoxPlayback.SuspendLayout();
             listBoxPlayback.Items.Clear();
-            foreach (IDevice ad in AudioDeviceManager.Controller.GetPlaybackDevices(DeviceStateFilter).ToList())
+            foreach (IDevice ad in AudioDeviceManager.Controller.GetPlaybackDevices(_deviceStateFilter).ToList())
             {
                 var li = new ListViewItem();
                 li.Text = ad.Name;
@@ -754,7 +754,7 @@ namespace FortyOne.AudioSwitcher
             listBoxRecording.SuspendLayout();
             listBoxRecording.Items.Clear();
 
-            foreach (IDevice ad in AudioDeviceManager.Controller.GetCaptureDevices(DeviceStateFilter).ToList())
+            foreach (IDevice ad in AudioDeviceManager.Controller.GetCaptureDevices(_deviceStateFilter).ToList())
             {
                 var li = new ListViewItem();
                 li.Text = ad.Name;
@@ -859,7 +859,7 @@ namespace FortyOne.AudioSwitcher
             int playbackCount = 0;
             int recordingCount = 0;
 
-            IEnumerable<IDevice> list = AudioDeviceManager.Controller.GetPlaybackDevices(DeviceStateFilter).ToList();
+            IEnumerable<IDevice> list = AudioDeviceManager.Controller.GetPlaybackDevices(_deviceStateFilter).ToList();
 
             foreach (IDevice ad in list)
             {
@@ -876,7 +876,7 @@ namespace FortyOne.AudioSwitcher
             if (playbackCount > 0)
                 notifyIconStrip.Items.Add(new ToolStripSeparator());
 
-            list = AudioDeviceManager.Controller.GetCaptureDevices(DeviceStateFilter).ToList();
+            list = AudioDeviceManager.Controller.GetCaptureDevices(_deviceStateFilter).ToList();
 
             foreach (IDevice ad in list)
             {
@@ -903,7 +903,7 @@ namespace FortyOne.AudioSwitcher
 
                 if (notifyText.Length >= 64)
                     notifyText = notifyText.Substring(0, 60) + "...";
-                    notifyIcon1.Text = notifyText;
+                notifyIcon1.Text = notifyText;
             }
             else
             {
@@ -911,19 +911,18 @@ namespace FortyOne.AudioSwitcher
             }
 
             RefreshTrayIcon();
-           }
-        
+        }
+
         private void RefreshTrayIcon()
         {
-            
-            if (Program.Settings.ShowDPDeviceIconInTray)
+            if (Program.Settings.ShowDPDeviceIconInTray && AudioDeviceManager.Controller.DefaultPlaybackDevice != null)
             {
                 var imageKey = ICON_MAP[AudioDeviceManager.Controller.DefaultPlaybackDevice.Icon];
                 notifyIcon1.Icon = Icon.FromHandle(((Bitmap)imageList1.Images[imageList1.Images.IndexOfKey(imageKey + ".png")]).GetHicon());
             }
             else
             {
-                notifyIcon1.Icon = OriginalTrayIcon;
+                notifyIcon1.Icon = _originalTrayIcon;
             }
         }
 
@@ -1277,9 +1276,9 @@ namespace FortyOne.AudioSwitcher
 
             //Set, or remove the disconnected filter
             if (Program.Settings.ShowDisabledDevices)
-                DeviceStateFilter |= DeviceState.Disabled;
+                _deviceStateFilter |= DeviceState.Disabled;
             else
-                DeviceStateFilter ^= DeviceState.Disabled;
+                _deviceStateFilter ^= DeviceState.Disabled;
 
             if (this.IsHandleCreated)
             {
@@ -1297,9 +1296,9 @@ namespace FortyOne.AudioSwitcher
 
             //Set, or remove the disconnected filter
             if (Program.Settings.ShowDisconnectedDevices)
-                DeviceStateFilter |= DeviceState.Unplugged;
+                _deviceStateFilter |= DeviceState.Unplugged;
             else
-                DeviceStateFilter ^= DeviceState.Unplugged;
+                _deviceStateFilter ^= DeviceState.Unplugged;
 
             if (this.IsHandleCreated)
             {
