@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -279,11 +280,11 @@ namespace FortyOne.AudioSwitcher.Configuration
             {
                 try
                 {
-                    if (AutoStartWithWindows)
+                    if (value)
                     {
                         RegistryKey add =
                             Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-                        add.SetValue("AudioSwitcher", "\"" + Application.ExecutablePath + "\"");
+                        add.SetValue("AudioSwitcher", "\"" + Assembly.GetEntryAssembly().Location + "\"");
                     }
                     else
                     {

@@ -98,6 +98,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.notifyIconStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryCleaner = new System.Windows.Forms.Timer(this.components);
@@ -868,20 +869,28 @@
             // 
             this.notifyIconStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripSeparator1,
+            this.preferencesToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.notifyIconStrip.Name = "notifyIconStrip";
-            this.notifyIconStrip.Size = new System.Drawing.Size(93, 32);
+            this.notifyIconStrip.Size = new System.Drawing.Size(168, 54);
             this.notifyIconStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.notifyIconStrip_ItemClicked);
+            // 
+            // preferencesToolStripMenuItem
+            // 
+            this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.preferencesToolStripMenuItem.Text = "Open Preferences";
+            this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(89, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(164, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -1010,6 +1019,7 @@
         private System.Windows.Forms.LinkLabel linkIssues;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox chkShowDPDeviceIconInTray;
+        private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
     }
 }
 

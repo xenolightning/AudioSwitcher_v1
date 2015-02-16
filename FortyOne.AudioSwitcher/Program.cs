@@ -111,10 +111,8 @@ namespace FortyOne.AudioSwitcher
                         File.Delete(oldSettingsPath);
                     }
                 }
-                else
-                {
-                    Settings.CreateDefaults();
-                }
+                
+                Settings.CreateDefaults();
             }
             catch
             {

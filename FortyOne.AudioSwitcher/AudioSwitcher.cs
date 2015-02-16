@@ -97,7 +97,8 @@ namespace FortyOne.AudioSwitcher
             {DeviceIcon.Phone,"3016"},
             {DeviceIcon.Monitor,"3017"},
             {DeviceIcon.StereoMix,"3018"},
-            {DeviceIcon.Kinect,"3020"}
+            {DeviceIcon.Kinect,"3020"},
+            {DeviceIcon.Unknown,"3020"}
         };
 
         private bool _doubleClickHappened;
@@ -150,6 +151,20 @@ namespace FortyOne.AudioSwitcher
             if (dev != null)
                 dev.SetAsDefault();
 
+            AudioDeviceManager.Controller.AudioDeviceChanged += AudioDeviceManager_AudioDeviceChanged;
+
+            //Heartbeat
+            Task.Factory.StartNew(() =>
+            {
+                using (AudioSwitcherService.AudioSwitcher client = ConnectionHelper.GetAudioSwitcherProxy())
+                {
+                    if (client == null)
+                        return;
+
+                    client.GetUpdateInfo(AssemblyVersion);
+                }
+            });
+
             MinimizeFootprint();
         }
 
@@ -164,20 +179,6 @@ namespace FortyOne.AudioSwitcher
 #if DEBUG
             btnTestError.Visible = true;
 #endif
-
-            AudioDeviceManager.Controller.AudioDeviceChanged += AudioDeviceManager_AudioDeviceChanged;
-
-            //Heartbeat
-            Task.Factory.StartNew(() =>
-            {
-                using (AudioSwitcherService.AudioSwitcher client = ConnectionHelper.GetAudioSwitcherProxy())
-                {
-                    if (client == null)
-                        return;
-
-                    _retrievedVersion = client.GetUpdateInfo(AssemblyVersion);
-                }
-            });
 
             MinimizeFootprint();
         }
@@ -195,6 +196,7 @@ namespace FortyOne.AudioSwitcher
                 BeginInvoke(refreshAction);
             else
                 refreshAction();
+
         }
 
         private void CheckForUpdates()
@@ -243,6 +245,7 @@ namespace FortyOne.AudioSwitcher
             {
                 value = false;
                 _firstStart = false;
+                if (!this.IsHandleCreated) CreateHandle();
             }
 
             base.SetVisibleCore(value);
@@ -414,6 +417,9 @@ namespace FortyOne.AudioSwitcher
 
         private void setHotKeyToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            if (SelectedPlaybackDevice == null)
+                return;
+
             HotKeyForm hkf;
             foreach (HotKey hk in HotKeyManager.HotKeys)
             {
@@ -433,6 +439,9 @@ namespace FortyOne.AudioSwitcher
 
         private void setHotKeyToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (SelectedRecordingDevice == null)
+                return;
+
             HotKeyForm hkf = null;
             foreach (HotKey hk in HotKeyManager.HotKeys)
             {
@@ -893,6 +902,7 @@ namespace FortyOne.AudioSwitcher
             if (recordingCount > 0)
                 notifyIconStrip.Items.Add(new ToolStripSeparator());
 
+            notifyIconStrip.Items.Add(preferencesToolStripMenuItem);
             notifyIconStrip.Items.Add(exitToolStripMenuItem);
 
             //The maximum length of the noitfy text is 64 characters. This keeps it under
@@ -1336,6 +1346,11 @@ namespace FortyOne.AudioSwitcher
         {
             Program.Settings.ShowDPDeviceIconInTray = chkShowDPDeviceIconInTray.Checked;
             RefreshTrayIcon();
+        }
+
+        private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Show();
         }
     }
 }
