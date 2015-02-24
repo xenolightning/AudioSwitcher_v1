@@ -625,18 +625,8 @@ namespace FortyOne.AudioSwitcher
                 return Guid.Empty;
             }));
 
-            RegistryKey runKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            //Ensure the registry key is added/removed
-            if (Program.Settings.AutoStartWithWindows)
-            {
-                if (runKey != null)
-                    runKey.SetValue("AudioSwitcher", "\"" + Application.ExecutablePath + "\"");
-            }
-            else
-            {
-                if (runKey != null && runKey.GetValue("AudioSwitcher") != null)
-                    runKey.DeleteValue("AudioSwitcher");
-            }
+            //Ensure to delete the key if it's not set
+            Program.Settings.AutoStartWithWindows = Program.Settings.AutoStartWithWindows;
 
             if (Program.Settings.ShowDisabledDevices)
                 _deviceStateFilter |= DeviceState.Disabled;
