@@ -659,6 +659,8 @@ namespace FortyOne.AudioSwitcher
                 try
                 {
                     string imageKey = "";
+                    string imageMod = "";
+
                     if (ICON_MAP.ContainsKey(ad.Icon))
                         imageKey = ICON_MAP[ad.Icon];
 
@@ -682,17 +684,15 @@ namespace FortyOne.AudioSwitcher
                                 break;
                             case DeviceState.Disabled:
                                 caption = "Disabled";
-                                imageKey += "d";
+                                imageMod += "d";
                                 break;
                             case DeviceState.Unplugged:
                                 caption = "Not Plugged In";
-                                imageKey += "d";
+                                imageMod += "d";
                                 break;
                         }
                         li.SubItems.Add(new ListViewItem.ListViewSubItem(li, caption));
                     }
-
-                    string imageMod = "";
 
                     if (ad.State != DeviceState.Unplugged && FavouriteDeviceManager.IsFavouriteDevice(ad))
                     {
@@ -714,6 +714,10 @@ namespace FortyOne.AudioSwitcher
                         imageList1.Images.IndexOfKey(imageKey + ".png") >= 0)
                     {
                         Image i = imageList1.Images[imageList1.Images.IndexOfKey(imageKey + ".png")];
+
+                        if (ad.State == DeviceState.Disabled || ad.State == DeviceState.Unplugged)
+                            i = ImageHelper.SetImageOpacity(i, 0.5F);
+
                         Graphics g = Graphics.FromImage(i);
                         if (imageMod.Contains("f"))
                         {
@@ -747,6 +751,7 @@ namespace FortyOne.AudioSwitcher
             RefreshNotifyIconItems();
             listBoxPlayback.ResumeLayout();
         }
+
 
         private void RefreshRecordingDevices()
         {

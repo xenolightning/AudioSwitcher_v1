@@ -98,8 +98,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.notifyIconStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryCleaner = new System.Windows.Forms.Timer(this.components);
             this.UpdateTimer = new System.Windows.Forms.Timer(this.components);
@@ -256,40 +256,17 @@
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "3004.png");
-            this.imageList1.Images.SetKeyName(1, "3004d.png");
-            this.imageList1.Images.SetKeyName(2, "3010.png");
-            this.imageList1.Images.SetKeyName(3, "3010d.png");
-            this.imageList1.Images.SetKeyName(4, "3011.png");
-            this.imageList1.Images.SetKeyName(5, "3011d.png");
-            this.imageList1.Images.SetKeyName(6, "3012.png");
-            this.imageList1.Images.SetKeyName(7, "3012d.png");
-            this.imageList1.Images.SetKeyName(8, "3013.png");
-            this.imageList1.Images.SetKeyName(9, "3013d.png");
-            this.imageList1.Images.SetKeyName(10, "3014.png");
-            this.imageList1.Images.SetKeyName(11, "3014d.png");
-            this.imageList1.Images.SetKeyName(12, "3015.png");
-            this.imageList1.Images.SetKeyName(13, "3015d.png");
-            this.imageList1.Images.SetKeyName(14, "3016.png");
-            this.imageList1.Images.SetKeyName(15, "3016d.png");
-            this.imageList1.Images.SetKeyName(16, "3017.png");
-            this.imageList1.Images.SetKeyName(17, "3017d.png");
-            this.imageList1.Images.SetKeyName(18, "3018.png");
-            this.imageList1.Images.SetKeyName(19, "3018d.png");
-            this.imageList1.Images.SetKeyName(20, "3019.png");
-            this.imageList1.Images.SetKeyName(21, "3019d.png");
-            this.imageList1.Images.SetKeyName(22, "3020.png");
-            this.imageList1.Images.SetKeyName(23, "3020d.png");
-            this.imageList1.Images.SetKeyName(24, "3021.png");
-            this.imageList1.Images.SetKeyName(25, "3021d.png");
-            this.imageList1.Images.SetKeyName(26, "3030.png");
-            this.imageList1.Images.SetKeyName(27, "3030d.png");
-            this.imageList1.Images.SetKeyName(28, "3031.png");
-            this.imageList1.Images.SetKeyName(29, "3031d.png");
-            this.imageList1.Images.SetKeyName(30, "3050.png");
-            this.imageList1.Images.SetKeyName(31, "3050d.png");
-            this.imageList1.Images.SetKeyName(32, "3051.png");
-            this.imageList1.Images.SetKeyName(33, "3051d.png");
-            this.imageList1.Images.SetKeyName(34, "unknown.png");
+            this.imageList1.Images.SetKeyName(1, "3010.png");
+            this.imageList1.Images.SetKeyName(2, "3011.png");
+            this.imageList1.Images.SetKeyName(3, "3012.png");
+            this.imageList1.Images.SetKeyName(4, "3013.png");
+            this.imageList1.Images.SetKeyName(5, "3014.png");
+            this.imageList1.Images.SetKeyName(6, "3015.png");
+            this.imageList1.Images.SetKeyName(7, "3016.png");
+            this.imageList1.Images.SetKeyName(8, "3017.png");
+            this.imageList1.Images.SetKeyName(9, "3018.png");
+            this.imageList1.Images.SetKeyName(10, "3019.png");
+            this.imageList1.Images.SetKeyName(11, "3020.png");
             // 
             // tapRecording
             // 
@@ -875,17 +852,17 @@
             this.notifyIconStrip.Size = new System.Drawing.Size(168, 54);
             this.notifyIconStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.notifyIconStrip_ItemClicked);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(164, 6);
+            // 
             // preferencesToolStripMenuItem
             // 
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
             this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.preferencesToolStripMenuItem.Text = "Open Preferences";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(164, 6);
             // 
             // exitToolStripMenuItem
             // 

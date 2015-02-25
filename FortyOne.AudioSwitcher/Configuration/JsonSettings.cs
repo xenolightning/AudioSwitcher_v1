@@ -1,17 +1,16 @@
-﻿using System;
+﻿using fastJSON;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace FortyOne.AudioSwitcher.Configuration
 {
     public class JsonSettings : ISettingsSource
     {
         private readonly object _mutex = new object();
-        private JObject _settingsObject = new JObject();
+        private IDictionary<string, string> _settingsObject;
         private string _path;
 
         public void SetFilePath(string path)
@@ -24,25 +23,25 @@ namespace FortyOne.AudioSwitcher.Configuration
             try
             {
                 if (File.Exists(_path))
-                    _settingsObject = JObject.Parse(File.ReadAllText(_path));
+                    _settingsObject = fastJSON.JSON.ToObject<Dictionary<string, string>>(File.ReadAllText(_path));
             }
             catch
             {
-                _settingsObject = new JObject();
+                _settingsObject = new Dictionary<string, string>();
             }
         }
 
         public void Save()
         {
-            var json = JsonConvert.SerializeObject(_settingsObject, Formatting.Indented);
-            File.WriteAllText(_path, json);
+            //Write the result to file
+            File.WriteAllText(_path, JSON.Beautify(JSON.ToJSON(_settingsObject)));
         }
 
         public string Get(string key)
         {
             lock (_mutex)
             {
-                return _settingsObject[key].Value<string>();
+                return _settingsObject[key].ToString();
             }
         }
 

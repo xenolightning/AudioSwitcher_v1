@@ -12,7 +12,7 @@
     <AssemblyName>AudioSwitcher</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
@@ -84,8 +84,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AudioSwitcher.AudioApi.CoreAudio.1.5.3\lib\net40\AudioSwitcher.AudioApi.CoreAudio.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="fastjson">
+      <HintPath>..\packages\fastJSON.2.1.10.0\lib\net40\fastjson.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -128,6 +128,7 @@
     </Compile>
     <Compile Include="FavouriteDeviceManager.cs" />
     <Compile Include="Helpers\ConnectionHelper.cs" />
+    <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="HotKeyData\Enums.cs" />
     <Compile Include="HotKeyData\HotKey.cs" />
     <Compile Include="HotKeyData\HotKeyManager.cs" />
@@ -195,29 +196,17 @@
     <Content Include="Icons\c.png" />
     <Content Include="Icons\e.png" />
     <Content Include="Icons\f.png" />
-    <Content Include="Icons\unknown.png" />
     <Content Include="Icons\3004.png" />
-    <Content Include="Icons\3004d.png" />
     <Content Include="Icons\3010.png" />
-    <Content Include="Icons\3010d.png" />
     <Content Include="Icons\3011.png" />
-    <Content Include="Icons\3011d.png" />
     <Content Include="Icons\3012.png" />
-    <Content Include="Icons\3012d.png" />
     <Content Include="Icons\3013.png" />
-    <Content Include="Icons\3013d.png" />
     <Content Include="Icons\3014.png" />
-    <Content Include="Icons\3014d.png" />
     <Content Include="Icons\3015.png" />
-    <Content Include="Icons\3015d.png" />
     <Content Include="Icons\3016.png" />
-    <Content Include="Icons\3016d.png" />
     <Content Include="Icons\3017.png" />
-    <Content Include="Icons\3017d.png" />
     <Content Include="Icons\3018.png" />
-    <Content Include="Icons\3018d.png" />
     <Content Include="Icons\3020.png" />
-    <Content Include="Icons\3020d.png" />
     <Content Include="Resources\112_Plus_Green_16x16_72.png" />
     <Content Include="Resources\112_RefreshArrow_Green_16x16_72.png" />
     <None Include="fortyone.snk" />
@@ -288,8 +277,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>CALL $(SolutionDir)packaging\libz-post.bat $(SolutionDir)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

@@ -202,7 +202,6 @@ namespace FortyOne.AudioSwitcher.HotKeyData
         {
             private const int WM_HOTKEY = 0x312;
             private static readonly IntPtr HWND_MESSAGE = new IntPtr(-3);
-            private bool IGNORE_HOTKEY = false;
 
             public HotKeyNativeWindow(HotKey owner)
             {
