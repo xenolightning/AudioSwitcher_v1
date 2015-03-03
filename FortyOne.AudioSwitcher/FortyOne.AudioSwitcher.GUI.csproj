@@ -277,7 +277,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>CALL $(SolutionDir)packaging\libz-post.bat $(SolutionDir)</PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName) == Release CALL $(SolutionDir)packaging\libz-post.bat $(SolutionDir)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

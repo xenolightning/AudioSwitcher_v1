@@ -112,6 +112,7 @@ namespace FortyOne.AudioSwitcher
         public AudioSwitcher()
         {
             InitializeComponent();
+            this.HandleCreated += AudioSwitcher_HandleCreated;
 
             try
             {
@@ -130,12 +131,27 @@ namespace FortyOne.AudioSwitcher
 
             LoadSettings();
 
-            RefreshRecordingDevices();
-            RefreshPlaybackDevices();
+            AudioDeviceManager.Controller.AudioDeviceChanged += AudioDeviceManager_AudioDeviceChanged;
 
             HotKeyManager.HotKeyPressed += HotKeyManager_HotKeyPressed;
             hotKeyBindingSource.DataSource = HotKeyManager.HotKeys;
 
+            MinimizeFootprint();
+        }
+
+        void AudioSwitcher_HandleCreated(object sender, EventArgs e)
+        {
+            BeginInvoke(new Action(Form_Load));
+        }
+
+        [DllImport("user32.dll")]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("uxtheme.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
+        private static extern int SetWindowTheme(IntPtr hwnd, string pszSubAppName, string pszSubIdList);
+
+        private void Form_Load()
+        {
             if (Program.Settings.CheckForUpdatesOnStartup || Program.Settings.PollForUpdates >= 1)
             {
                 Task.Factory.StartNew(CheckForUpdates);
@@ -151,8 +167,6 @@ namespace FortyOne.AudioSwitcher
             if (dev != null)
                 dev.SetAsDefault();
 
-            AudioDeviceManager.Controller.AudioDeviceChanged += AudioDeviceManager_AudioDeviceChanged;
-
             //Heartbeat
             Task.Factory.StartNew(() =>
             {
@@ -165,22 +179,20 @@ namespace FortyOne.AudioSwitcher
                 }
             });
 
-            MinimizeFootprint();
+            BeginInvoke((Action)(() =>
+            {
+                RefreshPlaybackDevices();
+                RefreshRecordingDevices();
+            }));
         }
-
-        [DllImport("user32.dll")]
-        public static extern bool SetForegroundWindow(IntPtr hWnd);
-
-        [DllImport("uxtheme.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
-        private static extern int SetWindowTheme(IntPtr hwnd, string pszSubAppName, string pszSubIdList);
 
         private void Form1_Load(object sender, EventArgs e)
         {
 #if DEBUG
             btnTestError.Visible = true;
 #endif
-
             MinimizeFootprint();
+
         }
 
         private void AudioDeviceManager_AudioDeviceChanged(object sender, AudioDeviceChangedEventArgs e)
@@ -767,6 +779,7 @@ namespace FortyOne.AudioSwitcher
                 try
                 {
                     string imageKey = "";
+                    string imageMod = "";
                     if (ICON_MAP.ContainsKey(ad.Icon))
                         imageKey = ICON_MAP[ad.Icon];
 
@@ -790,17 +803,16 @@ namespace FortyOne.AudioSwitcher
                                 break;
                             case DeviceState.Disabled:
                                 caption = "Disabled";
-                                imageKey += "d";
+                                imageMod += "d";
                                 break;
                             case DeviceState.Unplugged:
                                 caption = "Not Plugged In";
-                                imageKey += "d";
+                                imageMod += "d";
                                 break;
                         }
                         li.SubItems.Add(new ListViewItem.ListViewSubItem(li, caption));
                     }
 
-                    string imageMod = "";
 
                     if (ad.State != DeviceState.Unplugged && FavouriteDeviceManager.IsFavouriteDevice(ad))
                     {
@@ -821,7 +833,11 @@ namespace FortyOne.AudioSwitcher
                     if (!imageList1.Images.Keys.Contains(imageToGen) &&
                         imageList1.Images.IndexOfKey(imageKey + ".png") >= 0)
                     {
-                        Image i = imageList1.Images[imageList1.Images.IndexOfKey(imageKey + ".png")];
+                        Image i = imageList1.Images[imageKey + ".png"];
+
+                        if (ad.State.HasFlag(DeviceState.Disabled) || ad.State == DeviceState.Unplugged)
+                            i = ImageHelper.SetImageOpacity(i, 0.5F);
+
                         Graphics g = Graphics.FromImage(i);
                         if (imageMod.Contains("f"))
                         {
