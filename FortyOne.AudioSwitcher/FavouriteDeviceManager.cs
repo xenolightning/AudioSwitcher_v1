@@ -39,7 +39,7 @@ namespace FortyOne.AudioSwitcher
 
             foreach (Guid s in favouriteIDs)
             {
-                if (AudioDeviceManager.Controller.GetAudioDevice(s) != null)
+                if (AudioDeviceManager.Controller.GetDevice(s) != null)
                     AddFavouriteDevice(s);
                 else
                     RemoveFavouriteDevice(s);
@@ -95,7 +95,7 @@ namespace FortyOne.AudioSwitcher
             while (true)
             {
                 var id = FavouriteDeviceIDs[i%FavouriteDeviceIDs.Count];
-                IDevice ad = AudioDeviceManager.Controller.GetAudioDevice(id);
+                IDevice ad = AudioDeviceManager.Controller.GetDevice(id);
 
                 i++;
 

@@ -157,12 +157,12 @@ namespace FortyOne.AudioSwitcher
                 Task.Factory.StartNew(CheckForUpdates);
             }
 
-            IDevice dev = AudioDeviceManager.Controller.GetAudioDevice(Program.Settings.StartupPlaybackDeviceID);
+            IDevice dev = AudioDeviceManager.Controller.GetDevice(Program.Settings.StartupPlaybackDeviceID);
 
             if (dev != null)
                 dev.SetAsDefault();
 
-            dev = AudioDeviceManager.Controller.GetAudioDevice(Program.Settings.StartupRecordingDeviceID);
+            dev = AudioDeviceManager.Controller.GetDevice(Program.Settings.StartupRecordingDeviceID);
 
             if (dev != null)
                 dev.SetAsDefault();
@@ -344,10 +344,10 @@ namespace FortyOne.AudioSwitcher
                 {
                     Guid devid = FavouriteDeviceManager.GetNextFavouritePlaybackDevice();
 
-                    AudioDeviceManager.Controller.GetAudioDevice(devid).SetAsDefault();
+                    AudioDeviceManager.Controller.GetDevice(devid).SetAsDefault();
 
                     if (Program.Settings.DualSwitchMode)
-                        AudioDeviceManager.Controller.GetAudioDevice(devid).SetAsDefaultCommunications();
+                        AudioDeviceManager.Controller.GetDevice(devid).SetAsDefaultCommunications();
                 }
             }
             else

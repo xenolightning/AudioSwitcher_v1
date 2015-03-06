@@ -37,7 +37,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
 
         public IDevice Device
         {
-            get { return AudioDeviceManager.Controller.GetAudioDevice(DeviceId); }
+            get { return AudioDeviceManager.Controller.GetDevice(DeviceId); }
         }
 
         public string DeviceName
