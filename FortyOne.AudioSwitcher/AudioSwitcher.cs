@@ -725,25 +725,27 @@ namespace FortyOne.AudioSwitcher
                     if (!imageList1.Images.Keys.Contains(imageToGen) &&
                         imageList1.Images.IndexOfKey(imageKey + ".png") >= 0)
                     {
-                        Image i = imageList1.Images[imageList1.Images.IndexOfKey(imageKey + ".png")];
+                        Image i = (Image)imageList1.Images[imageKey + ".png"].Clone();
 
                         if (ad.State == DeviceState.Disabled || ad.State == DeviceState.Unplugged)
                             i = ImageHelper.SetImageOpacity(i, 0.5F);
 
-                        Graphics g = Graphics.FromImage(i);
-                        if (imageMod.Contains("f"))
+                        using (Graphics g = Graphics.FromImage(i))
                         {
-                            g.DrawImage(Resources.f, i.Width - 12, 0);
-                        }
+                            if (imageMod.Contains("f"))
+                            {
+                                g.DrawImage(Resources.f, i.Width - 12, 0);
+                            }
 
-                        if (imageMod.Contains("c"))
-                        {
-                            g.DrawImage(Resources.c, i.Width - 12, i.Height - 12);
-                        }
+                            if (imageMod.Contains("c"))
+                            {
+                                g.DrawImage(Resources.c, i.Width - 12, i.Height - 12);
+                            }
 
-                        if (imageMod.Contains("e"))
-                        {
-                            g.DrawImage(Resources.e, i.Width - 12, i.Height - 12);
+                            if (imageMod.Contains("e"))
+                            {
+                                g.DrawImage(Resources.e, i.Width - 12, i.Height - 12);
+                            }
                         }
 
                         imageList1.Images.Add(imageToGen, i);
@@ -833,25 +835,27 @@ namespace FortyOne.AudioSwitcher
                     if (!imageList1.Images.Keys.Contains(imageToGen) &&
                         imageList1.Images.IndexOfKey(imageKey + ".png") >= 0)
                     {
-                        Image i = imageList1.Images[imageKey + ".png"];
+                        Image i = (Image)imageList1.Images[imageKey + ".png"].Clone();
 
                         if (ad.State.HasFlag(DeviceState.Disabled) || ad.State == DeviceState.Unplugged)
                             i = ImageHelper.SetImageOpacity(i, 0.5F);
 
-                        Graphics g = Graphics.FromImage(i);
-                        if (imageMod.Contains("f"))
+                        using (Graphics g = Graphics.FromImage(i))
                         {
-                            g.DrawImage(Resources.f, i.Width - 12, 0);
-                        }
+                            if (imageMod.Contains("f"))
+                            {
+                                g.DrawImage(Resources.f, i.Width - 12, 0);
+                            }
 
-                        if (imageMod.Contains("c"))
-                        {
-                            g.DrawImage(Resources.c, i.Width - 12, i.Height - 12);
-                        }
+                            if (imageMod.Contains("c"))
+                            {
+                                g.DrawImage(Resources.c, i.Width - 12, i.Height - 12);
+                            }
 
-                        if (imageMod.Contains("e"))
-                        {
-                            g.DrawImage(Resources.e, i.Width - 12, i.Height - 12);
+                            if (imageMod.Contains("e"))
+                            {
+                                g.DrawImage(Resources.e, i.Width - 12, i.Height - 12);
+                            }
                         }
 
                         imageList1.Images.Add(imageToGen, i);
