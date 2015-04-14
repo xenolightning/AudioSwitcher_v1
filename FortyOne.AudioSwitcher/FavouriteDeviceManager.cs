@@ -99,7 +99,7 @@ namespace FortyOne.AudioSwitcher
 
                 i++;
 
-                if (ad == null)
+                if (ad == null || ad.State != DeviceState.Active)
                     continue;
 
                 if (ad.DeviceType == DeviceType.Playback)
