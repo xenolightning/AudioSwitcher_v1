@@ -1224,7 +1224,7 @@ namespace FortyOne.AudioSwitcher
 
         public string AssemblyVersion
         {
-            get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); }
+            get { return FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion; }
         }
 
         public string AssemblyDescription
