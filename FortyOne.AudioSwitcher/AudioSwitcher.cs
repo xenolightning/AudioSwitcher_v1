@@ -589,12 +589,24 @@ namespace FortyOne.AudioSwitcher
             }
         }
 
+        private void btnClearAllHotKeys_Click(object sender, EventArgs e)
+        {
+            HotKeyManager.ClearAll();
+            RefreshGrid();
+
+            MessageBox.Show("Hotkeys Cleared!");
+        }
+
         private void RefreshGrid()
         {
             if (InvokeRequired)
+            {
                 Invoke(new Action(RefreshGrid));
-            else
-                dataGridView1.Refresh();
+                return;
+            }
+            
+            hotKeyBindingSource.ResetBindings(false);
+            dataGridView1.Refresh();
         }
 
         #endregion

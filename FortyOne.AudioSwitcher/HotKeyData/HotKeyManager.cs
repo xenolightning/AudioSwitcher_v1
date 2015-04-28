@@ -23,6 +23,18 @@ namespace FortyOne.AudioSwitcher.HotKeyData
 
         public static event EventHandler HotKeyPressed;
 
+        public static void ClearAll()
+        {
+            foreach (HotKey hk in _hotkeys)
+            {
+                hk.UnregsiterHotkey();
+            }
+
+            Program.Settings.HotKeys = "";
+            LoadHotKeys();
+            RefreshHotkeys();
+        }
+
         public static void LoadHotKeys()
         {
             try
@@ -32,13 +44,16 @@ namespace FortyOne.AudioSwitcher.HotKeyData
                     hk.UnregsiterHotkey();
                 }
 
+                _hotkeys.Clear();
+
                 string hotkeydata = Program.Settings.HotKeys;
                 if (string.IsNullOrEmpty(hotkeydata))
+                {
+                    RefreshHotkeys();
                     return;
+                }
 
                 string[] entries = hotkeydata.Split(new[] { ",", "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
-
-                _hotkeys.Clear();
 
                 for (int i = 0; i < entries.Length; i++)
                 {
@@ -128,7 +143,6 @@ namespace FortyOne.AudioSwitcher.HotKeyData
             foreach (HotKey k in _hotkeys)
             {
                 if (hk.Key == k.Key && hk.Modifiers == k.Modifiers)
-                    //((int)hk.Key & (int)hk.Modifiers) == ((int)k.Key & (int)k.Modifiers))
                     return true;
             }
             return false;
