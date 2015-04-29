@@ -1,9 +1,6 @@
-﻿using fastJSON;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
+using fastJSON;
 
 namespace FortyOne.AudioSwitcher.Configuration
 {
@@ -20,14 +17,17 @@ namespace FortyOne.AudioSwitcher.Configuration
 
         public void Load()
         {
-            try
+            lock (_mutex)
             {
-                if (File.Exists(_path))
-                    _settingsObject = fastJSON.JSON.ToObject<Dictionary<string, string>>(File.ReadAllText(_path));
-            }
-            catch
-            {
-                _settingsObject = new Dictionary<string, string>();
+                try
+                {
+                    if (File.Exists(_path))
+                        _settingsObject = JSON.ToObject<Dictionary<string, string>>(File.ReadAllText(_path));
+                }
+                catch
+                {
+                    _settingsObject = new Dictionary<string, string>();
+                }
             }
         }
 
@@ -41,7 +41,7 @@ namespace FortyOne.AudioSwitcher.Configuration
         {
             lock (_mutex)
             {
-                return _settingsObject[key].ToString();
+                return _settingsObject[key];
             }
         }
 

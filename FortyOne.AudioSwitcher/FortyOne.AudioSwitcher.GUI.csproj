@@ -76,15 +76,17 @@
   <PropertyGroup />
   <PropertyGroup />
   <ItemGroup>
-    <Reference Include="AudioSwitcher.AudioApi">
-      <HintPath>..\packages\AudioSwitcher.AudioApi.2.2.4\lib\portable-net4+wp7+win8\AudioSwitcher.AudioApi.dll</HintPath>
+    <Reference Include="AudioSwitcher.AudioApi, Version=2.2.5.168, Culture=neutral, PublicKeyToken=fda5729e2db3a64f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AudioSwitcher.AudioApi.2.2.5\lib\portable-net4+wp7+win8\AudioSwitcher.AudioApi.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="AudioSwitcher.AudioApi.CoreAudio">
-      <HintPath>..\packages\AudioSwitcher.AudioApi.CoreAudio.1.6.4\lib\net40\AudioSwitcher.AudioApi.CoreAudio.dll</HintPath>
+    <Reference Include="AudioSwitcher.AudioApi.CoreAudio, Version=1.6.5.168, Culture=neutral, PublicKeyToken=fda5729e2db3a64f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AudioSwitcher.AudioApi.CoreAudio.1.6.5\lib\net40\AudioSwitcher.AudioApi.CoreAudio.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="fastjson, Version=2.1.0.0, Culture=neutral, PublicKeyToken=6b75a806b86095cd, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\fastJSON.2.1.11.0\lib\net40\fastjson.dll</HintPath>
+      <HintPath>..\packages\fastJSON.2.1.12.0\lib\net40\fastjson.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

@@ -15,7 +15,6 @@ using FortyOne.AudioSwitcher.Configuration;
 using FortyOne.AudioSwitcher.Helpers;
 using FortyOne.AudioSwitcher.HotKeyData;
 using FortyOne.AudioSwitcher.Properties;
-using Microsoft.Win32;
 using Timer = System.Windows.Forms.Timer;
 
 namespace FortyOne.AudioSwitcher
@@ -590,12 +589,24 @@ namespace FortyOne.AudioSwitcher
             }
         }
 
+        private void btnClearAllHotKeys_Click(object sender, EventArgs e)
+        {
+            HotKeyManager.ClearAll();
+            RefreshGrid();
+
+            MessageBox.Show("Hotkeys Cleared!");
+        }
+
         private void RefreshGrid()
         {
             if (InvokeRequired)
+            {
                 Invoke(new Action(RefreshGrid));
-            else
-                dataGridView1.Refresh();
+                return;
+            }
+            
+            hotKeyBindingSource.ResetBindings(false);
+            dataGridView1.Refresh();
         }
 
         #endregion
@@ -938,12 +949,23 @@ namespace FortyOne.AudioSwitcher
             RefreshTrayIcon();
         }
 
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        extern static bool DestroyIcon(IntPtr handle);
+
         private void RefreshTrayIcon()
         {
             if (Program.Settings.ShowDPDeviceIconInTray && AudioDeviceManager.Controller.DefaultPlaybackDevice != null)
             {
                 var imageKey = ICON_MAP[AudioDeviceManager.Controller.DefaultPlaybackDevice.Icon];
-                notifyIcon1.Icon = Icon.FromHandle(((Bitmap)imageList1.Images[imageList1.Images.IndexOfKey(imageKey + ".png")]).GetHicon());
+                var image = (Bitmap)imageList1.Images[imageList1.Images.IndexOfKey(imageKey + ".png")];
+                var iconHandle = image.GetHicon();
+                var icon = Icon.FromHandle(iconHandle);
+
+                notifyIcon1.Icon = icon;
+
+                //Clean up the old icon, because WinForms creates a copy of the icon for use
+                icon.Dispose();
+                DestroyIcon(iconHandle);
             }
             else
             {
@@ -1224,7 +1246,7 @@ namespace FortyOne.AudioSwitcher
 
         public string AssemblyVersion
         {
-            get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); }
+            get { return FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion; }
         }
 
         public string AssemblyDescription
