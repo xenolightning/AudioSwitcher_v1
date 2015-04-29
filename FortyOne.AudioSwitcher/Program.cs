@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Windows.Forms;
+using AudioSwitcher.AudioApi.CoreAudio;
 using FortyOne.AudioSwitcher.Configuration;
 using FortyOne.AudioSwitcher.Properties;
 
@@ -111,7 +112,7 @@ namespace FortyOne.AudioSwitcher
                         File.Delete(oldSettingsPath);
                     }
                 }
-                
+
                 Settings.CreateDefaults();
             }
             catch
