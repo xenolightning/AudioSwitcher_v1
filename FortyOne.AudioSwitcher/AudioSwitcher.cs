@@ -194,7 +194,7 @@ namespace FortyOne.AudioSwitcher
 
         }
 
-        private void AudioDeviceManager_AudioDeviceChanged(object sender, AudioDeviceChangedEventArgs e)
+        private void AudioDeviceManager_AudioDeviceChanged(object sender, DeviceChangedEventArgs e)
         {
             Action refreshAction = () => { };
 

@@ -38,5 +38,5 @@ using System.Resources;
 
 [assembly: AssemblyVersion("1.6.5.0")]
 [assembly: AssemblyFileVersion("1.6.5.0")]
-[assembly: AssemblyInformationalVersion("1.6.5.0")]
+[assembly: AssemblyInformationalVersion("1.6.5.1 RC1")]
 [assembly: NeutralResourcesLanguageAttribute("")]
