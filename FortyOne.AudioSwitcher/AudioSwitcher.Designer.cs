@@ -778,9 +778,9 @@
             // 
             this.statusStrip1.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusLabelDonate,
+            this.statusLabelUpdate,
             this.toolStripStatusLabel1,
-            this.statusLabelUpdate});
+            this.statusLabelDonate});
             this.statusStrip1.Location = new System.Drawing.Point(2, 340);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(272, 22);
@@ -803,7 +803,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(212, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(82, 17);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // statusLabelUpdate
@@ -817,7 +817,6 @@
             this.statusLabelUpdate.Name = "statusLabelUpdate";
             this.statusLabelUpdate.Size = new System.Drawing.Size(99, 20);
             this.statusLabelUpdate.Text = "Update Available!";
-            this.statusLabelUpdate.Visible = false;
             this.statusLabelUpdate.Click += new System.EventHandler(this.statusLabelUpdate_Click);
             // 
             // btnSetPlaybackDefault

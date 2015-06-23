@@ -127,8 +127,6 @@ namespace FortyOne.AudioSwitcher
 
             txtHotKey.Text = _hotkey.HotKeyString;
 
-            Console.WriteLine("FOR SOME REASON HERE");
-
             if (_mode != HotKeyFormMode.Edit && HotKeyManager.DuplicateHotKey(_hotkey))
                 errorProvider1.SetError(txtHotKey, "Duplicate Hot Key Detected");
         }
