@@ -26,6 +26,7 @@ namespace FortyOne.AudioSwitcher
         /// </summary>
         private const string KONAMI_CODE = "UUDDLRLRBA";
 
+        private static AudioSwitcher _instance;
         private readonly Icon _originalTrayIcon;
 
         private readonly Dictionary<DeviceIcon, string> ICON_MAP = new Dictionary<DeviceIcon, string>
@@ -57,6 +58,8 @@ namespace FortyOne.AudioSwitcher
         private bool _firstStart = true;
         private string _input = "";
         private AudioSwitcherVersionInfo _retrievedVersion;
+        private bool _updateAvailable;
+        public bool DisableHotKeyFunction = false;
 
         public AudioSwitcher()
         {
@@ -88,6 +91,125 @@ namespace FortyOne.AudioSwitcher
             MinimizeFootprint();
         }
 
+        public static AudioSwitcher Instance
+        {
+            get { return _instance ?? (_instance = new AudioSwitcher()); }
+        }
+
+        private IDevice SelectedPlaybackDevice
+        {
+            get
+            {
+                if (listBoxPlayback.SelectedItems.Count > 0)
+                    return ((IDevice) listBoxPlayback.SelectedItems[0].Tag);
+                return null;
+            }
+        }
+
+        public IDevice SelectedRecordingDevice
+        {
+            get
+            {
+                if (listBoxRecording.SelectedItems.Count > 0)
+                    return ((IDevice) listBoxRecording.SelectedItems[0].Tag);
+                return null;
+            }
+        }
+
+        public bool TrayIconVisible
+        {
+            get { return notifyIcon1.Visible; }
+            set
+            {
+                try
+                {
+                    notifyIcon1.Visible = value;
+                }
+                catch
+                {
+                } // rubbish error
+            }
+        }
+
+        public string AssemblyTitle
+        {
+            get
+            {
+                var attributes =
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyTitleAttribute), false);
+                if (attributes.Length > 0)
+                {
+                    var titleAttribute = (AssemblyTitleAttribute) attributes[0];
+                    if (titleAttribute.Title != "")
+                    {
+                        return titleAttribute.Title;
+                    }
+                }
+                return Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
+            }
+        }
+
+        public string AssemblyVersion
+        {
+            get { return FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion; }
+        }
+
+        public string AssemblyDescription
+        {
+            get
+            {
+                var attributes =
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyDescriptionAttribute), false);
+                if (attributes.Length == 0)
+                {
+                    return "";
+                }
+                return ((AssemblyDescriptionAttribute) attributes[0]).Description;
+            }
+        }
+
+        public string AssemblyProduct
+        {
+            get
+            {
+                var attributes =
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyProductAttribute), false);
+                if (attributes.Length == 0)
+                {
+                    return "";
+                }
+                return ((AssemblyProductAttribute) attributes[0]).Product;
+            }
+        }
+
+        public string AssemblyCopyright
+        {
+            get
+            {
+                var attributes =
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCopyrightAttribute), false);
+                if (attributes.Length == 0)
+                {
+                    return "";
+                }
+                return ((AssemblyCopyrightAttribute) attributes[0]).Copyright;
+            }
+        }
+
+        public string AssemblyCompany
+        {
+            get
+            {
+                var attributes =
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCompanyAttribute), false);
+                if (attributes.Length == 0)
+                {
+                    return "";
+                }
+                return ((AssemblyCompanyAttribute) attributes[0]).Company;
+            }
+        }
+
         private void AudioSwitcher_HandleCreated(object sender, EventArgs e)
         {
             BeginInvoke(new Action(Form_Load));
@@ -114,7 +236,7 @@ namespace FortyOne.AudioSwitcher
             //Heartbeat
             Task.Factory.StartNew(CheckForNewVersion);
 
-            BeginInvoke((Action)(() =>
+            BeginInvoke((Action) (() =>
             {
                 RefreshPlaybackDevices();
                 RefreshRecordingDevices();
@@ -253,7 +375,7 @@ namespace FortyOne.AudioSwitcher
 
         private void t_Tick(object sender, EventArgs e)
         {
-            ((Timer)sender).Stop();
+            ((Timer) sender).Stop();
             if (_doubleClickHappened)
                 return;
 
@@ -272,7 +394,7 @@ namespace FortyOne.AudioSwitcher
             else
             {
                 RefreshNotifyIconItems();
-                var mi = typeof(NotifyIcon).GetMethod("ShowContextMenu",
+                var mi = typeof (NotifyIcon).GetMethod("ShowContextMenu",
                     BindingFlags.Instance | BindingFlags.NonPublic);
                 mi.Invoke(notifyIcon1, null);
             }
@@ -393,7 +515,6 @@ namespace FortyOne.AudioSwitcher
             MinimizeFootprint();
         }
 
-
         private void linkLabel1_Click(object sender, EventArgs e)
         {
             Process.Start("http://services.audioswit.ch/versions/");
@@ -447,7 +568,7 @@ namespace FortyOne.AudioSwitcher
 
             if (IsHandleCreated)
             {
-                BeginInvoke((Action)(() =>
+                BeginInvoke((Action) (() =>
                 {
                     RefreshPlaybackDevices();
                     RefreshRecordingDevices();
@@ -467,7 +588,7 @@ namespace FortyOne.AudioSwitcher
 
             if (IsHandleCreated)
             {
-                BeginInvoke((Action)(() =>
+                BeginInvoke((Action) (() =>
                 {
                     RefreshPlaybackDevices();
                     RefreshRecordingDevices();
@@ -508,50 +629,6 @@ namespace FortyOne.AudioSwitcher
             Show();
         }
 
-        private static AudioSwitcher _instance;
-        public bool DisableHotKeyFunction = false;
-        private bool _updateAvailable;
-
-        public static AudioSwitcher Instance
-        {
-            get { return _instance ?? (_instance = new AudioSwitcher()); }
-        }
-
-        private IDevice SelectedPlaybackDevice
-        {
-            get
-            {
-                if (listBoxPlayback.SelectedItems.Count > 0)
-                    return ((IDevice)listBoxPlayback.SelectedItems[0].Tag);
-                return null;
-            }
-        }
-
-        public IDevice SelectedRecordingDevice
-        {
-            get
-            {
-                if (listBoxRecording.SelectedItems.Count > 0)
-                    return ((IDevice)listBoxRecording.SelectedItems[0].Tag);
-                return null;
-            }
-        }
-
-        public bool TrayIconVisible
-        {
-            get { return notifyIcon1.Visible; }
-            set
-            {
-                try
-                {
-                    notifyIcon1.Visible = value;
-                }
-                catch
-                {
-                } // rubbish error
-            }
-        }
-
         private void btnAddHotKey_Click(object sender, EventArgs e)
         {
             var hkf = new HotKeyForm();
@@ -563,7 +640,7 @@ namespace FortyOne.AudioSwitcher
         {
             if (hotKeyBindingSource.Current != null)
             {
-                var hkf = new HotKeyForm((HotKey)hotKeyBindingSource.Current);
+                var hkf = new HotKeyForm((HotKey) hotKeyBindingSource.Current);
                 hkf.ShowDialog(this);
                 RefreshGrid();
             }
@@ -573,7 +650,7 @@ namespace FortyOne.AudioSwitcher
         {
             if (hotKeyBindingSource.Current != null)
             {
-                HotKeyManager.DeleteHotKey((HotKey)hotKeyBindingSource.Current);
+                HotKeyManager.DeleteHotKey((HotKey) hotKeyBindingSource.Current);
                 RefreshGrid();
             }
         }
@@ -619,7 +696,7 @@ namespace FortyOne.AudioSwitcher
 
             FavouriteDeviceManager.FavouriteDevicesChanged += AudioDeviceManger_FavouriteDevicesChanged;
 
-            var favDeviceStr = Program.Settings.FavouriteDevices.Split(new[] { ",", "[", "]" },
+            var favDeviceStr = Program.Settings.FavouriteDevices.Split(new[] {",", "[", "]"},
                 StringSplitOptions.RemoveEmptyEntries);
 
             FavouriteDeviceManager.LoadFavouriteDevices(Array.ConvertAll(favDeviceStr, x =>
@@ -715,7 +792,7 @@ namespace FortyOne.AudioSwitcher
                     if (!imageList1.Images.Keys.Contains(imageToGen) &&
                         imageList1.Images.IndexOfKey(imageKey + ".png") >= 0)
                     {
-                        var i = (Image)imageList1.Images[imageKey + ".png"].Clone();
+                        var i = (Image) imageList1.Images[imageKey + ".png"].Clone();
 
                         if (ad.State == DeviceState.Disabled || ad.State == DeviceState.Unplugged)
                             i = ImageHelper.SetImageOpacity(i, 0.5F);
@@ -755,7 +832,6 @@ namespace FortyOne.AudioSwitcher
             RefreshNotifyIconItems();
             listBoxPlayback.ResumeLayout();
         }
-
 
         private void RefreshRecordingDevices()
         {
@@ -825,7 +901,7 @@ namespace FortyOne.AudioSwitcher
                     if (!imageList1.Images.Keys.Contains(imageToGen) &&
                         imageList1.Images.IndexOfKey(imageKey + ".png") >= 0)
                     {
-                        var i = (Image)imageList1.Images[imageKey + ".png"].Clone();
+                        var i = (Image) imageList1.Images[imageKey + ".png"].Clone();
 
                         if (ad.State.HasFlag(DeviceState.Disabled) || ad.State == DeviceState.Unplugged)
                             i = ImageHelper.SetImageOpacity(i, 0.5F);
@@ -917,7 +993,7 @@ namespace FortyOne.AudioSwitcher
 
             notifyIconStrip.Items.Add(preferencesToolStripMenuItem);
 
-            if(_updateAvailable)
+            if (_updateAvailable)
                 notifyIconStrip.Items.Add(updateAvailableToolStripMenuItem);
 
             notifyIconStrip.Items.Add(exitToolStripMenuItem);
@@ -950,7 +1026,7 @@ namespace FortyOne.AudioSwitcher
             if (defaultDevice != null && Program.Settings.ShowDPDeviceIconInTray)
             {
                 var imageKey = ICON_MAP[defaultDevice.Icon];
-                var image = (Bitmap)imageList1.Images[imageList1.Images.IndexOfKey(imageKey + ".png")];
+                var image = (Bitmap) imageList1.Images[imageList1.Images.IndexOfKey(imageKey + ".png")];
                 var iconHandle = image.GetHicon();
                 var icon = Icon.FromHandle(iconHandle);
 
@@ -974,13 +1050,22 @@ namespace FortyOne.AudioSwitcher
                 return;
             }
 
-            mnuSetPlaybackDefault.CheckState = SelectedPlaybackDevice.IsDefaultDevice ? CheckState.Checked : CheckState.Unchecked;
+            mnuSetPlaybackDefault.CheckState = SelectedPlaybackDevice.IsDefaultDevice
+                ? CheckState.Checked
+                : CheckState.Unchecked;
 
-            mnuSetPlaybackCommunicationDefault.CheckState = SelectedPlaybackDevice.IsDefaultCommunicationsDevice ? CheckState.Checked : CheckState.Unchecked;
+            mnuSetPlaybackCommunicationDefault.CheckState = SelectedPlaybackDevice.IsDefaultCommunicationsDevice
+                ? CheckState.Checked
+                : CheckState.Unchecked;
 
-            mnuFavouritePlaybackDevice.CheckState = FavouriteDeviceManager.IsFavouriteDevice(SelectedPlaybackDevice.Id) ? CheckState.Checked : CheckState.Unchecked;
+            mnuFavouritePlaybackDevice.CheckState = FavouriteDeviceManager.IsFavouriteDevice(SelectedPlaybackDevice.Id)
+                ? CheckState.Checked
+                : CheckState.Unchecked;
 
-            mnuSetPlaybackStartupDevice.CheckState = Program.Settings.StartupPlaybackDeviceID == SelectedPlaybackDevice.Id ? CheckState.Checked : CheckState.Unchecked;
+            mnuSetPlaybackStartupDevice.CheckState = Program.Settings.StartupPlaybackDeviceID ==
+                                                     SelectedPlaybackDevice.Id
+                ? CheckState.Checked
+                : CheckState.Unchecked;
 
             if (SelectedPlaybackDevice.State == DeviceState.Unplugged)
             {
@@ -1002,13 +1087,22 @@ namespace FortyOne.AudioSwitcher
                 return;
             }
 
-            mnuSetRecordingDefault.CheckState = SelectedRecordingDevice.IsDefaultDevice ? CheckState.Checked : CheckState.Unchecked;
+            mnuSetRecordingDefault.CheckState = SelectedRecordingDevice.IsDefaultDevice
+                ? CheckState.Checked
+                : CheckState.Unchecked;
 
-            mnuSetRecordingCommunicationDefault.CheckState = SelectedRecordingDevice.IsDefaultCommunicationsDevice ? CheckState.Checked : CheckState.Unchecked;
+            mnuSetRecordingCommunicationDefault.CheckState = SelectedRecordingDevice.IsDefaultCommunicationsDevice
+                ? CheckState.Checked
+                : CheckState.Unchecked;
 
-            mnuFavouriteRecordingDevice.CheckState = FavouriteDeviceManager.IsFavouriteDevice(SelectedRecordingDevice.Id) ? CheckState.Checked : CheckState.Unchecked;
+            mnuFavouriteRecordingDevice.CheckState = FavouriteDeviceManager.IsFavouriteDevice(SelectedRecordingDevice.Id)
+                ? CheckState.Checked
+                : CheckState.Unchecked;
 
-            mnuSetRecordingStartupDevice.CheckState = Program.Settings.StartupRecordingDeviceID == SelectedRecordingDevice.Id ? CheckState.Checked : CheckState.Unchecked;
+            mnuSetRecordingStartupDevice.CheckState = Program.Settings.StartupRecordingDeviceID ==
+                                                      SelectedRecordingDevice.Id
+                ? CheckState.Checked
+                : CheckState.Unchecked;
 
             if (SelectedRecordingDevice.State == DeviceState.Unplugged)
             {
@@ -1048,7 +1142,7 @@ namespace FortyOne.AudioSwitcher
             RefreshPlaybackDropDownButton();
             for (var i = 0; i < listBoxPlayback.Items.Count; i++)
             {
-                if (((IDevice)listBoxPlayback.Items[i].Tag).Id == id)
+                if (((IDevice) listBoxPlayback.Items[i].Tag).Id == id)
                 {
                     listBoxPlayback.Items[i].Selected = true;
                     break;
@@ -1072,7 +1166,7 @@ namespace FortyOne.AudioSwitcher
             RefreshRecordingDropDownButton();
             for (var i = 0; i < listBoxRecording.Items.Count; i++)
             {
-                if (((IDevice)listBoxRecording.Items[i].Tag).Id == id)
+                if (((IDevice) listBoxRecording.Items[i].Tag).Id == id)
                 {
                     listBoxRecording.Items[i].Selected = true;
                     break;
@@ -1147,7 +1241,7 @@ namespace FortyOne.AudioSwitcher
         {
             if (e.ClickedItem != null && e.ClickedItem.Tag is IDevice)
             {
-                var dev = (IDevice)e.ClickedItem.Tag;
+                var dev = (IDevice) e.ClickedItem.Tag;
                 dev.SetAsDefault();
 
                 if (Program.Settings.DualSwitchMode)
@@ -1170,7 +1264,6 @@ namespace FortyOne.AudioSwitcher
             Program.Settings.StartMinimized = chkStartMinimized.Checked;
         }
 
-
         private void chkQuickSwitch_CheckedChanged(object sender, EventArgs e)
         {
             Program.Settings.EnableQuickSwitch = chkQuickSwitch.Checked;
@@ -1185,85 +1278,6 @@ namespace FortyOne.AudioSwitcher
         {
             Program.Settings.WindowWidth = Width;
             Program.Settings.WindowHeight = Height;
-        }
-
-        public string AssemblyTitle
-        {
-            get
-            {
-                var attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
-                if (attributes.Length > 0)
-                {
-                    var titleAttribute = (AssemblyTitleAttribute)attributes[0];
-                    if (titleAttribute.Title != "")
-                    {
-                        return titleAttribute.Title;
-                    }
-                }
-                return Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
-            }
-        }
-
-        public string AssemblyVersion
-        {
-            get { return FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion; }
-        }
-
-        public string AssemblyDescription
-        {
-            get
-            {
-                var attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
-                if (attributes.Length == 0)
-                {
-                    return "";
-                }
-                return ((AssemblyDescriptionAttribute)attributes[0]).Description;
-            }
-        }
-
-        public string AssemblyProduct
-        {
-            get
-            {
-                var attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
-                if (attributes.Length == 0)
-                {
-                    return "";
-                }
-                return ((AssemblyProductAttribute)attributes[0]).Product;
-            }
-        }
-
-        public string AssemblyCopyright
-        {
-            get
-            {
-                var attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-                if (attributes.Length == 0)
-                {
-                    return "";
-                }
-                return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
-            }
-        }
-
-        public string AssemblyCompany
-        {
-            get
-            {
-                var attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
-                if (attributes.Length == 0)
-                {
-                    return "";
-                }
-                return ((AssemblyCompanyAttribute)attributes[0]).Company;
-            }
         }
 
         private void statusLabelUpdate_Click(object sender, EventArgs e)

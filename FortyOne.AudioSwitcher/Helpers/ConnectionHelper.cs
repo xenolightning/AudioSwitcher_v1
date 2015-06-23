@@ -13,7 +13,7 @@ namespace FortyOne.AudioSwitcher.Helpers
                 {
                     var wc = new WebClient();
 
-                    IWebProxy defaultProxy = WebRequest.DefaultWebProxy;
+                    var defaultProxy = WebRequest.DefaultWebProxy;
                     if (defaultProxy != null)
                     {
                         defaultProxy.Credentials = CredentialCache.DefaultCredentials;

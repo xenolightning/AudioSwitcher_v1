@@ -15,11 +15,11 @@ namespace FortyOne.AudioSwitcher.AutoUpdater
                 return -1;
             }
 
-            int pid = int.Parse(args[0]);
-            string audioSwitcherPath = args[1];
-            string audioSwitcherOldPath = audioSwitcherPath + "_old";
+            var pid = int.Parse(args[0]);
+            var audioSwitcherPath = args[1];
+            var audioSwitcherOldPath = audioSwitcherPath + "_old";
 
-            int x = 0;
+            var x = 0;
 
             Console.Write("Waiting for Audio Switcher to exit");
 
@@ -57,7 +57,7 @@ namespace FortyOne.AudioSwitcher.AutoUpdater
                 using (var wc = new WebClient())
                 using (var client = new AudioSwitcherService.AudioSwitcher())
                 {
-                    string url = client.CheckForUpdate("0.0.0.0").Replace(".zip", ".exe");
+                    var url = client.CheckForUpdate("0.0.0.0").Replace(".zip", ".exe");
 
                     wc.DownloadFile(url, audioSwitcherPath);
                 }

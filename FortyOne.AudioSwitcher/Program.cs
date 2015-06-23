@@ -64,7 +64,8 @@ namespace FortyOne.AudioSwitcher
             {
                 //Load/Create default settings
 
-                var oldSettingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName, Resources.OldConfigFile);
+                var oldSettingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName,
+                    Resources.OldConfigFile);
 
                 settingsPath = oldSettingsPath;
 
