@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Windows.Forms;
 using FortyOne.AudioSwitcher.Configuration;
@@ -12,9 +11,6 @@ namespace FortyOne.AudioSwitcher
     internal static class Program
     {
         public static ConfigurationSettings Settings { get; private set; }
-
-        [DllImport("User32.dll")]
-        private static extern int SetForegroundWindow(IntPtr hWnd);
 
         /// <summary>
         ///     The main entry point for the application.
@@ -67,14 +63,12 @@ namespace FortyOne.AudioSwitcher
             try
             {
                 //Load/Create default settings
-                var oldSettingsPath = "";
 
-                oldSettingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName,
-                    Resources.OldConfigFile);
+                var oldSettingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName, Resources.OldConfigFile);
+
                 settingsPath = oldSettingsPath;
 
                 //1. Provide early notification that the user does not have permission to write.
-                var writePermission = new FileIOPermission(FileIOPermissionAccess.Write, settingsPath);
                 new FileIOPermission(FileIOPermissionAccess.Write, settingsPath).Demand();
 
                 settingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName,
@@ -131,7 +125,7 @@ namespace FortyOne.AudioSwitcher
                 var title = "An Unexpected Error Occurred";
                 var text = ex.Message + Environment.NewLine + Environment.NewLine + ex;
 
-                var edf = new ExceptionDisplayForm(title, text, ex);
+                var edf = new ExceptionDisplayForm(title, ex);
                 edf.ShowDialog();
             }
         }

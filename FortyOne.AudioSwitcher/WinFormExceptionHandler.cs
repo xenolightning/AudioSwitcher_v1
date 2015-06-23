@@ -29,15 +29,6 @@ namespace FortyOne.AudioSwitcher
             HandleException((Exception) t.ExceptionObject, null);
         }
 
-        /// <summary>
-        ///     Static method to invoke the UI to display the exception. Gives user the option to log or not in the UI.
-        /// </summary>
-        /// <param name="ex">The exception to display.</param>
-        public static void HandleException(Exception ex)
-        {
-            HandleException(ex, null);
-        }
-
         public static void HandleException(Exception ex, string caption)
         {
             HandleSystemException(ex, caption);
@@ -45,12 +36,7 @@ namespace FortyOne.AudioSwitcher
 
         private static void HandleSystemException(Exception ex, string caption)
         {
-            var title = "An Unhandled Error Occurred";
-            var text = string.Empty;
-            if (caption != null)
-                text = caption + Environment.NewLine;
-
-            var edf = new ExceptionDisplayForm(title, text, ex);
+            var edf = new ExceptionDisplayForm("An Unhandled Error Occurred", ex);
             edf.ShowDialog();
         }
     }

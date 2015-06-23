@@ -68,7 +68,7 @@ namespace FortyOne.AudioSwitcher.Configuration
             lock (_mutex)
             {
                 var sb = new StringBuilder(500);
-                var res = GetPrivateProfileString(Section, Key, "", sb, (uint) sb.Capacity, _path);
+                GetPrivateProfileString(Section, Key, "", sb, (uint) sb.Capacity, _path);
 
                 if (string.IsNullOrEmpty(sb.ToString()))
                     throw new KeyNotFoundException(Section + " - " + Key);

@@ -9,7 +9,7 @@ using FortyOne.AudioSwitcher.Properties;
 
 namespace FortyOne.AudioSwitcher
 {
-    public partial class ExceptionDisplayForm : Form
+    public sealed partial class ExceptionDisplayForm : Form
     {
         private readonly Exception exception;
 
@@ -18,7 +18,7 @@ namespace FortyOne.AudioSwitcher
             InitializeComponent();
         }
 
-        public ExceptionDisplayForm(string title, string text, Exception ex)
+        public ExceptionDisplayForm(string title, Exception ex)
         {
             InitializeComponent();
 

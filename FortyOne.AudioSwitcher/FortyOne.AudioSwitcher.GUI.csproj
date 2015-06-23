@@ -103,7 +103,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioDeviceManager.cs" />
-    <Compile Include="AudioDeviceUIWrapper.cs" />
     <Compile Include="ChangeLogForm.cs">
       <SubType>Form</SubType>
     </Compile>

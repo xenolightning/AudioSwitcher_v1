@@ -189,12 +189,7 @@ namespace FortyOne.AudioSwitcher
 
         private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
         {
-            UpdateForm udf;
-            if (_retrievedVersion != null)
-                udf = new UpdateForm(_retrievedVersion);
-            else
-                udf = new UpdateForm();
-
+            UpdateForm udf = _retrievedVersion != null ? new UpdateForm(_retrievedVersion) : new UpdateForm();
             udf.ShowDialog(this);
         }
 
@@ -379,20 +374,15 @@ namespace FortyOne.AudioSwitcher
             if (SelectedPlaybackDevice == null)
                 return;
 
-            HotKeyForm hkf;
-            foreach (var hk in HotKeyManager.HotKeys)
+            var hotkey = HotKeyManager.HotKeys.FirstOrDefault(x => x.DeviceId == SelectedPlaybackDevice.Id);
+
+            if (hotkey == null)
             {
-                if (hk.DeviceId == SelectedPlaybackDevice.Id)
-                {
-                    hkf = new HotKeyForm(hk);
-                    hkf.ShowDialog(this);
-                    return;
-                }
+                hotkey = new HotKey();
+                hotkey.DeviceId = SelectedPlaybackDevice.Id;
             }
 
-            var newHotKey = new HotKey();
-            newHotKey.DeviceId = SelectedPlaybackDevice.Id;
-            hkf = new HotKeyForm(newHotKey);
+            var hkf = new HotKeyForm(hotkey);
             hkf.ShowDialog(this);
         }
 
@@ -401,19 +391,15 @@ namespace FortyOne.AudioSwitcher
             if (SelectedRecordingDevice == null)
                 return;
 
-            HotKeyForm hkf = null;
-            foreach (var hk in HotKeyManager.HotKeys)
+            var hotkey = HotKeyManager.HotKeys.FirstOrDefault(x => x.DeviceId == SelectedRecordingDevice.Id);
+
+            if (hotkey == null)
             {
-                if (hk.DeviceId == SelectedRecordingDevice.Id)
-                {
-                    hkf = new HotKeyForm(hk);
-                    hkf.ShowDialog(this);
-                    return;
-                }
+                hotkey = new HotKey();
+                hotkey.DeviceId = SelectedRecordingDevice.Id;
             }
-            var newHotKey = new HotKey();
-            newHotKey.DeviceId = SelectedRecordingDevice.Id;
-            hkf = new HotKeyForm(newHotKey);
+
+            var hkf = new HotKeyForm(hotkey);
             hkf.ShowDialog(this);
         }
 
@@ -1070,25 +1056,13 @@ namespace FortyOne.AudioSwitcher
                 return;
             }
 
-            if (SelectedPlaybackDevice.IsDefaultDevice)
-                mnuSetPlaybackDefault.CheckState = CheckState.Checked;
-            else
-                mnuSetPlaybackDefault.CheckState = CheckState.Unchecked;
+            mnuSetPlaybackDefault.CheckState = SelectedPlaybackDevice.IsDefaultDevice ? CheckState.Checked : CheckState.Unchecked;
 
-            if (SelectedPlaybackDevice.IsDefaultCommunicationsDevice)
-                mnuSetPlaybackCommunicationDefault.CheckState = CheckState.Checked;
-            else
-                mnuSetPlaybackCommunicationDefault.CheckState = CheckState.Unchecked;
+            mnuSetPlaybackCommunicationDefault.CheckState = SelectedPlaybackDevice.IsDefaultCommunicationsDevice ? CheckState.Checked : CheckState.Unchecked;
 
-            if (FavouriteDeviceManager.IsFavouriteDevice(SelectedPlaybackDevice.Id))
-                mnuFavouritePlaybackDevice.CheckState = CheckState.Checked;
-            else
-                mnuFavouritePlaybackDevice.CheckState = CheckState.Unchecked;
+            mnuFavouritePlaybackDevice.CheckState = FavouriteDeviceManager.IsFavouriteDevice(SelectedPlaybackDevice.Id) ? CheckState.Checked : CheckState.Unchecked;
 
-            if (Program.Settings.StartupPlaybackDeviceID == SelectedPlaybackDevice.Id)
-                mnuSetPlaybackStartupDevice.CheckState = CheckState.Checked;
-            else
-                mnuSetPlaybackStartupDevice.CheckState = CheckState.Unchecked;
+            mnuSetPlaybackStartupDevice.CheckState = Program.Settings.StartupPlaybackDeviceID == SelectedPlaybackDevice.Id ? CheckState.Checked : CheckState.Unchecked;
 
             if (SelectedPlaybackDevice.State == DeviceState.Unplugged)
             {
@@ -1110,25 +1084,13 @@ namespace FortyOne.AudioSwitcher
                 return;
             }
 
-            if (SelectedRecordingDevice.IsDefaultDevice)
-                mnuSetRecordingDefault.CheckState = CheckState.Checked;
-            else
-                mnuSetRecordingDefault.CheckState = CheckState.Unchecked;
+            mnuSetRecordingDefault.CheckState = SelectedRecordingDevice.IsDefaultDevice ? CheckState.Checked : CheckState.Unchecked;
 
-            if (SelectedRecordingDevice.IsDefaultCommunicationsDevice)
-                mnuSetRecordingCommunicationDefault.CheckState = CheckState.Checked;
-            else
-                mnuSetRecordingCommunicationDefault.CheckState = CheckState.Unchecked;
+            mnuSetRecordingCommunicationDefault.CheckState = SelectedRecordingDevice.IsDefaultCommunicationsDevice ? CheckState.Checked : CheckState.Unchecked;
 
-            if (FavouriteDeviceManager.IsFavouriteDevice(SelectedRecordingDevice.Id))
-                mnuFavouriteRecordingDevice.CheckState = CheckState.Checked;
-            else
-                mnuFavouriteRecordingDevice.CheckState = CheckState.Unchecked;
+            mnuFavouriteRecordingDevice.CheckState = FavouriteDeviceManager.IsFavouriteDevice(SelectedRecordingDevice.Id) ? CheckState.Checked : CheckState.Unchecked;
 
-            if (Program.Settings.StartupRecordingDeviceID == SelectedRecordingDevice.Id)
-                mnuSetRecordingStartupDevice.CheckState = CheckState.Checked;
-            else
-                mnuSetRecordingStartupDevice.CheckState = CheckState.Unchecked;
+            mnuSetRecordingStartupDevice.CheckState = Program.Settings.StartupRecordingDeviceID == SelectedRecordingDevice.Id ? CheckState.Checked : CheckState.Unchecked;
 
             if (SelectedRecordingDevice.State == DeviceState.Unplugged)
             {

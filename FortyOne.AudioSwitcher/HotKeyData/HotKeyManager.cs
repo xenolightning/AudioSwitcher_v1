@@ -138,12 +138,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
 
         public static bool DuplicateHotKey(HotKey hk)
         {
-            foreach (var k in _hotkeys)
-            {
-                if (hk.Key == k.Key && hk.Modifiers == k.Modifiers)
-                    return true;
-            }
-            return false;
+            return _hotkeys.Any(k => hk.Key == k.Key && hk.Modifiers == k.Modifiers);
         }
 
         public static void DeleteHotKey(HotKey hk)
