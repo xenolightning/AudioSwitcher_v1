@@ -1,5 +1,8 @@
-﻿namespace FortyOne.AudioSwitcher.HotKeyData
+﻿using System;
+
+namespace FortyOne.AudioSwitcher.HotKeyData
 {
+    [Flags]
     public enum Modifiers
     {
         None = 0,

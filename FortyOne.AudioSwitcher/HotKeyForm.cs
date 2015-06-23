@@ -13,17 +13,16 @@ namespace FortyOne.AudioSwitcher
 
     public partial class HotKeyForm : Form
     {
-        private readonly HotKey hotkey;
-        private readonly HotKey linkedHotKey;
-        private readonly HotKeyFormMode Mode = HotKeyFormMode.Normal;
-        private bool FirstFocus = true;
-        private bool Recording;
+        private readonly HotKey _hotkey;
+        private readonly HotKey _linkedHotKey;
+        private readonly HotKeyFormMode _mode = HotKeyFormMode.Normal;
+        private bool _firstFocus = true;
 
         public HotKeyForm()
         {
             InitializeComponent();
 
-            hotkey = new HotKey();
+            _hotkey = new HotKey();
 
             cmbDevices.Items.Clear();
             foreach (var ad in AudioDeviceManager.Controller.GetPlaybackDevices())
@@ -39,16 +38,16 @@ namespace FortyOne.AudioSwitcher
         public HotKeyForm(HotKey hk)
             : this()
         {
-            linkedHotKey = hk;
+            _linkedHotKey = hk;
 
-            hotkey.DeviceId = hk.DeviceId;
-            hotkey.Key = hk.Key;
-            hotkey.Modifiers = hk.Modifiers;
+            _hotkey.DeviceId = hk.DeviceId;
+            _hotkey.Key = hk.Key;
+            _hotkey.Modifiers = hk.Modifiers;
 
             txtHotKey.Text = hk.HotKeyString;
-            FirstFocus = false;
+            _firstFocus = false;
 
-            Mode = HotKeyFormMode.Edit;
+            _mode = HotKeyFormMode.Edit;
 
             btnAdd.Text = "Save";
         }
@@ -59,7 +58,7 @@ namespace FortyOne.AudioSwitcher
 
             foreach (var o in cmbDevices.Items)
             {
-                if (((IDevice) o).Id == hotkey.DeviceId)
+                if (((IDevice)o).Id == _hotkey.DeviceId)
                 {
                     cmbDevices.SelectedIndex = cmbDevices.Items.IndexOf(o);
                     break;
@@ -72,23 +71,23 @@ namespace FortyOne.AudioSwitcher
 
         private void txtHotKey_Enter(object sender, EventArgs e)
         {
-            if (FirstFocus)
+            if (_firstFocus)
             {
                 txtHotKey.Text = "";
-                FirstFocus = false;
+                _firstFocus = false;
             }
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (Mode == HotKeyFormMode.Normal && HotKeyManager.DuplicateHotKey(hotkey))
+            if (_mode == HotKeyFormMode.Normal && HotKeyManager.DuplicateHotKey(_hotkey))
                 return;
 
-            if (Mode == HotKeyFormMode.Edit)
-                HotKeyManager.DeleteHotKey(linkedHotKey);
+            if (_mode == HotKeyFormMode.Edit)
+                HotKeyManager.DeleteHotKey(_linkedHotKey);
 
             //Add HK
-            if (HotKeyManager.AddHotKey(hotkey))
+            if (HotKeyManager.AddHotKey(_hotkey))
             {
                 DialogResult = DialogResult.OK;
                 Close();
@@ -105,42 +104,33 @@ namespace FortyOne.AudioSwitcher
             Close();
         }
 
-        private void txtHotKey_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (!Recording)
-            {
-                errorProvider1.Clear();
-                txtHotKey.Text = "";
-                Recording = true;
-            }
-        }
 
         private void txtHotKey_KeyUp(object sender, KeyEventArgs e)
         {
-            if (Recording)
-            {
-                hotkey.Key = e.KeyCode;
-                hotkey.Modifiers = Modifiers.None;
+            if (e.KeyCode == Keys.ShiftKey || e.KeyCode == Keys.ControlKey || e.KeyCode == Keys.Menu)
+                return;
 
-                if (e.Control)
-                    hotkey.Modifiers = hotkey.Modifiers | Modifiers.Control;
+            _hotkey.Key = e.KeyCode;
+            _hotkey.Modifiers = Modifiers.None;
 
-                if (e.Alt)
-                    hotkey.Modifiers = hotkey.Modifiers | Modifiers.Alt;
+            if (e.Control)
+                _hotkey.Modifiers = _hotkey.Modifiers | Modifiers.Control;
 
-                if (e.Shift)
-                    hotkey.Modifiers = hotkey.Modifiers | Modifiers.Shift;
+            if (e.Alt)
+                _hotkey.Modifiers = _hotkey.Modifiers | Modifiers.Alt;
 
-                if (e.Modifiers == Keys.LWin || e.Modifiers == Keys.RWin)
-                    hotkey.Modifiers = hotkey.Modifiers | Modifiers.Win;
+            if (e.Shift)
+                _hotkey.Modifiers = _hotkey.Modifiers | Modifiers.Shift;
 
-                txtHotKey.Text = hotkey.HotKeyString;
+            if (e.Modifiers == Keys.LWin || e.Modifiers == Keys.RWin)
+                _hotkey.Modifiers = _hotkey.Modifiers | Modifiers.Win;
 
-                Recording = false;
+            txtHotKey.Text = _hotkey.HotKeyString;
 
-                if (Mode != HotKeyFormMode.Edit && HotKeyManager.DuplicateHotKey(hotkey))
-                    errorProvider1.SetError(txtHotKey, "Duplicate Hot Key Detected");
-            }
+            Console.WriteLine("FOR SOME REASON HERE");
+
+            if (_mode != HotKeyFormMode.Edit && HotKeyManager.DuplicateHotKey(_hotkey))
+                errorProvider1.SetError(txtHotKey, "Duplicate Hot Key Detected");
         }
 
         private void cmbDevices_SelectedIndexChanged(object sender, EventArgs e)
@@ -148,12 +138,13 @@ namespace FortyOne.AudioSwitcher
             if (cmbDevices.SelectedItem == null)
                 return;
 
-            hotkey.DeviceId = ((IDevice) cmbDevices.SelectedItem).Id;
+            _hotkey.DeviceId = ((IDevice)cmbDevices.SelectedItem).Id;
         }
 
         private void HotKeyForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             AudioSwitcher.Instance.DisableHotKeyFunction = false;
         }
+
     }
 }

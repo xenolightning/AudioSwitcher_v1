@@ -59,7 +59,6 @@
             this.txtHotKey.TabIndex = 1;
             this.txtHotKey.Text = "Mimic Hot Key In Here";
             this.txtHotKey.Enter += new System.EventHandler(this.txtHotKey_Enter);
-            this.txtHotKey.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtHotKey_KeyDown);
             this.txtHotKey.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtHotKey_KeyUp);
             // 
             // btnAdd
