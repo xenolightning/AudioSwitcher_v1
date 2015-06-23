@@ -128,7 +128,7 @@ namespace FortyOne.AudioSwitcher
                 }
             });
 
-            BeginInvoke((Action) (() =>
+            BeginInvoke((Action)(() =>
             {
                 RefreshPlaybackDevices();
                 RefreshRecordingDevices();
@@ -281,7 +281,7 @@ namespace FortyOne.AudioSwitcher
 
         private void t_Tick(object sender, EventArgs e)
         {
-            ((Timer) sender).Stop();
+            ((Timer)sender).Stop();
             if (_doubleClickHappened)
                 return;
 
@@ -300,7 +300,7 @@ namespace FortyOne.AudioSwitcher
             else
             {
                 RefreshNotifyIconItems();
-                var mi = typeof (NotifyIcon).GetMethod("ShowContextMenu",
+                var mi = typeof(NotifyIcon).GetMethod("ShowContextMenu",
                     BindingFlags.Instance | BindingFlags.NonPublic);
                 mi.Invoke(notifyIcon1, null);
             }
@@ -437,20 +437,20 @@ namespace FortyOne.AudioSwitcher
                 spinPollMinutes.Enabled = true;
 
                 if (Program.Settings.PollForUpdates < 0)
-                    Program.Settings.PollForUpdates = Program.Settings.PollForUpdates*-1;
+                    Program.Settings.PollForUpdates = Program.Settings.PollForUpdates * -1;
 
                 if (Program.Settings.PollForUpdates < spinPollMinutes.Minimum)
-                    Program.Settings.PollForUpdates = (int) spinPollMinutes.Minimum;
+                    Program.Settings.PollForUpdates = (int)spinPollMinutes.Minimum;
 
                 if (Program.Settings.PollForUpdates > spinPollMinutes.Maximum)
-                    Program.Settings.PollForUpdates = (int) spinPollMinutes.Maximum;
+                    Program.Settings.PollForUpdates = (int)spinPollMinutes.Maximum;
 
                 spinPollMinutes.Value = Program.Settings.PollForUpdates;
             }
             else
             {
                 spinPollMinutes.Enabled = false;
-                Program.Settings.PollForUpdates = (int) (-1*spinPollMinutes.Value);
+                Program.Settings.PollForUpdates = (int)(-1 * spinPollMinutes.Value);
             }
         }
 
@@ -467,11 +467,11 @@ namespace FortyOne.AudioSwitcher
 
             UpdateTimer = new Timer();
 
-            Program.Settings.PollForUpdates = (int) spinPollMinutes.Value;
+            Program.Settings.PollForUpdates = (int)spinPollMinutes.Value;
 
             if (Program.Settings.PollForUpdates > 0)
             {
-                UpdateTimer.Interval = (int) TimeSpan.FromHours(Program.Settings.PollForUpdates).TotalMilliseconds;
+                UpdateTimer.Interval = (int)TimeSpan.FromHours(Program.Settings.PollForUpdates).TotalMilliseconds;
                 UpdateTimer.Tick += CheckForUpdates;
                 UpdateTimer.Enabled = true;
                 UpdateTimer.Start();
@@ -531,7 +531,7 @@ namespace FortyOne.AudioSwitcher
 
             if (IsHandleCreated)
             {
-                BeginInvoke((Action) (() =>
+                BeginInvoke((Action)(() =>
                 {
                     RefreshPlaybackDevices();
                     RefreshRecordingDevices();
@@ -551,7 +551,7 @@ namespace FortyOne.AudioSwitcher
 
             if (IsHandleCreated)
             {
-                BeginInvoke((Action) (() =>
+                BeginInvoke((Action)(() =>
                 {
                     RefreshPlaybackDevices();
                     RefreshRecordingDevices();
@@ -607,7 +607,7 @@ namespace FortyOne.AudioSwitcher
             get
             {
                 if (listBoxPlayback.SelectedItems.Count > 0)
-                    return ((IDevice) listBoxPlayback.SelectedItems[0].Tag);
+                    return ((IDevice)listBoxPlayback.SelectedItems[0].Tag);
                 return null;
             }
         }
@@ -617,7 +617,7 @@ namespace FortyOne.AudioSwitcher
             get
             {
                 if (listBoxRecording.SelectedItems.Count > 0)
-                    return ((IDevice) listBoxRecording.SelectedItems[0].Tag);
+                    return ((IDevice)listBoxRecording.SelectedItems[0].Tag);
                 return null;
             }
         }
@@ -652,7 +652,7 @@ namespace FortyOne.AudioSwitcher
         {
             if (hotKeyBindingSource.Current != null)
             {
-                var hkf = new HotKeyForm((HotKey) hotKeyBindingSource.Current);
+                var hkf = new HotKeyForm((HotKey)hotKeyBindingSource.Current);
                 hkf.ShowDialog(this);
                 RefreshGrid();
             }
@@ -662,7 +662,7 @@ namespace FortyOne.AudioSwitcher
         {
             if (hotKeyBindingSource.Current != null)
             {
-                HotKeyManager.DeleteHotKey((HotKey) hotKeyBindingSource.Current);
+                HotKeyManager.DeleteHotKey((HotKey)hotKeyBindingSource.Current);
                 RefreshGrid();
             }
         }
@@ -715,7 +715,7 @@ namespace FortyOne.AudioSwitcher
 
             FavouriteDeviceManager.FavouriteDevicesChanged += AudioDeviceManger_FavouriteDevicesChanged;
 
-            var favDeviceStr = Program.Settings.FavouriteDevices.Split(new[] {",", "[", "]"},
+            var favDeviceStr = Program.Settings.FavouriteDevices.Split(new[] { ",", "[", "]" },
                 StringSplitOptions.RemoveEmptyEntries);
 
             FavouriteDeviceManager.LoadFavouriteDevices(Array.ConvertAll(favDeviceStr, x =>
@@ -815,7 +815,7 @@ namespace FortyOne.AudioSwitcher
                     if (!imageList1.Images.Keys.Contains(imageToGen) &&
                         imageList1.Images.IndexOfKey(imageKey + ".png") >= 0)
                     {
-                        var i = (Image) imageList1.Images[imageKey + ".png"].Clone();
+                        var i = (Image)imageList1.Images[imageKey + ".png"].Clone();
 
                         if (ad.State == DeviceState.Disabled || ad.State == DeviceState.Unplugged)
                             i = ImageHelper.SetImageOpacity(i, 0.5F);
@@ -925,7 +925,7 @@ namespace FortyOne.AudioSwitcher
                     if (!imageList1.Images.Keys.Contains(imageToGen) &&
                         imageList1.Images.IndexOfKey(imageKey + ".png") >= 0)
                     {
-                        var i = (Image) imageList1.Images[imageKey + ".png"].Clone();
+                        var i = (Image)imageList1.Images[imageKey + ".png"].Clone();
 
                         if (ad.State.HasFlag(DeviceState.Disabled) || ad.State == DeviceState.Unplugged)
                             i = ImageHelper.SetImageOpacity(i, 0.5F);
@@ -980,9 +980,13 @@ namespace FortyOne.AudioSwitcher
                 if (FavouriteDeviceManager.FavouriteDeviceCount > 0 && !FavouriteDeviceManager.IsFavouriteDevice(ad))
                     continue;
 
-                var item = new ToolStripMenuItem(ad.FullName);
-                item.Tag = ad;
-                item.Checked = ad.IsDefaultDevice;
+                var item = new ToolStripMenuItem
+                {
+                    Text = ad.FullName,
+                    Tag = ad,
+                    Checked = ad.IsDefaultDevice
+                };
+
                 notifyIconStrip.Items.Add(item);
                 playbackCount++;
             }
@@ -997,9 +1001,13 @@ namespace FortyOne.AudioSwitcher
                 if (FavouriteDeviceManager.FavouriteDeviceCount > 0 && !FavouriteDeviceManager.IsFavouriteDevice(ad))
                     continue;
 
-                var item = new ToolStripMenuItem(ad.FullName);
-                item.Tag = ad;
-                item.Checked = ad.IsDefaultDevice;
+                var item = new ToolStripMenuItem
+                {
+                    Text = ad.FullName,
+                    Tag = ad,
+                    Checked = ad.IsDefaultDevice
+                };
+
                 notifyIconStrip.Items.Add(item);
                 recordingCount++;
             }
@@ -1010,20 +1018,21 @@ namespace FortyOne.AudioSwitcher
             notifyIconStrip.Items.Add(preferencesToolStripMenuItem);
             notifyIconStrip.Items.Add(exitToolStripMenuItem);
 
-            //The maximum length of the noitfy text is 64 characters. This keeps it under
+            var defaultDevice = AudioDeviceManager.Controller.DefaultPlaybackDevice;
+            var notifyText = "Audio Switcher";
 
-            if (AudioDeviceManager.Controller.DefaultPlaybackDevice != null)
+            //The maximum length of the noitfy text is 64 characters. This keeps it under
+            if (defaultDevice != null)
             {
-                var notifyText = AudioDeviceManager.Controller.DefaultPlaybackDevice.FullName;
+                var devName = defaultDevice.FullName ?? defaultDevice.Name ?? notifyText;
 
                 if (notifyText.Length >= 64)
                     notifyText = notifyText.Substring(0, 60) + "...";
-                notifyIcon1.Text = notifyText;
+                else
+                    notifyText = devName;
             }
-            else
-            {
-                notifyIcon1.Text = "Audio Switcher";
-            }
+
+            notifyIcon1.Text = notifyText;
 
             RefreshTrayIcon();
         }
@@ -1033,10 +1042,11 @@ namespace FortyOne.AudioSwitcher
 
         private void RefreshTrayIcon()
         {
-            if (Program.Settings.ShowDPDeviceIconInTray && AudioDeviceManager.Controller.DefaultPlaybackDevice != null)
+            var defaultDevice = AudioDeviceManager.Controller.DefaultPlaybackDevice;
+            if (defaultDevice != null && Program.Settings.ShowDPDeviceIconInTray)
             {
-                var imageKey = ICON_MAP[AudioDeviceManager.Controller.DefaultPlaybackDevice.Icon];
-                var image = (Bitmap) imageList1.Images[imageList1.Images.IndexOfKey(imageKey + ".png")];
+                var imageKey = ICON_MAP[defaultDevice.Icon];
+                var image = (Bitmap)imageList1.Images[imageList1.Images.IndexOfKey(imageKey + ".png")];
                 var iconHandle = image.GetHicon();
                 var icon = Icon.FromHandle(iconHandle);
 
@@ -1162,7 +1172,7 @@ namespace FortyOne.AudioSwitcher
             RefreshPlaybackDropDownButton();
             for (var i = 0; i < listBoxPlayback.Items.Count; i++)
             {
-                if (((IDevice) listBoxPlayback.Items[i].Tag).Id == id)
+                if (((IDevice)listBoxPlayback.Items[i].Tag).Id == id)
                 {
                     listBoxPlayback.Items[i].Selected = true;
                     break;
@@ -1186,7 +1196,7 @@ namespace FortyOne.AudioSwitcher
             RefreshRecordingDropDownButton();
             for (var i = 0; i < listBoxRecording.Items.Count; i++)
             {
-                if (((IDevice) listBoxRecording.Items[i].Tag).Id == id)
+                if (((IDevice)listBoxRecording.Items[i].Tag).Id == id)
                 {
                     listBoxRecording.Items[i].Selected = true;
                     break;
@@ -1261,7 +1271,7 @@ namespace FortyOne.AudioSwitcher
         {
             if (e.ClickedItem != null && e.ClickedItem.Tag is IDevice)
             {
-                var dev = (IDevice) e.ClickedItem.Tag;
+                var dev = (IDevice)e.ClickedItem.Tag;
                 dev.SetAsDefault();
 
                 if (Program.Settings.DualSwitchMode)
@@ -1310,10 +1320,10 @@ namespace FortyOne.AudioSwitcher
             get
             {
                 var attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyTitleAttribute), false);
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
                 if (attributes.Length > 0)
                 {
-                    var titleAttribute = (AssemblyTitleAttribute) attributes[0];
+                    var titleAttribute = (AssemblyTitleAttribute)attributes[0];
                     if (titleAttribute.Title != "")
                     {
                         return titleAttribute.Title;
@@ -1333,12 +1343,12 @@ namespace FortyOne.AudioSwitcher
             get
             {
                 var attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyDescriptionAttribute), false);
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
                 }
-                return ((AssemblyDescriptionAttribute) attributes[0]).Description;
+                return ((AssemblyDescriptionAttribute)attributes[0]).Description;
             }
         }
 
@@ -1347,12 +1357,12 @@ namespace FortyOne.AudioSwitcher
             get
             {
                 var attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyProductAttribute), false);
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
                 }
-                return ((AssemblyProductAttribute) attributes[0]).Product;
+                return ((AssemblyProductAttribute)attributes[0]).Product;
             }
         }
 
@@ -1361,12 +1371,12 @@ namespace FortyOne.AudioSwitcher
             get
             {
                 var attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCopyrightAttribute), false);
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
                 }
-                return ((AssemblyCopyrightAttribute) attributes[0]).Copyright;
+                return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
             }
         }
 
@@ -1375,12 +1385,12 @@ namespace FortyOne.AudioSwitcher
             get
             {
                 var attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCompanyAttribute), false);
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
                 }
-                return ((AssemblyCompanyAttribute) attributes[0]).Company;
+                return ((AssemblyCompanyAttribute)attributes[0]).Company;
             }
         }
 
