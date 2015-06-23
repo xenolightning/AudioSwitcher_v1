@@ -38,7 +38,7 @@ namespace FortyOne.AudioSwitcher
             try
             {
                 //get the currently logged in user
-                WindowsIdentity user = WindowsIdentity.GetCurrent();
+                var user = WindowsIdentity.GetCurrent();
                 var principal = new WindowsPrincipal(user);
                 isAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
             }
@@ -61,27 +61,27 @@ namespace FortyOne.AudioSwitcher
                 p.Send(new Uri(Resources.WebServiceURL).Host);
 
                 //using (Cursor = Cursors.WaitCursor)
-                using (AudioSwitcherService.AudioSwitcher client = ConnectionHelper.GetAudioSwitcherProxy())
+                using (var client = ConnectionHelper.GetAudioSwitcherProxy())
                 {
                     if (client == null)
                         return;
 
-                    Assembly asm = Assembly.GetExecutingAssembly();
-                    object[] attribs = (asm.GetCustomAttributes(typeof (GuidAttribute), true));
-                    string guid = (attribs[0] as GuidAttribute).Value;
+                    var asm = Assembly.GetExecutingAssembly();
+                    var attribs = (asm.GetCustomAttributes(typeof (GuidAttribute), true));
+                    var guid = (attribs[0] as GuidAttribute).Value;
 
-                    string body = "";
+                    var body = "";
                     body += "Audio Switcher" + Environment.NewLine;
                     body += "Version: " + Assembly.GetExecutingAssembly().GetName().Version + Environment.NewLine;
                     body += "Operating System: " + Environment.OSVersion + (IntPtr.Size == 8 ? " 64-bit" : " 32-bit") +
                             Environment.NewLine;
                     body += "Administrator Privileges: " + IsUserAdministrator() + Environment.NewLine;
 
-                    string x = client.SendBugReport(guid, txtErrorDetails.Text, body, exception.ToString());
+                    var x = client.SendBugReport(guid, txtErrorDetails.Text, body, exception.ToString());
 
                     if (x != "")
                     {
-                        var bugConfStr = String.Format(
+                        var bugConfStr = string.Format(
                             "Bug Report Received. Thank you!\r\nBug ID: {0}\r\nBug Url: {1}{0}", x,
                             "https://github.com/xenolightning/AudioSwitcher_v1/issues/");
                         MessageBox.Show(this, bugConfStr);

@@ -7,8 +7,8 @@ namespace FortyOne.AudioSwitcher.Configuration
     public class JsonSettings : ISettingsSource
     {
         private readonly object _mutex = new object();
-        private IDictionary<string, string> _settingsObject;
         private string _path;
+        private IDictionary<string, string> _settingsObject;
 
         public void SetFilePath(string path)
         {

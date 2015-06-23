@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace FortyOne.AudioSwitcher.Configuration
+﻿namespace FortyOne.AudioSwitcher.Configuration
 {
     public class IniSettings : ISettingsSource
     {
         private const string SECTION_NAME = "Settings";
-        readonly ConfigurationWriter _writer = new ConfigurationWriter();
+        private readonly ConfigurationWriter _writer = new ConfigurationWriter();
 
         public void SetFilePath(string path)
         {

@@ -17,7 +17,7 @@ namespace FortyOne.AudioSwitcher
         public UpdateForm()
         {
             InitializeComponent();
-            using (AudioSwitcherService.AudioSwitcher client = ConnectionHelper.GetAudioSwitcherProxy())
+            using (var client = ConnectionHelper.GetAudioSwitcherProxy())
             {
                 if (client == null)
                     return;
@@ -48,7 +48,7 @@ namespace FortyOne.AudioSwitcher
         {
             try
             {
-                string updaterPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName,
+                var updaterPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName,
                     "AutoUpdater.exe");
                 if (!File.Exists(updaterPath))
                     File.WriteAllBytes(updaterPath, Resources.AutoUpdater);

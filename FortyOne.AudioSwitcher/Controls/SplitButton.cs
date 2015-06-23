@@ -10,119 +10,21 @@ namespace FortyOne.AudioSwitcher.Controls
     public class SplitButton : Button
     {
         private const int SplitSectionWidth = 18;
-
         private static readonly int BorderSize = SystemInformation.Border3DSize.Width*2;
         private PushButtonState _state;
         private Rectangle dropDownRectangle;
         private bool isMouseEntered;
-
         private bool isSplitMenuVisible;
-
-
         private ContextMenu m_SplitMenu;
         private ContextMenuStrip m_SplitMenuStrip;
         private bool showSplit;
         private bool skipNextOpen;
-
         private TextFormatFlags textFormatFlags = TextFormatFlags.Default;
 
         public SplitButton()
         {
             AutoSize = true;
         }
-
-        #region Properties
-
-        [Browsable(false)]
-        public override ContextMenuStrip ContextMenuStrip
-        {
-            get { return SplitMenuStrip; }
-            set { SplitMenuStrip = value; }
-        }
-
-        [DefaultValue(null)]
-        public ContextMenu SplitMenu
-        {
-            get { return m_SplitMenu; }
-            set
-            {
-                //remove the event handlers for the old SplitMenu
-                if (m_SplitMenu != null)
-                {
-                    m_SplitMenu.Popup -= SplitMenu_Popup;
-                }
-
-                //add the event handlers for the new SplitMenu
-                if (value != null)
-                {
-                    ShowSplit = true;
-                    value.Popup += SplitMenu_Popup;
-                }
-                else
-                    ShowSplit = false;
-
-                m_SplitMenu = value;
-            }
-        }
-
-        [DefaultValue(null)]
-        public ContextMenuStrip SplitMenuStrip
-        {
-            get { return m_SplitMenuStrip; }
-            set
-            {
-                //remove the event handlers for the old SplitMenuStrip
-                if (m_SplitMenuStrip != null)
-                {
-                    m_SplitMenuStrip.Closing -= SplitMenuStrip_Closing;
-                    m_SplitMenuStrip.Opening -= SplitMenuStrip_Opening;
-                }
-
-                //add the event handlers for the new SplitMenuStrip
-                if (value != null)
-                {
-                    ShowSplit = true;
-                    value.Closing += SplitMenuStrip_Closing;
-                    value.Opening += SplitMenuStrip_Opening;
-                }
-                else
-                    ShowSplit = false;
-
-
-                m_SplitMenuStrip = value;
-            }
-        }
-
-        [DefaultValue(false)]
-        public bool ShowSplit
-        {
-            set
-            {
-                if (value != showSplit)
-                {
-                    showSplit = value;
-                    Invalidate();
-
-                    if (Parent != null)
-                        Parent.PerformLayout();
-                }
-            }
-        }
-
-        private PushButtonState State
-        {
-            get { return _state; }
-            set
-            {
-                if (!_state.Equals(value))
-                {
-                    _state = value;
-                    Invalidate();
-                }
-            }
-        }
-
-        #endregion Properties
 
         protected override bool IsInputKey(Keys keyData)
         {
@@ -290,13 +192,13 @@ namespace FortyOne.AudioSwitcher.Controls
             if (!showSplit)
                 return;
 
-            Graphics g = pevent.Graphics;
-            Rectangle bounds = ClientRectangle;
+            var g = pevent.Graphics;
+            var bounds = ClientRectangle;
 
             // draw the button background as according to the current state.
             if (State != PushButtonState.Pressed && IsDefault && !Application.RenderWithVisualStyles)
             {
-                Rectangle backgroundBounds = bounds;
+                var backgroundBounds = bounds;
                 backgroundBounds.Inflate(-1, -1);
                 ButtonRenderer.DrawButton(g, backgroundBounds, State);
 
@@ -311,15 +213,15 @@ namespace FortyOne.AudioSwitcher.Controls
             // calculate the current dropdown rectangle.
             dropDownRectangle = new Rectangle(bounds.Right - SplitSectionWidth, 0, SplitSectionWidth, bounds.Height);
 
-            int internalBorder = BorderSize;
+            var internalBorder = BorderSize;
             var focusRect =
                 new Rectangle(internalBorder - 1,
                     internalBorder - 1,
                     bounds.Width - dropDownRectangle.Width - internalBorder,
                     bounds.Height - (internalBorder*2) + 2);
 
-            bool drawSplitLine = (State == PushButtonState.Hot || State == PushButtonState.Pressed ||
-                                  !Application.RenderWithVisualStyles);
+            var drawSplitLine = (State == PushButtonState.Hot || State == PushButtonState.Pressed ||
+                                 !Application.RenderWithVisualStyles);
 
 
             if (RightToLeft == RightToLeft.Yes)
@@ -416,7 +318,7 @@ namespace FortyOne.AudioSwitcher.Controls
 
         public override Size GetPreferredSize(Size proposedSize)
         {
-            Size preferredSize = base.GetPreferredSize(proposedSize);
+            var preferredSize = base.GetPreferredSize(proposedSize);
 
             //autosize correctly for splitbuttons
             if (showSplit)
@@ -434,9 +336,9 @@ namespace FortyOne.AudioSwitcher.Controls
 
         private Size CalculateButtonAutoSize()
         {
-            Size ret_size = Size.Empty;
-            Size text_size = TextRenderer.MeasureText(Text, Font);
-            Size image_size = Image == null ? Size.Empty : Image.Size;
+            var ret_size = Size.Empty;
+            var text_size = TextRenderer.MeasureText(Text, Font);
+            var image_size = Image == null ? Size.Empty : Image.Size;
 
             // Pad the text size
             if (Text.Length != 0)
@@ -514,7 +416,6 @@ namespace FortyOne.AudioSwitcher.Controls
             }
         }
 
-
         private void SplitMenu_Popup(object sender, EventArgs e)
         {
             isSplitMenuVisible = true;
@@ -553,6 +454,99 @@ namespace FortyOne.AudioSwitcher.Controls
             }
         }
 
+        #region Properties
+
+        [Browsable(false)]
+        public override ContextMenuStrip ContextMenuStrip
+        {
+            get { return SplitMenuStrip; }
+            set { SplitMenuStrip = value; }
+        }
+
+        [DefaultValue(null)]
+        public ContextMenu SplitMenu
+        {
+            get { return m_SplitMenu; }
+            set
+            {
+                //remove the event handlers for the old SplitMenu
+                if (m_SplitMenu != null)
+                {
+                    m_SplitMenu.Popup -= SplitMenu_Popup;
+                }
+
+                //add the event handlers for the new SplitMenu
+                if (value != null)
+                {
+                    ShowSplit = true;
+                    value.Popup += SplitMenu_Popup;
+                }
+                else
+                    ShowSplit = false;
+
+                m_SplitMenu = value;
+            }
+        }
+
+        [DefaultValue(null)]
+        public ContextMenuStrip SplitMenuStrip
+        {
+            get { return m_SplitMenuStrip; }
+            set
+            {
+                //remove the event handlers for the old SplitMenuStrip
+                if (m_SplitMenuStrip != null)
+                {
+                    m_SplitMenuStrip.Closing -= SplitMenuStrip_Closing;
+                    m_SplitMenuStrip.Opening -= SplitMenuStrip_Opening;
+                }
+
+                //add the event handlers for the new SplitMenuStrip
+                if (value != null)
+                {
+                    ShowSplit = true;
+                    value.Closing += SplitMenuStrip_Closing;
+                    value.Opening += SplitMenuStrip_Opening;
+                }
+                else
+                    ShowSplit = false;
+
+
+                m_SplitMenuStrip = value;
+            }
+        }
+
+        [DefaultValue(false)]
+        public bool ShowSplit
+        {
+            set
+            {
+                if (value != showSplit)
+                {
+                    showSplit = value;
+                    Invalidate();
+
+                    if (Parent != null)
+                        Parent.PerformLayout();
+                }
+            }
+        }
+
+        private PushButtonState State
+        {
+            get { return _state; }
+            set
+            {
+                if (!_state.Equals(value))
+                {
+                    _state = value;
+                    Invalidate();
+                }
+            }
+        }
+
+        #endregion Properties
+
         #region Button Layout Calculations
 
         //The following layout functions were taken from Mono's Windows.Forms 
@@ -562,8 +556,8 @@ namespace FortyOne.AudioSwitcher.Controls
         private void CalculateButtonTextAndImageLayout(ref Rectangle content_rect, out Rectangle textRectangle,
             out Rectangle imageRectangle)
         {
-            Size text_size = TextRenderer.MeasureText(Text, Font, content_rect.Size, textFormatFlags);
-            Size image_size = Image == null ? Size.Empty : Image.Size;
+            var text_size = TextRenderer.MeasureText(Text, Font, content_rect.Size, textFormatFlags);
+            var image_size = Image == null ? Size.Empty : Image.Size;
 
             textRectangle = Rectangle.Empty;
             imageRectangle = Rectangle.Empty;
@@ -573,7 +567,7 @@ namespace FortyOne.AudioSwitcher.Controls
                 case TextImageRelation.Overlay:
                     // Overlay is easy, text always goes here
                     textRectangle = OverlayObjectRect(ref content_rect, ref text_size, TextAlign);
-                        // Rectangle.Inflate(content_rect, -4, -4);
+                    // Rectangle.Inflate(content_rect, -4, -4);
 
                     //Offset on Windows 98 style when button is pressed
                     if (_state == PushButtonState.Pressed && !Application.RenderWithVisualStyles)
@@ -662,8 +656,8 @@ namespace FortyOne.AudioSwitcher.Controls
         private void LayoutTextBeforeOrAfterImage(Rectangle totalArea, bool textFirst, Size textSize, Size imageSize,
             out Rectangle textRect, out Rectangle imageRect)
         {
-            int element_spacing = 0; // Spacing between the Text and the Image
-            int total_width = textSize.Width + element_spacing + imageSize.Width;
+            var element_spacing = 0; // Spacing between the Text and the Image
+            var total_width = textSize.Width + element_spacing + imageSize.Width;
 
             if (!textFirst)
                 element_spacing += 2;
@@ -675,14 +669,14 @@ namespace FortyOne.AudioSwitcher.Controls
                 total_width = totalArea.Width;
             }
 
-            int excess_width = totalArea.Width - total_width;
-            int offset = 0;
+            var excess_width = totalArea.Width - total_width;
+            var offset = 0;
 
             Rectangle final_text_rect;
             Rectangle final_image_rect;
 
-            HorizontalAlignment h_text = GetHorizontalAlignment(TextAlign);
-            HorizontalAlignment h_image = GetHorizontalAlignment(ImageAlign);
+            var h_text = GetHorizontalAlignment(TextAlign);
+            var h_image = GetHorizontalAlignment(ImageAlign);
 
             if (h_image == HorizontalAlignment.Left)
                 offset = 0;
@@ -716,8 +710,8 @@ namespace FortyOne.AudioSwitcher.Controls
         private void LayoutTextAboveOrBelowImage(Rectangle totalArea, bool textFirst, Size textSize, Size imageSize,
             out Rectangle textRect, out Rectangle imageRect)
         {
-            int element_spacing = 0; // Spacing between the Text and the Image
-            int total_height = textSize.Height + element_spacing + imageSize.Height;
+            var element_spacing = 0; // Spacing between the Text and the Image
+            var total_height = textSize.Height + element_spacing + imageSize.Height;
 
             if (textFirst)
                 element_spacing += 2;
@@ -732,14 +726,14 @@ namespace FortyOne.AudioSwitcher.Controls
                 total_height = totalArea.Height;
             }
 
-            int excess_height = totalArea.Height - total_height;
-            int offset = 0;
+            var excess_height = totalArea.Height - total_height;
+            var offset = 0;
 
             Rectangle final_text_rect;
             Rectangle final_image_rect;
 
-            VerticalAlignment v_text = GetVerticalAlignment(TextAlign);
-            VerticalAlignment v_image = GetVerticalAlignment(ImageAlign);
+            var v_text = GetVerticalAlignment(TextAlign);
+            var v_image = GetVerticalAlignment(ImageAlign);
 
             if (v_image == VerticalAlignment.Top)
                 offset = 0;
@@ -817,8 +811,8 @@ namespace FortyOne.AudioSwitcher.Controls
 
         internal static Rectangle AlignInRectangle(Rectangle outer, Size inner, ContentAlignment align)
         {
-            int x = 0;
-            int y = 0;
+            var x = 0;
+            var y = 0;
 
             if (align == ContentAlignment.BottomLeft || align == ContentAlignment.MiddleLeft ||
                 align == ContentAlignment.TopLeft)

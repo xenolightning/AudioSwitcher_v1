@@ -7,13 +7,8 @@ namespace FortyOne.AudioSwitcher.Configuration
 {
     public class ConfigurationWriter
     {
-
-        private string _path;
         private readonly object _mutex = new object();
-
-        public ConfigurationWriter()
-        {
-        }
+        private string _path;
 
         [DllImport("kernel32")]
         private static extern long WritePrivateProfileString(string section,
@@ -25,13 +20,13 @@ namespace FortyOne.AudioSwitcher.Configuration
         //    int size, string filePath);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
-        static extern uint GetPrivateProfileString(
-           string lpAppName,
-           string lpKeyName,
-           string lpDefault,
-           StringBuilder lpReturnedString,
-           uint nSize,
-           string lpFileName);
+        private static extern uint GetPrivateProfileString(
+            string lpAppName,
+            string lpKeyName,
+            string lpDefault,
+            StringBuilder lpReturnedString,
+            uint nSize,
+            string lpFileName);
 
         public void SetPath(string iniPath)
         {
@@ -72,8 +67,8 @@ namespace FortyOne.AudioSwitcher.Configuration
         {
             lock (_mutex)
             {
-                StringBuilder sb = new StringBuilder(500);
-                uint res = GetPrivateProfileString(Section, Key, "", sb, (uint)sb.Capacity, _path);
+                var sb = new StringBuilder(500);
+                var res = GetPrivateProfileString(Section, Key, "", sb, (uint) sb.Capacity, _path);
 
                 if (string.IsNullOrEmpty(sb.ToString()))
                     throw new KeyNotFoundException(Section + " - " + Key);

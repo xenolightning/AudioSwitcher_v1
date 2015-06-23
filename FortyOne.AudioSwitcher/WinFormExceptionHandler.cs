@@ -14,7 +14,7 @@ namespace FortyOne.AudioSwitcher
         /// </summary>
         /// <param name="sender">Application sending the event</param>
         /// <param name="t">ThreadExceptionEventArgs</param>
-        public static void OnThreadException(Object sender, ThreadExceptionEventArgs t)
+        public static void OnThreadException(object sender, ThreadExceptionEventArgs t)
         {
             HandleException(t.Exception, null);
         }
@@ -24,7 +24,7 @@ namespace FortyOne.AudioSwitcher
         /// </summary>
         /// <param name="sender">Application sending the event</param>
         /// <param name="t">UnhandledExceptionEventArgs</param>
-        public static void OnUnhandledCLRException(Object sender, UnhandledExceptionEventArgs t)
+        public static void OnUnhandledCLRException(object sender, UnhandledExceptionEventArgs t)
         {
             HandleException((Exception) t.ExceptionObject, null);
         }
@@ -45,8 +45,8 @@ namespace FortyOne.AudioSwitcher
 
         private static void HandleSystemException(Exception ex, string caption)
         {
-            string title = "An Unhandled Error Occurred";
-            string text = string.Empty;
+            var title = "An Unhandled Error Occurred";
+            var text = string.Empty;
             if (caption != null)
                 text = caption + Environment.NewLine;
 

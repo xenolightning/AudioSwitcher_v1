@@ -11,9 +11,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
     public static class HotKeyManager
     {
         private static readonly List<HotKey> _hotkeys = new List<HotKey>();
-
         public static BindingList<HotKey> HotKeys = new BindingList<HotKey>();
-
 
         static HotKeyManager()
         {
@@ -25,7 +23,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
 
         public static void ClearAll()
         {
-            foreach (HotKey hk in _hotkeys)
+            foreach (var hk in _hotkeys)
             {
                 hk.UnregsiterHotkey();
             }
@@ -39,26 +37,26 @@ namespace FortyOne.AudioSwitcher.HotKeyData
         {
             try
             {
-                foreach (HotKey hk in _hotkeys)
+                foreach (var hk in _hotkeys)
                 {
                     hk.UnregsiterHotkey();
                 }
 
                 _hotkeys.Clear();
 
-                string hotkeydata = Program.Settings.HotKeys;
+                var hotkeydata = Program.Settings.HotKeys;
                 if (string.IsNullOrEmpty(hotkeydata))
                 {
                     RefreshHotkeys();
                     return;
                 }
 
-                string[] entries = hotkeydata.Split(new[] { ",", "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
+                var entries = hotkeydata.Split(new[] {",", "[", "]"}, StringSplitOptions.RemoveEmptyEntries);
 
-                for (int i = 0; i < entries.Length; i++)
+                for (var i = 0; i < entries.Length; i++)
                 {
-                    int key = int.Parse(entries[i++]);
-                    int modifiers = int.Parse(entries[i++]);
+                    var key = int.Parse(entries[i++]);
+                    var modifiers = int.Parse(entries[i++]);
                     var hk = new HotKey();
 
                     var r = new Regex(ConfigurationSettings.GUID_REGEX);
@@ -67,8 +65,8 @@ namespace FortyOne.AudioSwitcher.HotKeyData
                         continue;
                     hk.DeviceId = new Guid(matches[0].ToString());
 
-                    hk.Modifiers = (Modifiers)modifiers;
-                    hk.Key = (Keys)key;
+                    hk.Modifiers = (Modifiers) modifiers;
+                    hk.Key = (Keys) key;
                     _hotkeys.Add(hk);
                     hk.HotKeyPressed += hk_HotKeyPressed;
                     try
@@ -96,10 +94,10 @@ namespace FortyOne.AudioSwitcher.HotKeyData
 
         public static void SaveHotKeys()
         {
-            string hotkeydata = "";
-            foreach (HotKey hk in _hotkeys)
+            var hotkeydata = "";
+            foreach (var hk in _hotkeys)
             {
-                hotkeydata += "[" + (int)hk.Key + "," + (int)hk.Modifiers + "," + hk.DeviceId + "]";
+                hotkeydata += "[" + (int) hk.Key + "," + (int) hk.Modifiers + "," + hk.DeviceId + "]";
             }
             Program.Settings.HotKeys = hotkeydata;
 
@@ -132,7 +130,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
         private static void RefreshHotkeys()
         {
             HotKeys.Clear();
-            foreach (HotKey k in _hotkeys.Where(x => x.Device != null))
+            foreach (var k in _hotkeys.Where(x => x.Device != null))
             {
                 HotKeys.Add(k);
             }
@@ -140,7 +138,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
 
         public static bool DuplicateHotKey(HotKey hk)
         {
-            foreach (HotKey k in _hotkeys)
+            foreach (var k in _hotkeys)
             {
                 if (hk.Key == k.Key && hk.Modifiers == k.Modifiers)
                     return true;

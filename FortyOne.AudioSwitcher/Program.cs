@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Windows.Forms;
-using AudioSwitcher.AudioApi.CoreAudio;
 using FortyOne.AudioSwitcher.Configuration;
 using FortyOne.AudioSwitcher.Properties;
 
@@ -12,14 +11,10 @@ namespace FortyOne.AudioSwitcher
 {
     internal static class Program
     {
+        public static ConfigurationSettings Settings { get; private set; }
+
         [DllImport("User32.dll")]
         private static extern int SetForegroundWindow(IntPtr hWnd);
-
-        public static ConfigurationSettings Settings
-        {
-            get;
-            private set;
-        }
 
         /// <summary>
         ///     The main entry point for the application.
@@ -46,7 +41,7 @@ namespace FortyOne.AudioSwitcher
             //Delete the old updater
             try
             {
-                string updaterPath = Application.StartupPath + "AutoUpdater.exe";
+                var updaterPath = Application.StartupPath + "AutoUpdater.exe";
                 if (File.Exists(updaterPath))
                     File.Delete(updaterPath);
             }
@@ -58,7 +53,7 @@ namespace FortyOne.AudioSwitcher
             //Delete the new updater
             try
             {
-                string updaterPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName,
+                var updaterPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName,
                     "AutoUpdater.exe");
                 if (File.Exists(updaterPath))
                     File.Delete(updaterPath);
@@ -68,20 +63,22 @@ namespace FortyOne.AudioSwitcher
                 //This shouldn't prevent the application from running
             }
 
-            string settingsPath = "";
+            var settingsPath = "";
             try
             {
                 //Load/Create default settings
-                string oldSettingsPath = "";
+                var oldSettingsPath = "";
 
-                oldSettingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName, Resources.OldConfigFile);
+                oldSettingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName,
+                    Resources.OldConfigFile);
                 settingsPath = oldSettingsPath;
 
                 //1. Provide early notification that the user does not have permission to write.
                 var writePermission = new FileIOPermission(FileIOPermissionAccess.Write, settingsPath);
                 new FileIOPermission(FileIOPermissionAccess.Write, settingsPath).Demand();
 
-                settingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName, Resources.ConfigFile);
+                settingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName,
+                    Resources.ConfigFile);
                 new FileIOPermission(FileIOPermissionAccess.Write, settingsPath).Demand();
 
                 //Open and close the settings file to ensure write access
@@ -118,7 +115,9 @@ namespace FortyOne.AudioSwitcher
             catch
             {
                 MessageBox.Show(
-                    String.Format("Error creating/reading settings file [{0}]. Make sure you have read/write access to this file.\r\nOr try running as Administrator", settingsPath),
+                    string.Format(
+                        "Error creating/reading settings file [{0}]. Make sure you have read/write access to this file.\r\nOr try running as Administrator",
+                        settingsPath),
                     "Setings File - Cannot Access");
                 return;
             }
@@ -129,8 +128,8 @@ namespace FortyOne.AudioSwitcher
             }
             catch (Exception ex)
             {
-                string title = "An Unexpected Error Occurred";
-                string text = ex.Message + Environment.NewLine + Environment.NewLine + ex;
+                var title = "An Unexpected Error Occurred";
+                var text = ex.Message + Environment.NewLine + Environment.NewLine + ex;
 
                 var edf = new ExceptionDisplayForm(title, text, ex);
                 edf.ShowDialog();

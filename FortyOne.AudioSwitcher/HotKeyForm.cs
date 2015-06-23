@@ -13,9 +13,9 @@ namespace FortyOne.AudioSwitcher
 
     public partial class HotKeyForm : Form
     {
-        private readonly HotKeyFormMode Mode = HotKeyFormMode.Normal;
         private readonly HotKey hotkey;
         private readonly HotKey linkedHotKey;
+        private readonly HotKeyFormMode Mode = HotKeyFormMode.Normal;
         private bool FirstFocus = true;
         private bool Recording;
 
@@ -26,10 +26,10 @@ namespace FortyOne.AudioSwitcher
             hotkey = new HotKey();
 
             cmbDevices.Items.Clear();
-            foreach (IDevice ad in AudioDeviceManager.Controller.GetPlaybackDevices())
+            foreach (var ad in AudioDeviceManager.Controller.GetPlaybackDevices())
                 cmbDevices.Items.Add(ad);
 
-            foreach (IDevice ad in AudioDeviceManager.Controller.GetCaptureDevices())
+            foreach (var ad in AudioDeviceManager.Controller.GetCaptureDevices())
                 cmbDevices.Items.Add(ad);
 
             cmbDevices.DisplayMember = "FullName";
@@ -57,7 +57,7 @@ namespace FortyOne.AudioSwitcher
         {
             AudioSwitcher.Instance.DisableHotKeyFunction = true;
 
-            foreach (object o in cmbDevices.Items)
+            foreach (var o in cmbDevices.Items)
             {
                 if (((IDevice) o).Id == hotkey.DeviceId)
                 {
@@ -104,7 +104,6 @@ namespace FortyOne.AudioSwitcher
             DialogResult = DialogResult.Cancel;
             Close();
         }
-
 
         private void txtHotKey_KeyDown(object sender, KeyEventArgs e)
         {

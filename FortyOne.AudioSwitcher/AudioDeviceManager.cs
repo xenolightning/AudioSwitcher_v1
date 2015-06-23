@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AudioSwitcher.AudioApi;
+﻿using AudioSwitcher.AudioApi;
 using AudioSwitcher.AudioApi.CoreAudio;
 
 namespace FortyOne.AudioSwitcher
@@ -10,7 +6,6 @@ namespace FortyOne.AudioSwitcher
     public static class AudioDeviceManager
     {
         private static IAudioController _instance;
-
 
         public static IAudioController Controller
         {
@@ -20,6 +15,5 @@ namespace FortyOne.AudioSwitcher
                 return _instance ?? (_instance = new CoreAudioController());
             }
         }
-
     }
 }

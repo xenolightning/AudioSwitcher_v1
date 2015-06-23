@@ -1,5 +1,7 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FortyOne.AudioSwitcher.Properties" GeneratedClassName="Settings">
+
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)"
+              GeneratedClassNamespace="FortyOne.AudioSwitcher.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="AudioSwitcher_AudioSwitcherService_AudioSwitcher" Type="(Web Service URL)" Scope="Application">

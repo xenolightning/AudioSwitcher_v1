@@ -37,7 +37,7 @@ namespace FortyOne.AudioSwitcher
         {
             FavouriteDeviceIDs = new List<Guid>();
 
-            foreach (Guid s in favouriteIDs)
+            foreach (var s in favouriteIDs)
             {
                 if (AudioDeviceManager.Controller.GetDevice(s) != null)
                     AddFavouriteDevice(s);
@@ -87,15 +87,15 @@ namespace FortyOne.AudioSwitcher
         public static Guid GetNextFavouritePlaybackDevice()
         {
             //Start at the next device
-            int index = (FavouriteDeviceIDs.IndexOf(AudioDeviceManager.Controller.DefaultPlaybackDevice.Id) + 1)%
+            var index = (FavouriteDeviceIDs.IndexOf(AudioDeviceManager.Controller.DefaultPlaybackDevice.Id) + 1)%
                         FavouriteDeviceIDs.Count;
 
-            int i = index;
+            var i = index;
 
             while (true)
             {
                 var id = FavouriteDeviceIDs[i%FavouriteDeviceIDs.Count];
-                IDevice ad = AudioDeviceManager.Controller.GetDevice(id);
+                var ad = AudioDeviceManager.Controller.GetDevice(id);
 
                 i++;
 

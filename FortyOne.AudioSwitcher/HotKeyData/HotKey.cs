@@ -22,7 +22,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
         ///     combination installed.  If the hotkey registration process fails (for example the hotkey combination
         ///     is already registered) then a Win32Exception is thrown.
         /// </remarks>
-        public bool IsRegistered = false;
+        public bool IsRegistered;
 
         public HotKey()
         {
@@ -49,7 +49,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
         {
             get
             {
-                string keystring = "";
+                var keystring = "";
                 if ((Modifiers & Modifiers.Alt) > 0)
                     keystring += "Alt+";
                 if ((Modifiers & Modifiers.Control) > 0)
@@ -151,17 +151,16 @@ namespace FortyOne.AudioSwitcher.HotKeyData
             IsRegistered = false;
         }
 
-
         /// <summary>
         /// </summary>
         /// <param name="hWnd">The handle of the window to force to the front.</param>
         public void ActivateWindow(IntPtr hWnd)
         {
-            IntPtr hForeground = NativeMethods.GetForegroundWindow();
+            var hForeground = NativeMethods.GetForegroundWindow();
             if (hWnd != hForeground)
             {
-                IntPtr hForegroundThread = NativeMethods.GetWindowThreadProcessId(hForeground, IntPtr.Zero);
-                IntPtr hCurrentThread = NativeMethods.GetWindowThreadProcessId(hWnd, IntPtr.Zero);
+                var hForegroundThread = NativeMethods.GetWindowThreadProcessId(hForeground, IntPtr.Zero);
+                var hCurrentThread = NativeMethods.GetWindowThreadProcessId(hWnd, IntPtr.Zero);
 
                 if (hForegroundThread != hCurrentThread)
                 {
@@ -250,7 +249,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
 
             public void UnregisterHotkey()
             {
-                if (base.Handle != IntPtr.Zero && HotKeyID != 0)
+                if (Handle != IntPtr.Zero && HotKeyID != 0)
                 {
                     NativeMethods.UnregisterHotKey(Handle, HotKeyID);
                     NativeMethods.GlobalDeleteAtom(HotKeyID);
@@ -260,7 +259,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
 
             private bool HandleCreated()
             {
-                if (base.Handle == IntPtr.Zero)
+                if (Handle == IntPtr.Zero)
                 {
                     var createParams = new CreateParams();
                     createParams.Caption = Guid.NewGuid().ToString("N");
@@ -273,7 +272,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
                     }
                     CreateHandle(createParams);
                 }
-                return (base.Handle != IntPtr.Zero);
+                return (Handle != IntPtr.Zero);
             }
 
             protected override void WndProc(ref Message m)
