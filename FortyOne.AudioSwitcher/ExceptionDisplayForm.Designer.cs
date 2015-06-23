@@ -118,10 +118,11 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.txtErrorDetails);
             this.Controls.Add(this.label1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ExceptionDisplayForm";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Error Occured";
             this.Load += new System.EventHandler(this.ExceptionDisplayForm_Load);

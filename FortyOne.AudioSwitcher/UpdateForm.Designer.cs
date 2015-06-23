@@ -108,20 +108,19 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(274, 239);
-            this.ControlBox = false;
+            this.ClientSize = new System.Drawing.Size(274, 236);
             this.Controls.Add(this.lblChangeLog);
             this.Controls.Add(this.btnUpdateNow);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MinimumSize = new System.Drawing.Size(290, 270);
             this.Name = "UpdateForm";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Update Available";
-            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

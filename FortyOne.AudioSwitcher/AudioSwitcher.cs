@@ -101,11 +101,6 @@ namespace FortyOne.AudioSwitcher
 
         private void Form_Load()
         {
-            if (Program.Settings.CheckForUpdatesOnStartup || Program.Settings.PollForUpdates >= 1)
-            {
-                Task.Factory.StartNew(CheckForUpdates);
-            }
-
             var dev = AudioDeviceManager.Controller.GetDevice(Program.Settings.StartupPlaybackDeviceID);
 
             if (dev != null)
@@ -117,22 +112,34 @@ namespace FortyOne.AudioSwitcher
                 dev.SetAsDefault();
 
             //Heartbeat
-            Task.Factory.StartNew(() =>
-            {
-                using (var client = ConnectionHelper.GetAudioSwitcherProxy())
-                {
-                    if (client == null)
-                        return;
-
-                    client.GetUpdateInfo(AssemblyVersion);
-                }
-            });
+            Task.Factory.StartNew(CheckForNewVersion);
 
             BeginInvoke((Action)(() =>
             {
                 RefreshPlaybackDevices();
                 RefreshRecordingDevices();
             }));
+        }
+
+        private void CheckForNewVersion()
+        {
+            statusLabelUpdate.Visible = false;
+
+            using (var client = ConnectionHelper.GetAudioSwitcherProxy())
+            {
+                if (client == null)
+                    return;
+
+                _retrievedVersion = client.GetUpdateInfo(AssemblyVersion);
+
+                if (_retrievedVersion != null && !string.IsNullOrEmpty(_retrievedVersion.URL))
+                {
+                    _updateAvailable = true;
+                    statusLabelUpdate.Visible = true;
+
+                    BeginInvoke(new Action(RefreshNotifyIconItems));
+                }
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -158,41 +165,6 @@ namespace FortyOne.AudioSwitcher
                 refreshAction();
         }
 
-        private void CheckForUpdates()
-        {
-            CheckForUpdates(null, null);
-        }
-
-        private void CheckForUpdates(object o, EventArgs ae)
-        {
-            try
-            {
-                using (var client = ConnectionHelper.GetAudioSwitcherProxy())
-                {
-                    if (client == null)
-                        return;
-
-                    _retrievedVersion = client.GetUpdateInfo(AssemblyVersion);
-                    if (_retrievedVersion != null && !string.IsNullOrEmpty(_retrievedVersion.URL))
-                    {
-                        notifyIcon1.BalloonTipText = "Click here to download.";
-                        notifyIcon1.BalloonTipTitle = "New version available.";
-                        notifyIcon1.BalloonTipClicked += notifyIcon1_BalloonTipClicked;
-                        notifyIcon1.ShowBalloonTip(3000);
-                    }
-                }
-            }
-            catch
-            {
-            }
-        }
-
-        private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
-        {
-            UpdateForm udf = _retrievedVersion != null ? new UpdateForm(_retrievedVersion) : new UpdateForm();
-            udf.ShowDialog(this);
-        }
-
         protected override void SetVisibleCore(bool value)
         {
             if (Program.Settings.StartMinimized && _firstStart)
@@ -206,6 +178,11 @@ namespace FortyOne.AudioSwitcher
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            Donate();
+        }
+
+        private static void Donate()
         {
             Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Q9TDQPY4B369A");
         }
@@ -416,53 +393,6 @@ namespace FortyOne.AudioSwitcher
             MinimizeFootprint();
         }
 
-        private void chkPollForUpdates_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkPollForUpdates.Checked)
-            {
-                spinPollMinutes.Enabled = true;
-
-                if (Program.Settings.PollForUpdates < 0)
-                    Program.Settings.PollForUpdates = Program.Settings.PollForUpdates * -1;
-
-                if (Program.Settings.PollForUpdates < spinPollMinutes.Minimum)
-                    Program.Settings.PollForUpdates = (int)spinPollMinutes.Minimum;
-
-                if (Program.Settings.PollForUpdates > spinPollMinutes.Maximum)
-                    Program.Settings.PollForUpdates = (int)spinPollMinutes.Maximum;
-
-                spinPollMinutes.Value = Program.Settings.PollForUpdates;
-            }
-            else
-            {
-                spinPollMinutes.Enabled = false;
-                Program.Settings.PollForUpdates = (int)(-1 * spinPollMinutes.Value);
-            }
-        }
-
-        private void spinPollMinutes_ValueChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                UpdateTimer.Stop();
-                UpdateTimer.Dispose();
-            }
-            catch
-            {
-            }
-
-            UpdateTimer = new Timer();
-
-            Program.Settings.PollForUpdates = (int)spinPollMinutes.Value;
-
-            if (Program.Settings.PollForUpdates > 0)
-            {
-                UpdateTimer.Interval = (int)TimeSpan.FromHours(Program.Settings.PollForUpdates).TotalMilliseconds;
-                UpdateTimer.Tick += CheckForUpdates;
-                UpdateTimer.Enabled = true;
-                UpdateTimer.Start();
-            }
-        }
 
         private void linkLabel1_Click(object sender, EventArgs e)
         {
@@ -502,7 +432,7 @@ namespace FortyOne.AudioSwitcher
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://audioswit.ch/er");
+            Process.Start("http://audioswit.ch/er?utm_source=client_1&utm_medium=direct&utm_campaign=client_1");
         }
 
         private void chkShowDiabledDevices_CheckedChanged(object sender, EventArgs e)
@@ -578,10 +508,9 @@ namespace FortyOne.AudioSwitcher
             Show();
         }
 
-        #region Properties
-
         private static AudioSwitcher _instance;
         public bool DisableHotKeyFunction = false;
+        private bool _updateAvailable;
 
         public static AudioSwitcher Instance
         {
@@ -622,10 +551,6 @@ namespace FortyOne.AudioSwitcher
                 } // rubbish error
             }
         }
-
-        #endregion
-
-        #region HotKeyButtons
 
         private void btnAddHotKey_Click(object sender, EventArgs e)
         {
@@ -673,10 +598,6 @@ namespace FortyOne.AudioSwitcher
             dataGridView1.Refresh();
         }
 
-        #endregion
-
-        #region Methods
-
         private void LoadSettings()
         {
             //Fix to stop the registry thing being removed and not re-added
@@ -688,9 +609,6 @@ namespace FortyOne.AudioSwitcher
             chkDisableHotKeys.Checked = Program.Settings.DisableHotKeys;
             chkQuickSwitch.Checked = Program.Settings.EnableQuickSwitch;
             chkDualSwitchMode.Checked = Program.Settings.DualSwitchMode;
-            //chkNotifyUpdates.Checked = Program.Settings.CheckForUpdatesOnStartup;
-            chkPollForUpdates.Checked = Program.Settings.PollForUpdates >= 1;
-            spinPollMinutes.Enabled = chkPollForUpdates.Checked;
 
             chkShowDiabledDevices.Checked = Program.Settings.ShowDisabledDevices;
             chkShowDisconnectedDevices.Checked = Program.Settings.ShowDisconnectedDevices;
@@ -729,10 +647,6 @@ namespace FortyOne.AudioSwitcher
         {
             Program.Settings.FavouriteDevices = "[" + string.Join("],[", IDs.ToArray()) + "]";
         }
-
-        #endregion
-
-        #region RefreshHandling
 
         private void RefreshPlaybackDevices()
         {
@@ -1002,6 +916,10 @@ namespace FortyOne.AudioSwitcher
                 notifyIconStrip.Items.Add(new ToolStripSeparator());
 
             notifyIconStrip.Items.Add(preferencesToolStripMenuItem);
+
+            if(_updateAvailable)
+                notifyIconStrip.Items.Add(updateAvailableToolStripMenuItem);
+
             notifyIconStrip.Items.Add(exitToolStripMenuItem);
 
             var defaultDevice = AudioDeviceManager.Controller.DefaultPlaybackDevice;
@@ -1103,10 +1021,6 @@ namespace FortyOne.AudioSwitcher
                 mnuFavouriteRecordingDevice.Enabled = true;
             }
         }
-
-        #endregion
-
-        #region Events
 
         private void mnuSetPlaybackCommunicationDefault_Click(object sender, EventArgs e)
         {
@@ -1273,10 +1187,6 @@ namespace FortyOne.AudioSwitcher
             Program.Settings.WindowHeight = Height;
         }
 
-        #endregion
-
-        #region Assembly Attribute Accessors
-
         public string AssemblyTitle
         {
             get
@@ -1356,6 +1266,29 @@ namespace FortyOne.AudioSwitcher
             }
         }
 
-        #endregion
+        private void statusLabelUpdate_Click(object sender, EventArgs e)
+        {
+            ShowUpdateForm();
+        }
+
+        private void ShowUpdateForm(bool topMost = false)
+        {
+            if (_retrievedVersion == null)
+                return;
+
+            var udf = new UpdateForm(_retrievedVersion);
+            udf.TopMost = topMost;
+            udf.ShowDialog(this);
+        }
+
+        private void statusLabelDonate_Click(object sender, EventArgs e)
+        {
+            Donate();
+        }
+
+        private void updateAvailableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowUpdateForm(true);
+        }
     }
 }

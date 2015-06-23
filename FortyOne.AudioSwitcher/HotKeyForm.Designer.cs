@@ -115,10 +115,11 @@
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.txtHotKey);
             this.Controls.Add(this.cmbDevices);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "HotKeyForm";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add Hot Key";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HotKeyForm_FormClosed);
