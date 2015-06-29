@@ -86,15 +86,20 @@ namespace FortyOne.AudioSwitcher
 
         public static Guid GetNextFavouritePlaybackDevice()
         {
-            //Start at the next device
-            var index = (FavouriteDeviceIDs.IndexOf(AudioDeviceManager.Controller.DefaultPlaybackDevice.Id) + 1)%
-                        FavouriteDeviceIDs.Count;
+            var device = AudioDeviceManager.Controller.DefaultPlaybackDevice;
+            var index = 0;
+
+            if (device != null)
+            {
+                //Start at the next device
+                index = (FavouriteDeviceIDs.IndexOf(device.Id) + 1) % FavouriteDeviceIDs.Count;
+            }
 
             var i = index;
 
             while (true)
             {
-                var id = FavouriteDeviceIDs[i%FavouriteDeviceIDs.Count];
+                var id = FavouriteDeviceIDs[i % FavouriteDeviceIDs.Count];
                 var ad = AudioDeviceManager.Controller.GetDevice(id);
 
                 i++;
