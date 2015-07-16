@@ -258,6 +258,7 @@ namespace FortyOne.AudioSwitcher
                 {
                     _updateAvailable = true;
                     statusLabelUpdate.Visible = true;
+                    statusLabelUpdate.ToolTipText = "New Version Available - " + _retrievedVersion.VersionInfo;
 
                     BeginInvoke(new Action(RefreshNotifyIconItems));
                 }
@@ -546,14 +547,14 @@ namespace FortyOne.AudioSwitcher
             RefreshRecordingDropDownButton();
         }
 
-        private void label7_Click(object sender, EventArgs e)
-        {
-            Process.Start("https://twitter.com/xenolightning");
-        }
-
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("http://audioswit.ch/er?utm_source=client_1&utm_medium=direct&utm_campaign=client_1");
+        }
+
+        private void linkLabelTwitter_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://twitter.com/xenolightning");
         }
 
         private void chkShowDiabledDevices_CheckedChanged(object sender, EventArgs e)
@@ -1303,6 +1304,16 @@ namespace FortyOne.AudioSwitcher
         private void updateAvailableToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowUpdateForm(true);
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://www.twitter.com/xenolightning");
+        }
+
+        private void pictureBox1_Click_1(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/xenolightning/AudioSwitcher_v1");
         }
     }
 }

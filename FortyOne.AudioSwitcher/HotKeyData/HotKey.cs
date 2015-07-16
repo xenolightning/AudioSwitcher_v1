@@ -97,7 +97,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
         /// </summary>
         public event EventHandler HotKeyPressed;
 
-        public void RegisterHotkey()
+        public bool RegisterHotkey()
         {
             if (HotKeyWindow == null)
                 HotKeyWindow = new HotKeyNativeWindow(this);
@@ -114,16 +114,19 @@ namespace FortyOne.AudioSwitcher.HotKeyData
                         HotKeyWindow.DestroyHandle();
                     HotKeyWindow = null;
                 }
+
+                IsRegistered = true;
             }
             catch
             {
                 if (HotKeyWindow.Handle != IntPtr.Zero)
                     HotKeyWindow.DestroyHandle();
                 HotKeyWindow = null;
-                throw;
+
+                IsRegistered = false;
             }
 
-            IsRegistered = true;
+            return IsRegistered;
         }
 
         /// <summary>

@@ -51,7 +51,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
                     return;
                 }
 
-                var entries = hotkeydata.Split(new[] {",", "[", "]"}, StringSplitOptions.RemoveEmptyEntries);
+                var entries = hotkeydata.Split(new[] { ",", "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
 
                 for (var i = 0; i < entries.Length; i++)
                 {
@@ -65,19 +65,11 @@ namespace FortyOne.AudioSwitcher.HotKeyData
                         continue;
                     hk.DeviceId = new Guid(matches[0].ToString());
 
-                    hk.Modifiers = (Modifiers) modifiers;
-                    hk.Key = (Keys) key;
+                    hk.Modifiers = (Modifiers)modifiers;
+                    hk.Key = (Keys)key;
                     _hotkeys.Add(hk);
                     hk.HotKeyPressed += hk_HotKeyPressed;
-                    try
-                    {
-                        hk.RegisterHotkey();
-                    }
-                    catch
-                    {
-                        //Don't care about hotkeys that can't be registered
-                        //This is to stop hotkeys from disappearing
-                    }
+                    hk.RegisterHotkey();
                 }
             }
             catch
@@ -97,7 +89,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
             var hotkeydata = "";
             foreach (var hk in _hotkeys)
             {
-                hotkeydata += "[" + (int) hk.Key + "," + (int) hk.Modifiers + "," + hk.DeviceId + "]";
+                hotkeydata += "[" + (int)hk.Key + "," + (int)hk.Modifiers + "," + hk.DeviceId + "]";
             }
             Program.Settings.HotKeys = hotkeydata;
 
@@ -110,20 +102,15 @@ namespace FortyOne.AudioSwitcher.HotKeyData
             if (DuplicateHotKey(hk))
                 return false;
 
-            try
-            {
-                hk.HotKeyPressed += hk_HotKeyPressed;
-                hk.RegisterHotkey();
+            hk.HotKeyPressed += hk_HotKeyPressed;
+            hk.RegisterHotkey();
 
-                _hotkeys.Add(hk);
-
-                SaveHotKeys();
-            }
-            catch
-            {
+            if (!hk.IsRegistered)
                 return false;
-            }
 
+            _hotkeys.Add(hk);
+
+            SaveHotKeys();
             return true;
         }
 

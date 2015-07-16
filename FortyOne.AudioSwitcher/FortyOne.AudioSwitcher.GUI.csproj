@@ -207,6 +207,8 @@
     <Content Include="Icons\3017.png" />
     <Content Include="Icons\3018.png" />
     <Content Include="Icons\3020.png" />
+    <None Include="Icons\github.png" />
+    <None Include="Icons\twitter.png" />
     <Content Include="Resources\112_Plus_Green_16x16_72.png" />
     <Content Include="Resources\112_RefreshArrow_Green_16x16_72.png" />
     <None Include="fortyone.snk" />
