@@ -549,7 +549,7 @@ namespace FortyOne.AudioSwitcher
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://audioswit.ch/er?utm_source=client_1&utm_medium=direct&utm_campaign=client_1");
+            Process.Start("http://audioswit.ch/er?utm_source=client&utm_medium=direct&utm_campaign=client_" + AssemblyVersion.Replace(".", "_"));
         }
 
         private void linkLabelTwitter_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
