@@ -25,6 +25,7 @@ namespace FortyOne.AudioSwitcher.Configuration
         public const string SETTING_SHOWDISABLEDDEVICES = "ShowDisabledDevices";
         public const string SETTING_SHOWDISCONNECTEDDDEVICES = "ShowDisconnectedDevices";
         public const string SETTING_SHOWDPDEVICEIICONINTRAY = "ShowDPDeviceIconInTray";
+        public const string SETTING_UPDATE_NOTIFICATIONS_ENABLED = "UpdateNotificationsEnabled";
         private readonly ISettingsSource _configWriter;
 
         public ConfigurationSettings(ISettingsSource source)
@@ -218,6 +219,16 @@ namespace FortyOne.AudioSwitcher.Configuration
             set { _configWriter.Set(SETTING_ENABLEQUICKSWITCH, value.ToString()); }
         }
 
+        public bool UpdateNotificationsEnabled
+        {
+            get
+            {
+                return
+                    Convert.ToBoolean(_configWriter.Get(SETTING_UPDATE_NOTIFICATIONS_ENABLED));
+            }
+            set { _configWriter.Set(SETTING_UPDATE_NOTIFICATIONS_ENABLED, value.ToString()); }
+        }
+
         public void CreateDefaults()
         {
             if (!SettingExists(SETTING_CLOSETOTRAY))
@@ -272,6 +283,9 @@ namespace FortyOne.AudioSwitcher.Configuration
 
             if (!SettingExists(SETTING_SHOWDPDEVICEIICONINTRAY))
                 ShowDPDeviceIconInTray = false;
+
+            if (!SettingExists(SETTING_UPDATE_NOTIFICATIONS_ENABLED))
+                UpdateNotificationsEnabled = PollForUpdates > 0;
         }
 
         public void LoadFrom(ConfigurationSettings otherSettings)

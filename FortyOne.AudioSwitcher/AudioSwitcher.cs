@@ -88,6 +88,9 @@ namespace FortyOne.AudioSwitcher
             HotKeyManager.HotKeyPressed += HotKeyManager_HotKeyPressed;
             hotKeyBindingSource.DataSource = HotKeyManager.HotKeys;
 
+            //Heartbeat
+            Task.Factory.StartNew(CheckForNewVersion);
+
             MinimizeFootprint();
         }
 
@@ -233,9 +236,6 @@ namespace FortyOne.AudioSwitcher
             if (dev != null)
                 dev.SetAsDefault();
 
-            //Heartbeat
-            Task.Factory.StartNew(CheckForNewVersion);
-
             BeginInvoke((Action) (() =>
             {
                 RefreshPlaybackDevices();
@@ -261,8 +261,28 @@ namespace FortyOne.AudioSwitcher
                     statusLabelUpdate.ToolTipText = "New Version Available - " + _retrievedVersion.VersionInfo;
 
                     BeginInvoke(new Action(RefreshNotifyIconItems));
+
+                    ShowUpdateNotification(_retrievedVersion);
                 }
             }
+        }
+
+        private void ShowUpdateNotification(AudioSwitcherVersionInfo retrievedVersion)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action(() => ShowUpdateNotification(retrievedVersion)));
+                return;
+            }
+
+            notifyIcon1.BalloonTipText = "Click here to update to " + retrievedVersion.VersionInfo;
+            notifyIcon1.BalloonTipTitle = "Audio Switcher Update";
+            notifyIcon1.BalloonTipClicked += (s, e) =>
+            {
+                ShowUpdateForm();
+            };
+
+            notifyIcon1.ShowBalloonTip(3000);
         }
 
         private void Form1_Load(object sender, EventArgs e)

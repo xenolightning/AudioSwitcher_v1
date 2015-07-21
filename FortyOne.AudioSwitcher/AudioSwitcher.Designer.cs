@@ -101,6 +101,7 @@
             this.statusLabelUpdate = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusLabelDonate = new System.Windows.Forms.ToolStripStatusLabel();
+            this.chkNotifyUpdates = new System.Windows.Forms.CheckBox();
             this.btnSetPlaybackDefault = new FortyOne.AudioSwitcher.Controls.SplitButton();
             this.btnSetRecordingDefault = new FortyOne.AudioSwitcher.Controls.SplitButton();
             this.deviceNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -346,6 +347,7 @@
             // 
             // tapSettings
             // 
+            this.tapSettings.Controls.Add(this.chkNotifyUpdates);
             this.tapSettings.Controls.Add(this.chkShowDPDeviceIconInTray);
             this.tapSettings.Controls.Add(this.btnCheckUpdate);
             this.tapSettings.Controls.Add(this.chkShowDisconnectedDevices);
@@ -810,32 +812,33 @@
             this.updateAvailableToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.notifyIconStrip.Name = "notifyIconStrip";
-            this.notifyIconStrip.Size = new System.Drawing.Size(168, 76);
+            this.notifyIconStrip.Size = new System.Drawing.Size(194, 76);
             this.notifyIconStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.notifyIconStrip_ItemClicked);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(164, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(190, 6);
             // 
             // preferencesToolStripMenuItem
             // 
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.preferencesToolStripMenuItem.Text = "Open Preferences";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
             // updateAvailableToolStripMenuItem
             // 
+            this.updateAvailableToolStripMenuItem.BackColor = System.Drawing.Color.LightGoldenrodYellow;
             this.updateAvailableToolStripMenuItem.Name = "updateAvailableToolStripMenuItem";
-            this.updateAvailableToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
-            this.updateAvailableToolStripMenuItem.Text = "Update Available";
+            this.updateAvailableToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.updateAvailableToolStripMenuItem.Text = "New Update Available!";
             this.updateAvailableToolStripMenuItem.Click += new System.EventHandler(this.updateAvailableToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -890,6 +893,17 @@
             this.statusLabelDonate.Text = "Donate";
             this.statusLabelDonate.ToolTipText = "Donate via PayPal";
             this.statusLabelDonate.Click += new System.EventHandler(this.statusLabelDonate_Click);
+            // 
+            // chkNotifyUpdates
+            // 
+            this.chkNotifyUpdates.AutoSize = true;
+            this.chkNotifyUpdates.Location = new System.Drawing.Point(14, 223);
+            this.chkNotifyUpdates.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.chkNotifyUpdates.Name = "chkNotifyUpdates";
+            this.chkNotifyUpdates.Size = new System.Drawing.Size(174, 17);
+            this.chkNotifyUpdates.TabIndex = 15;
+            this.chkNotifyUpdates.Text = "Tell me when there\'s an update";
+            this.chkNotifyUpdates.UseVisualStyleBackColor = true;
             // 
             // btnSetPlaybackDefault
             // 
@@ -1069,6 +1083,7 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.LinkLabel linkLabel3;
+        private System.Windows.Forms.CheckBox chkNotifyUpdates;
     }
 }
 
