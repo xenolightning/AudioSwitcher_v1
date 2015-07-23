@@ -1028,8 +1028,8 @@ namespace FortyOne.AudioSwitcher
             {
                 var devName = defaultDevice.FullName ?? defaultDevice.Name ?? notifyText;
 
-                if (notifyText.Length >= 64)
-                    notifyText = notifyText.Substring(0, 60) + "...";
+                if (devName.Length >= 64)
+                    notifyText = devName.Substring(0, 60) + "...";
                 else
                     notifyText = devName;
             }
