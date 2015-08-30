@@ -229,12 +229,20 @@ namespace FortyOne.AudioSwitcher
             var dev = AudioDeviceManager.Controller.GetDevice(Program.Settings.StartupPlaybackDeviceID);
 
             if (dev != null)
+            {
                 dev.SetAsDefault();
+                if (Program.Settings.DualSwitchMode)
+                    dev.SetAsDefaultCommunications();
+            }
 
             dev = AudioDeviceManager.Controller.GetDevice(Program.Settings.StartupRecordingDeviceID);
 
             if (dev != null)
+            {
                 dev.SetAsDefault();
+                if (Program.Settings.DualSwitchMode)
+                    dev.SetAsDefaultCommunications();
+            }
 
             BeginInvoke((Action)(() =>
             {
