@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FortyOne.AudioSwitcher.GUI", "FortyOne.AudioSwitcher\FortyOne.AudioSwitcher.GUI.csproj", "{6D5622FD-B609-40E2-8E01-1B619752867E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FortyOne.AudioSwitcher.AutoUpdater", "FortyOne.AudioSwitcher.AutoUpdater\FortyOne.AudioSwitcher.AutoUpdater.csproj", "{EE863E6B-0256-44E9-83FB-D3A3DDE62B40}"

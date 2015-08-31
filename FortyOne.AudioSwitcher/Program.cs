@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Security.Permissions;
 using System.Windows.Forms;
 using FortyOne.AudioSwitcher.Configuration;
 using FortyOne.AudioSwitcher.Properties;
@@ -25,32 +24,36 @@ namespace FortyOne.AudioSwitcher
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+
             if (Environment.OSVersion.Version.Major < 6)
             {
-                MessageBox.Show("Audio Switcher only supports Windows Vista and Windows 7",
-                    "Unsupported Operating System");
+                MessageBox.Show("Audio Switcher only supports Windows Vista and above", "Unsupported Operating System");
                 return;
             }
 
             Application.ApplicationExit += Application_ApplicationExit;
+            var appDataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AudioSwitcher");
+
+            if (!Directory.Exists(appDataDirectory))
+                Directory.CreateDirectory(appDataDirectory);
+
+            var settingsPath = Path.Combine(appDataDirectory, Resources.ConfigFile);
 
             //Delete the old updater
             try
             {
+                //v1.5 and less
                 var updaterPath = Application.StartupPath + "AutoUpdater.exe";
                 if (File.Exists(updaterPath))
                     File.Delete(updaterPath);
-            }
-            catch
-            {
-                //This shouldn't prevent the application from running
-            }
 
-            //Delete the new updater
-            try
-            {
-                var updaterPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName,
-                    "AutoUpdater.exe");
+                //v1.6
+                updaterPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName, "AutoUpdater.exe");
+                if (File.Exists(updaterPath))
+                    File.Delete(updaterPath);
+
+                //v1.6.7
+                updaterPath = Path.Combine(appDataDirectory, "AutoUpdater.exe");
                 if (File.Exists(updaterPath))
                     File.Delete(updaterPath);
             }
@@ -59,49 +62,43 @@ namespace FortyOne.AudioSwitcher
                 //This shouldn't prevent the application from running
             }
 
-            var settingsPath = "";
             try
             {
-                //Load/Create default settings
+                var iniSettingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName, Resources.OldConfigFile);
 
-                var oldSettingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName,
-                    Resources.OldConfigFile);
+                if (File.Exists(iniSettingsPath))
+                    File.Delete(iniSettingsPath);
+            }
+            catch
+            {
+                // ignored
+            }
 
-                settingsPath = oldSettingsPath;
+            try
+            {
 
-                //1. Provide early notification that the user does not have permission to write.
-                new FileIOPermission(FileIOPermissionAccess.Write, settingsPath).Demand();
-
-                settingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName,
-                    Resources.ConfigFile);
-                new FileIOPermission(FileIOPermissionAccess.Write, settingsPath).Demand();
-
-                //Open and close the settings file to ensure write access
-                File.Open(settingsPath, FileMode.OpenOrCreate, FileAccess.ReadWrite).Close();
+                //old json settings
+                var oldJsonSettingsPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName, Resources.ConfigFile);
 
                 ISettingsSource jsonSource = new JsonSettings();
                 jsonSource.SetFilePath(settingsPath);
 
                 Settings = new ConfigurationSettings(jsonSource);
 
-                if (File.Exists(oldSettingsPath))
+                if (File.Exists(oldJsonSettingsPath))
                 {
                     try
                     {
-                        //Load old settings and copy them to json
-                        ISettingsSource iniSource = new IniSettings();
-                        iniSource.SetFilePath(oldSettingsPath);
+                        //Load old settings
+                        ISettingsSource oldSource = new JsonSettings();
+                        oldSource.SetFilePath(oldJsonSettingsPath);
 
-                        var oldSettings = new ConfigurationSettings(iniSource);
+                        var oldSettings = new ConfigurationSettings(oldSource);
                         Settings.LoadFrom(oldSettings);
-                    }
-                    catch
-                    {
-                        Settings.CreateDefaults();
                     }
                     finally
                     {
-                        File.Delete(oldSettingsPath);
+                        File.Delete(oldJsonSettingsPath);
                     }
                 }
 
@@ -109,11 +106,9 @@ namespace FortyOne.AudioSwitcher
             }
             catch
             {
-                MessageBox.Show(
-                    string.Format(
-                        "Error creating/reading settings file [{0}]. Make sure you have read/write access to this file.\r\nOr try running as Administrator",
-                        settingsPath),
-                    "Setings File - Cannot Access");
+                var errorMessage = String.Format("Error creating/reading settings file [{0}]. Make sure you have read/write access to this file.\r\nOr try running as Administrator",
+                        settingsPath);
+                MessageBox.Show(errorMessage, "Setings File - Cannot Access");
                 return;
             }
 
@@ -124,7 +119,6 @@ namespace FortyOne.AudioSwitcher
             catch (Exception ex)
             {
                 var title = "An Unexpected Error Occurred";
-                var text = ex.Message + Environment.NewLine + Environment.NewLine + ex;
 
                 var edf = new ExceptionDisplayForm(title, ex);
                 edf.ShowDialog();

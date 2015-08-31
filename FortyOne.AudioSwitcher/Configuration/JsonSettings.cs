@@ -10,6 +10,11 @@ namespace FortyOne.AudioSwitcher.Configuration
         private string _path;
         private IDictionary<string, string> _settingsObject;
 
+        public JsonSettings()
+        {
+            _settingsObject = new Dictionary<string, string>();
+        }
+
         public void SetFilePath(string path)
         {
             _path = path;
