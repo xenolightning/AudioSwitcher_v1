@@ -9,6 +9,9 @@ namespace FortyOne.AudioSwitcher
 {
     internal static class Program
     {
+
+        public static string AppDataDirectory { get; private set; }
+
         public static ConfigurationSettings Settings { get; private set; }
 
         /// <summary>
@@ -32,12 +35,12 @@ namespace FortyOne.AudioSwitcher
             }
 
             Application.ApplicationExit += Application_ApplicationExit;
-            var appDataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AudioSwitcher");
+            AppDataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AudioSwitcher");
 
-            if (!Directory.Exists(appDataDirectory))
-                Directory.CreateDirectory(appDataDirectory);
+            if (!Directory.Exists(AppDataDirectory))
+                Directory.CreateDirectory(AppDataDirectory);
 
-            var settingsPath = Path.Combine(appDataDirectory, Resources.ConfigFile);
+            var settingsPath = Path.Combine(AppDataDirectory, Resources.ConfigFile);
 
             //Delete the old updater
             try
@@ -53,7 +56,7 @@ namespace FortyOne.AudioSwitcher
                     File.Delete(updaterPath);
 
                 //v1.6.7
-                updaterPath = Path.Combine(appDataDirectory, "AutoUpdater.exe");
+                updaterPath = Path.Combine(AppDataDirectory, "AutoUpdater.exe");
                 if (File.Exists(updaterPath))
                     File.Delete(updaterPath);
             }

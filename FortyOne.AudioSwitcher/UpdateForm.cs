@@ -48,13 +48,12 @@ namespace FortyOne.AudioSwitcher
         {
             try
             {
-                var updaterPath = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName,
-                    "AutoUpdater.exe");
+                var updaterPath = Path.Combine(Program.AppDataDirectory, "AutoUpdater.exe");
+
                 if (!File.Exists(updaterPath))
                     File.WriteAllBytes(updaterPath, Resources.AutoUpdater);
 
-                Process.Start(updaterPath,
-                    Process.GetCurrentProcess().Id + " \"" + Assembly.GetEntryAssembly().Location + "\"");
+                Process.Start(updaterPath, Process.GetCurrentProcess().Id + " \"" + Assembly.GetEntryAssembly().Location + "\"");
                 Application.Exit();
             }
             catch
