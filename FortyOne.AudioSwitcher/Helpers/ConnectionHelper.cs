@@ -33,10 +33,17 @@ namespace FortyOne.AudioSwitcher.Helpers
         public static AudioSwitcherService.AudioSwitcher GetAudioSwitcherProxy()
         {
             if (IsServerOnline)
+            {
+                var defaultProxy = WebRequest.DefaultWebProxy;
+                if (defaultProxy != null)
+                    defaultProxy.Credentials = CredentialCache.DefaultCredentials;
+
                 return new AudioSwitcherService.AudioSwitcher
                 {
+                    Proxy = defaultProxy,
                     Url = Resources.WebServiceURL
                 };
+            }
             return null;
         }
     }

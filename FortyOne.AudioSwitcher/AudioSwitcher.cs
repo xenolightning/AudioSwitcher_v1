@@ -716,6 +716,7 @@ namespace FortyOne.AudioSwitcher
             chkDisableHotKeys.Checked = Program.Settings.DisableHotKeys;
             chkQuickSwitch.Checked = Program.Settings.EnableQuickSwitch;
             chkDualSwitchMode.Checked = Program.Settings.DualSwitchMode;
+            chkNotifyUpdates.Checked = Program.Settings.UpdateNotificationsEnabled;
 
             chkShowDiabledDevices.Checked = Program.Settings.ShowDisabledDevices;
             chkShowDisconnectedDevices.Checked = Program.Settings.ShowDisconnectedDevices;
@@ -1343,6 +1344,11 @@ namespace FortyOne.AudioSwitcher
         private void pictureBox1_Click_1(object sender, EventArgs e)
         {
             Process.Start("https://github.com/xenolightning/AudioSwitcher_v1");
+        }
+
+        private void chkNotifyUpdates_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.Settings.UpdateNotificationsEnabled = chkNotifyUpdates.Checked;
         }
     }
 }
