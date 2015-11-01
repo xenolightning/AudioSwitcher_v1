@@ -111,7 +111,7 @@ namespace FortyOne.AudioSwitcher
             {
                 var errorMessage = String.Format("Error creating/reading settings file [{0}]. Make sure you have read/write access to this file.\r\nOr try running as Administrator",
                         settingsPath);
-                MessageBox.Show(errorMessage, "Setings File - Cannot Access");
+                MessageBox.Show(errorMessage, "Settings File - Cannot Access");
                 return;
             }
 
