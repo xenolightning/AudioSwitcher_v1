@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using AudioSwitcher.AudioApi;
 
 namespace FortyOne.AudioSwitcher
@@ -19,6 +20,14 @@ namespace FortyOne.AudioSwitcher
         public static int FavouriteDeviceCount
         {
             get { return FavouriteDeviceIDs.Count; }
+        }
+
+        public static int FavouritePlaybackDeviceCount
+        {
+            get
+            {
+                return FavouriteDeviceIDs.Count(id => AudioDeviceManager.Controller.GetDevice(id).IsPlaybackDevice);
+            }
         }
 
         public static ReadOnlyCollection<Guid> FavouriteDevices
@@ -84,15 +93,20 @@ namespace FortyOne.AudioSwitcher
                 FavouriteDevicesChanged(FavouriteDeviceIDs);
         }
 
-        public static Guid GetNextFavouritePlaybackDevice()
+        public static IDevice GetNextFavouritePlaybackDevice(IDevice device)
         {
-            var device = AudioDeviceManager.Controller.DefaultPlaybackDevice;
+            var nextDeviceId = GetNextFavouritePlaybackDeviceId(device != null ? device.Id : Guid.Empty);
+            return AudioDeviceManager.Controller.GetDevice(nextDeviceId);
+        }
+
+        public static Guid GetNextFavouritePlaybackDeviceId(Guid deviceId)
+        {
             var index = 0;
 
-            if (device != null)
+            if (deviceId != Guid.Empty)
             {
                 //Start at the next device
-                index = (FavouriteDeviceIDs.IndexOf(device.Id) + 1) % FavouriteDeviceIDs.Count;
+                index = (FavouriteDeviceIDs.IndexOf(deviceId) + 1) % FavouriteDeviceIDs.Count;
             }
 
             var i = index;
