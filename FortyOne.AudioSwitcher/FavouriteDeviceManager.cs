@@ -26,7 +26,11 @@ namespace FortyOne.AudioSwitcher
         {
             get
             {
-                return FavouriteDeviceIDs.Count(id => AudioDeviceManager.Controller.GetDevice(id).IsPlaybackDevice);
+                return FavouriteDeviceIDs.Count(id =>
+                {
+                    var device = AudioDeviceManager.Controller.GetDevice(id);
+                    return device != null && device.IsPlaybackDevice;
+                });
             }
         }
 
