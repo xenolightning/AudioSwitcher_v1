@@ -413,12 +413,20 @@ namespace FortyOne.AudioSwitcher
             {
                 if (FavouriteDeviceManager.FavouriteDeviceCount > 0)
                 {
-                    var devid = FavouriteDeviceManager.GetNextFavouritePlaybackDevice();
+                    var changed = false;
+                    var currentDefaultDevice = AudioDeviceManager.Controller.DefaultPlaybackDevice;
+                    var candidate = FavouriteDeviceManager.GetNextFavouritePlaybackDevice(currentDefaultDevice);
+                    var attemptsCount = FavouriteDeviceManager.FavouritePlaybackDeviceCount;
+                    for (var i = 0; !changed && i < attemptsCount; i++)
+                    {
+                        changed = candidate.SetAsDefault();
 
-                    AudioDeviceManager.Controller.GetDevice(devid).SetAsDefault();
+                        if (changed && Program.Settings.DualSwitchMode)
+                            candidate.SetAsDefaultCommunications();
 
-                    if (Program.Settings.DualSwitchMode)
-                        AudioDeviceManager.Controller.GetDevice(devid).SetAsDefaultCommunications();
+                        if (!changed)
+                            candidate = FavouriteDeviceManager.GetNextFavouritePlaybackDevice(candidate);
+                    }
                 }
             }
             else
