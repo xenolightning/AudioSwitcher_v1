@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AudioSwitcher.AudioApi;
+using AudioSwitcher.AudioApi.Observables;
 using FortyOne.AudioSwitcher.AudioSwitcherService;
 using FortyOne.AudioSwitcher.Configuration;
 using FortyOne.AudioSwitcher.Helpers;
@@ -83,7 +84,7 @@ namespace FortyOne.AudioSwitcher
 
             LoadSettings();
 
-            AudioDeviceManager.Controller.AudioDeviceChanged += AudioDeviceManager_AudioDeviceChanged;
+            AudioDeviceManager.Controller.AudioDeviceChanged.Subscribe(AudioDeviceManager_AudioDeviceChanged);
 
             HotKeyManager.HotKeyPressed += HotKeyManager_HotKeyPressed;
             hotKeyBindingSource.DataSource = HotKeyManager.HotKeys;
@@ -302,7 +303,7 @@ namespace FortyOne.AudioSwitcher
             MinimizeFootprint();
         }
 
-        private void AudioDeviceManager_AudioDeviceChanged(object sender, DeviceChangedEventArgs e)
+        private void AudioDeviceManager_AudioDeviceChanged(DeviceChangedArgs e)
         {
             Action refreshAction = () => { };
 
@@ -826,12 +827,13 @@ namespace FortyOne.AudioSwitcher
                         imageMod += "c";
                     }
 
-                    var imageToGen = imageKey + imageMod + ".png";
+                    var imageToGen = imageKey + imageMod;
 
-                    if (!imageList1.Images.Keys.Contains(imageToGen) &&
-                        imageList1.Images.IndexOfKey(imageKey + ".png") >= 0)
+                    if (!imageList1.Images.Keys.Contains(imageToGen))
                     {
-                        var i = (Image)imageList1.Images[imageKey + ".png"].Clone();
+                        var iconPath = ad.IconPath.Split(',');
+                        var icon = IconExtractor.Extract(Environment.ExpandEnvironmentVariables(iconPath[0]), Int32.Parse(iconPath[1]), true);
+                        Image i = icon.ToBitmap();
 
                         if (ad.State == DeviceState.Disabled || ad.State == DeviceState.Unplugged)
                             i = ImageHelper.SetImageOpacity(i, 0.5F);
@@ -862,7 +864,7 @@ namespace FortyOne.AudioSwitcher
                 }
                 catch
                 {
-                    li.ImageKey = "unknown.png";
+                    li.ImageKey = "unknown";
                 }
 
                 listBoxPlayback.Items.Add(li);
@@ -935,12 +937,13 @@ namespace FortyOne.AudioSwitcher
                         imageMod += "c";
                     }
 
-                    var imageToGen = imageKey + imageMod + ".png";
+                    var imageToGen = imageKey + imageMod;
 
-                    if (!imageList1.Images.Keys.Contains(imageToGen) &&
-                        imageList1.Images.IndexOfKey(imageKey + ".png") >= 0)
+                    if (!imageList1.Images.Keys.Contains(imageToGen))
                     {
-                        var i = (Image)imageList1.Images[imageKey + ".png"].Clone();
+                        var iconPath = ad.IconPath.Split(',');
+                        var icon = IconExtractor.Extract(Environment.ExpandEnvironmentVariables(iconPath[0]), Int32.Parse(iconPath[1]), true);
+                        Image i = icon.ToBitmap();
 
                         if (ad.State.HasFlag(DeviceState.Disabled) || ad.State == DeviceState.Unplugged)
                             i = ImageHelper.SetImageOpacity(i, 0.5F);
@@ -971,7 +974,7 @@ namespace FortyOne.AudioSwitcher
                 }
                 catch
                 {
-                    li.ImageKey = "unknown.png";
+                    li.ImageKey = "unknown";
                 }
 
                 listBoxRecording.Items.Add(li);
@@ -1064,16 +1067,15 @@ namespace FortyOne.AudioSwitcher
             var defaultDevice = AudioDeviceManager.Controller.DefaultPlaybackDevice;
             if (defaultDevice != null && Program.Settings.ShowDPDeviceIconInTray)
             {
-                var imageKey = ICON_MAP[defaultDevice.Icon];
-                var image = (Bitmap)imageList1.Images[imageList1.Images.IndexOfKey(imageKey + ".png")];
-                var iconHandle = image.GetHicon();
-                var icon = Icon.FromHandle(iconHandle);
+
+                var iconPath = defaultDevice.IconPath.Split(',');
+                var icon = IconExtractor.Extract(Environment.ExpandEnvironmentVariables(iconPath[0]), Int32.Parse(iconPath[1]), true);
 
                 notifyIcon1.Icon = icon;
 
                 //Clean up the old icon, because WinForms creates a copy of the icon for use
                 icon.Dispose();
-                DestroyIcon(iconHandle);
+                DestroyIcon(icon.Handle);
             }
             else
             {
