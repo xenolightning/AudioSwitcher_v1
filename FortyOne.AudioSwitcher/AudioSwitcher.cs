@@ -831,8 +831,8 @@ namespace FortyOne.AudioSwitcher
 
                     if (!imageList1.Images.Keys.Contains(imageToGen))
                     {
-                        var iconPath = ad.IconPath.Split(',');
-                        var icon = IconExtractor.Extract(Environment.ExpandEnvironmentVariables(iconPath[0]), Int32.Parse(iconPath[1]), true);
+                        var icon = ExtractIconFromPath(ad.IconPath);
+
                         Image i = icon.ToBitmap();
 
                         if (ad.State == DeviceState.Disabled || ad.State == DeviceState.Unplugged)
@@ -872,6 +872,18 @@ namespace FortyOne.AudioSwitcher
 
             RefreshNotifyIconItems();
             listBoxPlayback.ResumeLayout();
+        }
+
+        private static Icon ExtractIconFromPath(string path)
+        {
+            var iconPath = path.Split(',');
+            Icon icon;
+            if (iconPath.Length == 2)
+                icon = IconExtractor.Extract(Environment.ExpandEnvironmentVariables(iconPath[0]), Int32.Parse(iconPath[1]), true);
+            else
+                icon = new Icon(iconPath[0]);
+
+            return icon;
         }
 
         private void RefreshRecordingDevices()
@@ -941,8 +953,8 @@ namespace FortyOne.AudioSwitcher
 
                     if (!imageList1.Images.Keys.Contains(imageToGen))
                     {
-                        var iconPath = ad.IconPath.Split(',');
-                        var icon = IconExtractor.Extract(Environment.ExpandEnvironmentVariables(iconPath[0]), Int32.Parse(iconPath[1]), true);
+                        var icon = ExtractIconFromPath(ad.IconPath);
+
                         Image i = icon.ToBitmap();
 
                         if (ad.State.HasFlag(DeviceState.Disabled) || ad.State == DeviceState.Unplugged)
@@ -1068,8 +1080,7 @@ namespace FortyOne.AudioSwitcher
             if (defaultDevice != null && Program.Settings.ShowDPDeviceIconInTray)
             {
 
-                var iconPath = defaultDevice.IconPath.Split(',');
-                var icon = IconExtractor.Extract(Environment.ExpandEnvironmentVariables(iconPath[0]), Int32.Parse(iconPath[1]), true);
+                var icon = ExtractIconFromPath(defaultDevice.IconPath);
 
                 notifyIcon1.Icon = icon;
 
