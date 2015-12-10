@@ -876,14 +876,23 @@ namespace FortyOne.AudioSwitcher
 
         private static Icon ExtractIconFromPath(string path)
         {
-            var iconPath = path.Split(',');
-            Icon icon;
-            if (iconPath.Length == 2)
-                icon = IconExtractor.Extract(Environment.ExpandEnvironmentVariables(iconPath[0]), Int32.Parse(iconPath[1]), true);
-            else
-                icon = new Icon(iconPath[0]);
+            try
+            {
+                var iconPath = path.Split(',');
+                Icon icon;
+                if (iconPath.Length == 2)
+                    icon = IconExtractor.Extract(Environment.ExpandEnvironmentVariables(iconPath[0]),
+                        Int32.Parse(iconPath[1]), true);
+                else
+                    icon = new Icon(iconPath[0]);
 
-            return icon;
+                return icon;
+            }
+            catch
+            {
+                //return a digital as a place holder
+                return IconExtractor.Extract(Environment.ExpandEnvironmentVariables("%windir%\\system32\\mmres.dll"), -3013, true);
+            }
         }
 
         private void RefreshRecordingDevices()
