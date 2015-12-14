@@ -1091,11 +1091,15 @@ namespace FortyOne.AudioSwitcher
 
                 var icon = ExtractIconFromPath(defaultDevice.IconPath);
 
-                notifyIcon1.Icon = icon;
+                try
+                {
+                    notifyIcon1.Icon = icon;
 
-                //Clean up the old icon, because WinForms creates a copy of the icon for use
-                icon.Dispose();
-                DestroyIcon(icon.Handle);
+                    //Clean up the old icon, because WinForms creates a copy of the icon for use
+                    DestroyIcon(icon.Handle);
+                    icon.Dispose();
+                }
+                catch { }
             }
             else
             {
