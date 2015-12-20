@@ -1087,17 +1087,15 @@ namespace FortyOne.AudioSwitcher
         private void RefreshTrayIcon()
         {
             var defaultDevice = AudioDeviceManager.Controller.DefaultPlaybackDevice;
+            var oldIcon = notifyIcon1.Icon;
+
             if (defaultDevice != null && Program.Settings.ShowDPDeviceIconInTray)
-            {
-                var icon = ExtractIconFromPath(defaultDevice.IconPath);
-                var oldIcon = notifyIcon1.Icon;
-                notifyIcon1.Icon = icon;
-                oldIcon.Dispose();
-            }
+                notifyIcon1.Icon = ExtractIconFromPath(defaultDevice.IconPath);
             else
-            {
                 notifyIcon1.Icon = _originalTrayIcon;
-            }
+
+            if (oldIcon.Handle != _originalTrayIcon.Handle)
+                oldIcon.Dispose();
         }
 
         private void RefreshPlaybackDropDownButton()
