@@ -258,19 +258,9 @@
             // 
             // imageList1
             // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(32, 32);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "3004.png");
-            this.imageList1.Images.SetKeyName(1, "3010.png");
-            this.imageList1.Images.SetKeyName(2, "3011.png");
-            this.imageList1.Images.SetKeyName(3, "3012.png");
-            this.imageList1.Images.SetKeyName(4, "3013.png");
-            this.imageList1.Images.SetKeyName(5, "3014.png");
-            this.imageList1.Images.SetKeyName(6, "3015.png");
-            this.imageList1.Images.SetKeyName(7, "3016.png");
-            this.imageList1.Images.SetKeyName(8, "3017.png");
-            this.imageList1.Images.SetKeyName(9, "3018.png");
-            this.imageList1.Images.SetKeyName(10, "3020.png");
             // 
             // tapRecording
             // 
