@@ -831,9 +831,11 @@ namespace FortyOne.AudioSwitcher
 
                     if (!imageList1.Images.Keys.Contains(imageToGen))
                     {
-                        var icon = ExtractIconFromPath(ad.IconPath);
-
-                        Image i = icon.ToBitmap();
+                        Image i;
+                        using (var icon = ExtractIconFromPath(ad.IconPath))
+                        {
+                            i = icon.ToBitmap();
+                        }
 
                         if (ad.State == DeviceState.Disabled || ad.State == DeviceState.Unplugged)
                             i = ImageHelper.SetImageOpacity(i, 0.5F);
@@ -962,9 +964,11 @@ namespace FortyOne.AudioSwitcher
 
                     if (!imageList1.Images.Keys.Contains(imageToGen))
                     {
-                        var icon = ExtractIconFromPath(ad.IconPath);
-
-                        Image i = icon.ToBitmap();
+                        Image i;
+                        using (var icon = ExtractIconFromPath(ad.IconPath))
+                        {
+                            i = icon.ToBitmap();
+                        }
 
                         if (ad.State.HasFlag(DeviceState.Disabled) || ad.State == DeviceState.Unplugged)
                             i = ImageHelper.SetImageOpacity(i, 0.5F);
@@ -1080,26 +1084,15 @@ namespace FortyOne.AudioSwitcher
             RefreshTrayIcon();
         }
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern bool DestroyIcon(IntPtr handle);
-
         private void RefreshTrayIcon()
         {
             var defaultDevice = AudioDeviceManager.Controller.DefaultPlaybackDevice;
             if (defaultDevice != null && Program.Settings.ShowDPDeviceIconInTray)
             {
-
                 var icon = ExtractIconFromPath(defaultDevice.IconPath);
-
-                try
-                {
-                    notifyIcon1.Icon = icon;
-
-                    //Clean up the old icon, because WinForms creates a copy of the icon for use
-                    DestroyIcon(icon.Handle);
-                    icon.Dispose();
-                }
-                catch { }
+                var oldIcon = notifyIcon1.Icon;
+                notifyIcon1.Icon = icon;
+                oldIcon.Dispose();
             }
             else
             {
