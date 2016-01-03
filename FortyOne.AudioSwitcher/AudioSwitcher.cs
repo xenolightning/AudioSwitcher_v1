@@ -330,11 +330,6 @@ namespace FortyOne.AudioSwitcher
             base.SetVisibleCore(value);
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            Donate();
-        }
-
         private static void Donate()
         {
             Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Q9TDQPY4B369A");
@@ -588,11 +583,6 @@ namespace FortyOne.AudioSwitcher
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("http://audioswit.ch/er?utm_source=client&utm_medium=direct&utm_campaign=client_" + AssemblyVersion.Replace(".", "_"));
-        }
-
-        private void linkLabelTwitter_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("https://twitter.com/xenolightning");
         }
 
         private void chkShowDiabledDevices_CheckedChanged(object sender, EventArgs e)
