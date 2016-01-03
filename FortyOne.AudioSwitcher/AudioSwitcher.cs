@@ -320,7 +320,7 @@ namespace FortyOne.AudioSwitcher
 
         protected override void SetVisibleCore(bool value)
         {
-            if (Program.Settings.StartMinimized && _firstStart)
+            if (Program.Settings.StartMinimized && _firstStart && !IsDisposed)
             {
                 value = false;
                 _firstStart = false;
