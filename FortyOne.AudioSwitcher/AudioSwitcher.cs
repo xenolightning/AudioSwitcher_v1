@@ -1365,5 +1365,22 @@ namespace FortyOne.AudioSwitcher
         {
             Program.Settings.UpdateNotificationsEnabled = chkNotifyUpdates.Checked;
         }
+
+        private void twitterLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://www.twitter.com/xenolightning");
+        }
+
+        private void btnOpenControlPanel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo("mmsys.cpl", "sounds"));
+            }
+            catch
+            {
+                //Ignored, something went wrong when trying to open CPL
+            }
+        }
     }
 }

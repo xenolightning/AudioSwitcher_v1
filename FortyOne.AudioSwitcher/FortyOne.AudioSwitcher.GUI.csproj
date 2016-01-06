@@ -202,6 +202,7 @@
     <Content Include="Icons\c.png" />
     <Content Include="Icons\e.png" />
     <Content Include="Icons\f.png" />
+    <Content Include="Resources\external-link.png" />
     <None Include="Icons\github.png" />
     <None Include="Icons\twitter.png" />
     <Content Include="Resources\112_Plus_Green_16x16_72.png" />

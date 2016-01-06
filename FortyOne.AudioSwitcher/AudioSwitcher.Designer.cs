@@ -39,14 +39,14 @@
             this.setHotKeyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tapPlayback = new System.Windows.Forms.TabPage();
-            this.btnSetPlaybackDefault = new FortyOne.AudioSwitcher.Controls.SplitButton();
+            this.btnOpenControlPanel_1 = new System.Windows.Forms.Button();
             this.listBoxPlayback = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tapRecording = new System.Windows.Forms.TabPage();
-            this.btnSetRecordingDefault = new FortyOne.AudioSwitcher.Controls.SplitButton();
+            this.btnOpenControlPanel_2 = new System.Windows.Forms.Button();
             this.recordingStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuSetRecordingDefault = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSetRecordingCommunicationDefault = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,13 +74,10 @@
             this.btnClearAll = new System.Windows.Forms.Button();
             this.btnDeleteHotKey = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.deviceNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hotKeyStringDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hotKeyBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnEditHotKey = new System.Windows.Forms.Button();
             this.btnAddHotKey = new System.Windows.Forms.Button();
             this.tapAbout = new System.Windows.Forms.TabPage();
-            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
+            this.twitterLink = new System.Windows.Forms.LinkLabel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.linkWiki = new System.Windows.Forms.LinkLabel();
@@ -107,6 +104,11 @@
             this.statusLabelUpdate = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusLabelDonate = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnSetPlaybackDefault = new FortyOne.AudioSwitcher.Controls.SplitButton();
+            this.btnSetRecordingDefault = new FortyOne.AudioSwitcher.Controls.SplitButton();
+            this.deviceNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hotKeyStringDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hotKeyBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.playbackStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tapPlayback.SuspendLayout();
@@ -115,12 +117,12 @@
             this.tapSettings.SuspendLayout();
             this.tapHotkeys.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.hotKeyBindingSource)).BeginInit();
             this.tapAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.notifyIconStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.hotKeyBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // playbackStrip
@@ -194,6 +196,7 @@
             // 
             // tapPlayback
             // 
+            this.tapPlayback.Controls.Add(this.btnOpenControlPanel_1);
             this.tapPlayback.Controls.Add(this.btnSetPlaybackDefault);
             this.tapPlayback.Controls.Add(this.listBoxPlayback);
             this.tapPlayback.Location = new System.Drawing.Point(4, 22);
@@ -205,20 +208,18 @@
             this.tapPlayback.Text = "Playback";
             this.tapPlayback.UseVisualStyleBackColor = true;
             // 
-            // btnSetPlaybackDefault
+            // btnOpenControlPanel_1
             // 
-            this.btnSetPlaybackDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSetPlaybackDefault.AutoSize = true;
-            this.btnSetPlaybackDefault.ContextMenuStrip = this.playbackStrip;
-            this.btnSetPlaybackDefault.Enabled = false;
-            this.btnSetPlaybackDefault.Location = new System.Drawing.Point(174, 281);
-            this.btnSetPlaybackDefault.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.btnSetPlaybackDefault.Name = "btnSetPlaybackDefault";
-            this.btnSetPlaybackDefault.Size = new System.Drawing.Size(85, 25);
-            this.btnSetPlaybackDefault.SplitMenuStrip = this.playbackStrip;
-            this.btnSetPlaybackDefault.TabIndex = 6;
-            this.btnSetPlaybackDefault.Text = "Set As...";
-            this.btnSetPlaybackDefault.UseVisualStyleBackColor = true;
+            this.btnOpenControlPanel_1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnOpenControlPanel_1.Image = global::FortyOne.AudioSwitcher.Properties.Resources.external_link;
+            this.btnOpenControlPanel_1.Location = new System.Drawing.Point(4, 281);
+            this.btnOpenControlPanel_1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btnOpenControlPanel_1.Name = "btnOpenControlPanel_1";
+            this.btnOpenControlPanel_1.Size = new System.Drawing.Size(25, 25);
+            this.btnOpenControlPanel_1.TabIndex = 7;
+            this.toolTip1.SetToolTip(this.btnOpenControlPanel_1, "Open Sounds in Control Panel");
+            this.btnOpenControlPanel_1.UseVisualStyleBackColor = true;
+            this.btnOpenControlPanel_1.Click += new System.EventHandler(this.btnOpenControlPanel_Click);
             // 
             // listBoxPlayback
             // 
@@ -264,6 +265,7 @@
             // 
             // tapRecording
             // 
+            this.tapRecording.Controls.Add(this.btnOpenControlPanel_2);
             this.tapRecording.Controls.Add(this.btnSetRecordingDefault);
             this.tapRecording.Controls.Add(this.listBoxRecording);
             this.tapRecording.Location = new System.Drawing.Point(4, 22);
@@ -275,20 +277,18 @@
             this.tapRecording.Text = "Recording";
             this.tapRecording.UseVisualStyleBackColor = true;
             // 
-            // btnSetRecordingDefault
+            // btnOpenControlPanel_2
             // 
-            this.btnSetRecordingDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSetRecordingDefault.AutoSize = true;
-            this.btnSetRecordingDefault.ContextMenuStrip = this.recordingStrip;
-            this.btnSetRecordingDefault.Enabled = false;
-            this.btnSetRecordingDefault.Location = new System.Drawing.Point(175, 281);
-            this.btnSetRecordingDefault.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.btnSetRecordingDefault.Name = "btnSetRecordingDefault";
-            this.btnSetRecordingDefault.Size = new System.Drawing.Size(85, 25);
-            this.btnSetRecordingDefault.SplitMenuStrip = this.recordingStrip;
-            this.btnSetRecordingDefault.TabIndex = 8;
-            this.btnSetRecordingDefault.Text = "Set As...";
-            this.btnSetRecordingDefault.UseVisualStyleBackColor = true;
+            this.btnOpenControlPanel_2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnOpenControlPanel_2.Image = global::FortyOne.AudioSwitcher.Properties.Resources.external_link;
+            this.btnOpenControlPanel_2.Location = new System.Drawing.Point(4, 281);
+            this.btnOpenControlPanel_2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btnOpenControlPanel_2.Name = "btnOpenControlPanel_2";
+            this.btnOpenControlPanel_2.Size = new System.Drawing.Size(25, 25);
+            this.btnOpenControlPanel_2.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.btnOpenControlPanel_2, "Open Sounds in Control Panel");
+            this.btnOpenControlPanel_2.UseVisualStyleBackColor = true;
+            this.btnOpenControlPanel_2.Click += new System.EventHandler(this.btnOpenControlPanel_Click);
             // 
             // recordingStrip
             // 
@@ -600,29 +600,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(255, 269);
             this.dataGridView1.TabIndex = 0;
             // 
-            // deviceNameDataGridViewTextBoxColumn
-            // 
-            this.deviceNameDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.deviceNameDataGridViewTextBoxColumn.DataPropertyName = "DeviceName";
-            this.deviceNameDataGridViewTextBoxColumn.FillWeight = 130F;
-            this.deviceNameDataGridViewTextBoxColumn.HeaderText = "Device";
-            this.deviceNameDataGridViewTextBoxColumn.Name = "deviceNameDataGridViewTextBoxColumn";
-            this.deviceNameDataGridViewTextBoxColumn.ReadOnly = true;
-            this.deviceNameDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // hotKeyStringDataGridViewTextBoxColumn
-            // 
-            this.hotKeyStringDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.hotKeyStringDataGridViewTextBoxColumn.DataPropertyName = "HotKeyString";
-            this.hotKeyStringDataGridViewTextBoxColumn.HeaderText = "Hot Key";
-            this.hotKeyStringDataGridViewTextBoxColumn.Name = "hotKeyStringDataGridViewTextBoxColumn";
-            this.hotKeyStringDataGridViewTextBoxColumn.ReadOnly = true;
-            this.hotKeyStringDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // hotKeyBindingSource
-            // 
-            this.hotKeyBindingSource.DataSource = typeof(FortyOne.AudioSwitcher.HotKeyData.HotKey);
-            // 
             // btnEditHotKey
             // 
             this.btnEditHotKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -649,7 +626,7 @@
             // 
             // tapAbout
             // 
-            this.tapAbout.Controls.Add(this.linkLabel3);
+            this.tapAbout.Controls.Add(this.twitterLink);
             this.tapAbout.Controls.Add(this.pictureBox2);
             this.tapAbout.Controls.Add(this.pictureBox1);
             this.tapAbout.Controls.Add(this.linkWiki);
@@ -673,16 +650,17 @@
             this.tapAbout.Text = "About";
             this.tapAbout.UseVisualStyleBackColor = true;
             // 
-            // linkLabel3
+            // twitterLink
             // 
-            this.linkLabel3.AutoSize = true;
-            this.linkLabel3.Location = new System.Drawing.Point(156, 112);
-            this.linkLabel3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.linkLabel3.Name = "linkLabel3";
-            this.linkLabel3.Size = new System.Drawing.Size(80, 13);
-            this.linkLabel3.TabIndex = 23;
-            this.linkLabel3.TabStop = true;
-            this.linkLabel3.Text = "@xenolightning";
+            this.twitterLink.AutoSize = true;
+            this.twitterLink.Location = new System.Drawing.Point(156, 112);
+            this.twitterLink.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.twitterLink.Name = "twitterLink";
+            this.twitterLink.Size = new System.Drawing.Size(80, 13);
+            this.twitterLink.TabIndex = 23;
+            this.twitterLink.TabStop = true;
+            this.twitterLink.Text = "@xenolightning";
+            this.twitterLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.twitterLink_LinkClicked);
             // 
             // pictureBox2
             // 
@@ -949,6 +927,59 @@
             this.statusLabelDonate.ToolTipText = "Donate via PayPal";
             this.statusLabelDonate.Click += new System.EventHandler(this.statusLabelDonate_Click);
             // 
+            // btnSetPlaybackDefault
+            // 
+            this.btnSetPlaybackDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSetPlaybackDefault.AutoSize = true;
+            this.btnSetPlaybackDefault.ContextMenuStrip = this.playbackStrip;
+            this.btnSetPlaybackDefault.Enabled = false;
+            this.btnSetPlaybackDefault.Location = new System.Drawing.Point(174, 281);
+            this.btnSetPlaybackDefault.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btnSetPlaybackDefault.Name = "btnSetPlaybackDefault";
+            this.btnSetPlaybackDefault.Size = new System.Drawing.Size(85, 25);
+            this.btnSetPlaybackDefault.SplitMenuStrip = this.playbackStrip;
+            this.btnSetPlaybackDefault.TabIndex = 6;
+            this.btnSetPlaybackDefault.Text = "Set As...";
+            this.btnSetPlaybackDefault.UseVisualStyleBackColor = true;
+            // 
+            // btnSetRecordingDefault
+            // 
+            this.btnSetRecordingDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSetRecordingDefault.AutoSize = true;
+            this.btnSetRecordingDefault.ContextMenuStrip = this.recordingStrip;
+            this.btnSetRecordingDefault.Enabled = false;
+            this.btnSetRecordingDefault.Location = new System.Drawing.Point(174, 281);
+            this.btnSetRecordingDefault.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btnSetRecordingDefault.Name = "btnSetRecordingDefault";
+            this.btnSetRecordingDefault.Size = new System.Drawing.Size(85, 25);
+            this.btnSetRecordingDefault.SplitMenuStrip = this.recordingStrip;
+            this.btnSetRecordingDefault.TabIndex = 8;
+            this.btnSetRecordingDefault.Text = "Set As...";
+            this.btnSetRecordingDefault.UseVisualStyleBackColor = true;
+            // 
+            // deviceNameDataGridViewTextBoxColumn
+            // 
+            this.deviceNameDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.deviceNameDataGridViewTextBoxColumn.DataPropertyName = "DeviceName";
+            this.deviceNameDataGridViewTextBoxColumn.FillWeight = 130F;
+            this.deviceNameDataGridViewTextBoxColumn.HeaderText = "Device";
+            this.deviceNameDataGridViewTextBoxColumn.Name = "deviceNameDataGridViewTextBoxColumn";
+            this.deviceNameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.deviceNameDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // hotKeyStringDataGridViewTextBoxColumn
+            // 
+            this.hotKeyStringDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.hotKeyStringDataGridViewTextBoxColumn.DataPropertyName = "HotKeyString";
+            this.hotKeyStringDataGridViewTextBoxColumn.HeaderText = "Hot Key";
+            this.hotKeyStringDataGridViewTextBoxColumn.Name = "hotKeyStringDataGridViewTextBoxColumn";
+            this.hotKeyStringDataGridViewTextBoxColumn.ReadOnly = true;
+            this.hotKeyStringDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // hotKeyBindingSource
+            // 
+            this.hotKeyBindingSource.DataSource = typeof(FortyOne.AudioSwitcher.HotKeyData.HotKey);
+            // 
             // AudioSwitcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -983,7 +1014,6 @@
             this.tapSettings.PerformLayout();
             this.tapHotkeys.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.hotKeyBindingSource)).EndInit();
             this.tapAbout.ResumeLayout(false);
             this.tapAbout.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -991,6 +1021,7 @@
             this.notifyIconStrip.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.hotKeyBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1073,8 +1104,10 @@
         private System.Windows.Forms.ToolStripMenuItem updateAvailableToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.LinkLabel linkLabel3;
+        private System.Windows.Forms.LinkLabel twitterLink;
         private System.Windows.Forms.CheckBox chkNotifyUpdates;
+        private System.Windows.Forms.Button btnOpenControlPanel_1;
+        private System.Windows.Forms.Button btnOpenControlPanel_2;
     }
 }
 
