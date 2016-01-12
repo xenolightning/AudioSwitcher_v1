@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("Audio Switcher")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Audio Switcher - GUI")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Forty One Ltd.")]
 [assembly: AssemblyProduct("Audio Switcher")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -36,7 +36,7 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.6.9.102")]
-[assembly: AssemblyFileVersion("1.6.9.102")]
+[assembly: AssemblyVersion("1.6.10.113")]
+[assembly: AssemblyFileVersion("1.6.10.113")]
 [assembly: AssemblyInformationalVersion("1.6.9.102")]
 [assembly: NeutralResourcesLanguage("")]
