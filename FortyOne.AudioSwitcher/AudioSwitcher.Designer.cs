@@ -39,14 +39,13 @@
             this.setHotKeyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tapPlayback = new System.Windows.Forms.TabPage();
-            this.btnOpenControlPanel_1 = new System.Windows.Forms.Button();
+            this.openControlPanelPlayback = new System.Windows.Forms.PictureBox();
             this.listBoxPlayback = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tapRecording = new System.Windows.Forms.TabPage();
-            this.btnOpenControlPanel_2 = new System.Windows.Forms.Button();
             this.recordingStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuSetRecordingDefault = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSetRecordingCommunicationDefault = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,6 +103,7 @@
             this.statusLabelUpdate = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusLabelDonate = new System.Windows.Forms.ToolStripStatusLabel();
+            this.openControlPanelRecording = new System.Windows.Forms.PictureBox();
             this.btnSetPlaybackDefault = new FortyOne.AudioSwitcher.Controls.SplitButton();
             this.btnSetRecordingDefault = new FortyOne.AudioSwitcher.Controls.SplitButton();
             this.deviceNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -112,6 +112,7 @@
             this.playbackStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tapPlayback.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.openControlPanelPlayback)).BeginInit();
             this.tapRecording.SuspendLayout();
             this.recordingStrip.SuspendLayout();
             this.tapSettings.SuspendLayout();
@@ -122,6 +123,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.notifyIconStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.openControlPanelRecording)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hotKeyBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -196,7 +198,7 @@
             // 
             // tapPlayback
             // 
-            this.tapPlayback.Controls.Add(this.btnOpenControlPanel_1);
+            this.tapPlayback.Controls.Add(this.openControlPanelPlayback);
             this.tapPlayback.Controls.Add(this.btnSetPlaybackDefault);
             this.tapPlayback.Controls.Add(this.listBoxPlayback);
             this.tapPlayback.Location = new System.Drawing.Point(4, 22);
@@ -208,18 +210,16 @@
             this.tapPlayback.Text = "Playback";
             this.tapPlayback.UseVisualStyleBackColor = true;
             // 
-            // btnOpenControlPanel_1
+            // openControlPanelPlayback
             // 
-            this.btnOpenControlPanel_1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnOpenControlPanel_1.Image = global::FortyOne.AudioSwitcher.Properties.Resources.external_link;
-            this.btnOpenControlPanel_1.Location = new System.Drawing.Point(4, 281);
-            this.btnOpenControlPanel_1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.btnOpenControlPanel_1.Name = "btnOpenControlPanel_1";
-            this.btnOpenControlPanel_1.Size = new System.Drawing.Size(25, 25);
-            this.btnOpenControlPanel_1.TabIndex = 7;
-            this.toolTip1.SetToolTip(this.btnOpenControlPanel_1, "Open Sounds in Control Panel");
-            this.btnOpenControlPanel_1.UseVisualStyleBackColor = true;
-            this.btnOpenControlPanel_1.Click += new System.EventHandler(this.btnOpenControlPanel_Click);
+            this.openControlPanelPlayback.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.openControlPanelPlayback.Location = new System.Drawing.Point(5, 281);
+            this.openControlPanelPlayback.Name = "openControlPanelPlayback";
+            this.openControlPanelPlayback.Size = new System.Drawing.Size(25, 25);
+            this.openControlPanelPlayback.TabIndex = 8;
+            this.openControlPanelPlayback.TabStop = false;
+            this.toolTip1.SetToolTip(this.openControlPanelPlayback, "Open Sounds in Control Panel");
+            this.openControlPanelPlayback.Click += new System.EventHandler(this.openControlPanelPlayback_Click);
             // 
             // listBoxPlayback
             // 
@@ -265,7 +265,7 @@
             // 
             // tapRecording
             // 
-            this.tapRecording.Controls.Add(this.btnOpenControlPanel_2);
+            this.tapRecording.Controls.Add(this.openControlPanelRecording);
             this.tapRecording.Controls.Add(this.btnSetRecordingDefault);
             this.tapRecording.Controls.Add(this.listBoxRecording);
             this.tapRecording.Location = new System.Drawing.Point(4, 22);
@@ -276,19 +276,6 @@
             this.tapRecording.TabIndex = 1;
             this.tapRecording.Text = "Recording";
             this.tapRecording.UseVisualStyleBackColor = true;
-            // 
-            // btnOpenControlPanel_2
-            // 
-            this.btnOpenControlPanel_2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnOpenControlPanel_2.Image = global::FortyOne.AudioSwitcher.Properties.Resources.external_link;
-            this.btnOpenControlPanel_2.Location = new System.Drawing.Point(4, 281);
-            this.btnOpenControlPanel_2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.btnOpenControlPanel_2.Name = "btnOpenControlPanel_2";
-            this.btnOpenControlPanel_2.Size = new System.Drawing.Size(25, 25);
-            this.btnOpenControlPanel_2.TabIndex = 9;
-            this.toolTip1.SetToolTip(this.btnOpenControlPanel_2, "Open Sounds in Control Panel");
-            this.btnOpenControlPanel_2.UseVisualStyleBackColor = true;
-            this.btnOpenControlPanel_2.Click += new System.EventHandler(this.btnOpenControlPanel_Click);
             // 
             // recordingStrip
             // 
@@ -927,6 +914,17 @@
             this.statusLabelDonate.ToolTipText = "Donate via PayPal";
             this.statusLabelDonate.Click += new System.EventHandler(this.statusLabelDonate_Click);
             // 
+            // openControlPanelRecording
+            // 
+            this.openControlPanelRecording.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.openControlPanelRecording.Location = new System.Drawing.Point(5, 281);
+            this.openControlPanelRecording.Name = "openControlPanelRecording";
+            this.openControlPanelRecording.Size = new System.Drawing.Size(25, 25);
+            this.openControlPanelRecording.TabIndex = 9;
+            this.openControlPanelRecording.TabStop = false;
+            this.toolTip1.SetToolTip(this.openControlPanelRecording, "Open Sounds in Control Panel");
+            this.openControlPanelRecording.Click += new System.EventHandler(this.openControlPanelRecording_Click);
+            // 
             // btnSetPlaybackDefault
             // 
             this.btnSetPlaybackDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -1007,6 +1005,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tapPlayback.ResumeLayout(false);
             this.tapPlayback.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.openControlPanelPlayback)).EndInit();
             this.tapRecording.ResumeLayout(false);
             this.tapRecording.PerformLayout();
             this.recordingStrip.ResumeLayout(false);
@@ -1021,6 +1020,7 @@
             this.notifyIconStrip.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.openControlPanelRecording)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hotKeyBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1106,8 +1106,8 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.LinkLabel twitterLink;
         private System.Windows.Forms.CheckBox chkNotifyUpdates;
-        private System.Windows.Forms.Button btnOpenControlPanel_1;
-        private System.Windows.Forms.Button btnOpenControlPanel_2;
+        private System.Windows.Forms.PictureBox openControlPanelPlayback;
+        private System.Windows.Forms.PictureBox openControlPanelRecording;
     }
 }
 

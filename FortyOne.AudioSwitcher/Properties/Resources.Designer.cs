@@ -142,16 +142,6 @@ namespace FortyOne.AudioSwitcher.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap external_link {
-            get {
-                object obj = ResourceManager.GetObject("external-link", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap f {
             get {
                 object obj = ResourceManager.GetObject("f", resourceCulture);
@@ -175,6 +165,16 @@ namespace FortyOne.AudioSwitcher.Properties {
         internal static string OldConfigFile {
             get {
                 return ResourceManager.GetString("OldConfigFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap shortcut {
+            get {
+                object obj = ResourceManager.GetObject("shortcut", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

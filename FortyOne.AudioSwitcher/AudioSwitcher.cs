@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -227,6 +228,23 @@ namespace FortyOne.AudioSwitcher
 
         private void Form_Load()
         {
+            var icon = Icon.ExtractAssociatedIcon(Environment.ExpandEnvironmentVariables("%windir%\\system32\\control.exe"));
+
+            if (icon != null)
+            {
+                using (var i = new Bitmap(25, 25))
+                using (var g = Graphics.FromImage(i))
+                {
+                    g.DrawImage(new Bitmap(icon.ToBitmap(), 25, 25), new Rectangle(0, 0, 25, 25));
+                    g.FillRectangle(Brushes.Black, new Rectangle(0, 13, 12, 12));
+                    g.DrawImage(Resources.shortcut, new Rectangle(1, 14, 10, 10));
+                    openControlPanelPlayback.Image = i.Clone() as Image;
+                    openControlPanelRecording.Image = i.Clone() as Image;
+                }
+
+                icon.Dispose();
+            }
+
             var dev = AudioDeviceManager.Controller.GetDevice(Program.Settings.StartupPlaybackDeviceID);
 
             if (dev != null)
@@ -1371,11 +1389,23 @@ namespace FortyOne.AudioSwitcher
             Process.Start("https://www.twitter.com/xenolightning");
         }
 
-        private void btnOpenControlPanel_Click(object sender, EventArgs e)
+        private void openControlPanelPlayback_Click(object sender, EventArgs e)
         {
             try
             {
-                Process.Start(new ProcessStartInfo("mmsys.cpl", "sounds"));
+                Process.Start(new ProcessStartInfo("control.exe", "mmsys.cpl,,0"));
+            }
+            catch
+            {
+                //Ignored, something went wrong when trying to open CPL
+            }
+        }
+
+        private void openControlPanelRecording_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo("control.exe", "mmsys.cpl,,1"));
             }
             catch
             {
