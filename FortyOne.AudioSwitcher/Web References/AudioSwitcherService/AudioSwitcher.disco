@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
-  <contractRef ref="http://services.fortyone.net.nz/AudioSwitcher/AudioSwitcher.asmx?wsdl" docRef="http://services.fortyone.net.nz/AudioSwitcher/AudioSwitcher.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
-  <soap address="http://services.fortyone.net.nz/AudioSwitcher/AudioSwitcher.asmx" xmlns:q1="http://tempuri.org/" binding="q1:AudioSwitcherSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
-  <soap address="http://services.fortyone.net.nz/AudioSwitcher/AudioSwitcher.asmx" xmlns:q2="http://tempuri.org/" binding="q2:AudioSwitcherSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <contractRef ref="http://services.audioswit.ch/AudioSwitcher.asmx?wsdl" docRef="http://services.audioswit.ch/AudioSwitcher.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://services.audioswit.ch/AudioSwitcher.asmx" xmlns:q1="http://tempuri.org/" binding="q1:AudioSwitcherSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://services.audioswit.ch/AudioSwitcher.asmx" xmlns:q2="http://tempuri.org/" binding="q2:AudioSwitcherSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
 </discovery>
