@@ -81,11 +81,13 @@
   <PropertyGroup />
   <PropertyGroup />
   <ItemGroup>
-    <Reference Include="AudioSwitcher.AudioApi">
-      <HintPath>..\packages\AudioSwitcher.AudioApi.3.0.0\lib\net40\AudioSwitcher.AudioApi.dll</HintPath>
+    <Reference Include="AudioSwitcher.AudioApi, Version=3.1.0.294, Culture=neutral, PublicKeyToken=fda5729e2db3a64f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AudioSwitcher.AudioApi.3.1.0-beta2\lib\net452\AudioSwitcher.AudioApi.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="AudioSwitcher.AudioApi.CoreAudio">
-      <HintPath>..\packages\AudioSwitcher.AudioApi.CoreAudio.3.0.0.1\lib\net40\AudioSwitcher.AudioApi.CoreAudio.dll</HintPath>
+    <Reference Include="AudioSwitcher.AudioApi.CoreAudio, Version=3.1.0.294, Culture=neutral, PublicKeyToken=fda5729e2db3a64f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AudioSwitcher.AudioApi.CoreAudio.3.1.0-beta2\lib\net452\AudioSwitcher.AudioApi.CoreAudio.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="fastjson, Version=2.1.0.0, Culture=neutral, PublicKeyToken=6b75a806b86095cd, processorArchitecture=MSIL">
       <HintPath>..\packages\fastJSON.2.1.14.0\lib\net40\fastjson.dll</HintPath>

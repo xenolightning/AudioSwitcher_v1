@@ -38,8 +38,15 @@ namespace FortyOne.AudioSwitcher.Configuration
 
         public void Save()
         {
-            //Write the result to file
-            File.WriteAllText(_path, JSON.Beautify(JSON.ToJSON(_settingsObject)));
+            try
+            {
+                //Write the result to file
+                File.WriteAllText(_path, JSON.Beautify(JSON.ToJSON(_settingsObject)));
+            }
+            catch
+            {
+                //Too bad if we can't save, not like there's anything vitally important in settings
+            }
         }
 
         public string Get(string key)
