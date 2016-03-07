@@ -46,6 +46,7 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tapRecording = new System.Windows.Forms.TabPage();
+            this.openControlPanelRecording = new System.Windows.Forms.PictureBox();
             this.recordingStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuSetRecordingDefault = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSetRecordingCommunicationDefault = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,7 +104,6 @@
             this.statusLabelUpdate = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusLabelDonate = new System.Windows.Forms.ToolStripStatusLabel();
-            this.openControlPanelRecording = new System.Windows.Forms.PictureBox();
             this.btnSetPlaybackDefault = new FortyOne.AudioSwitcher.Controls.SplitButton();
             this.btnSetRecordingDefault = new FortyOne.AudioSwitcher.Controls.SplitButton();
             this.deviceNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -114,6 +114,7 @@
             this.tapPlayback.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.openControlPanelPlayback)).BeginInit();
             this.tapRecording.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.openControlPanelRecording)).BeginInit();
             this.recordingStrip.SuspendLayout();
             this.tapSettings.SuspendLayout();
             this.tapHotkeys.SuspendLayout();
@@ -123,7 +124,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.notifyIconStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.openControlPanelRecording)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hotKeyBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -212,6 +212,7 @@
             // 
             // openControlPanelPlayback
             // 
+            this.openControlPanelPlayback.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.openControlPanelPlayback.Cursor = System.Windows.Forms.Cursors.Hand;
             this.openControlPanelPlayback.Location = new System.Drawing.Point(5, 281);
             this.openControlPanelPlayback.Name = "openControlPanelPlayback";
@@ -276,6 +277,18 @@
             this.tapRecording.TabIndex = 1;
             this.tapRecording.Text = "Recording";
             this.tapRecording.UseVisualStyleBackColor = true;
+            // 
+            // openControlPanelRecording
+            // 
+            this.openControlPanelRecording.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.openControlPanelRecording.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.openControlPanelRecording.Location = new System.Drawing.Point(5, 281);
+            this.openControlPanelRecording.Name = "openControlPanelRecording";
+            this.openControlPanelRecording.Size = new System.Drawing.Size(25, 25);
+            this.openControlPanelRecording.TabIndex = 9;
+            this.openControlPanelRecording.TabStop = false;
+            this.toolTip1.SetToolTip(this.openControlPanelRecording, "Open Sounds in Control Panel");
+            this.openControlPanelRecording.Click += new System.EventHandler(this.openControlPanelRecording_Click);
             // 
             // recordingStrip
             // 
@@ -914,17 +927,6 @@
             this.statusLabelDonate.ToolTipText = "Donate via PayPal";
             this.statusLabelDonate.Click += new System.EventHandler(this.statusLabelDonate_Click);
             // 
-            // openControlPanelRecording
-            // 
-            this.openControlPanelRecording.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.openControlPanelRecording.Location = new System.Drawing.Point(5, 281);
-            this.openControlPanelRecording.Name = "openControlPanelRecording";
-            this.openControlPanelRecording.Size = new System.Drawing.Size(25, 25);
-            this.openControlPanelRecording.TabIndex = 9;
-            this.openControlPanelRecording.TabStop = false;
-            this.toolTip1.SetToolTip(this.openControlPanelRecording, "Open Sounds in Control Panel");
-            this.openControlPanelRecording.Click += new System.EventHandler(this.openControlPanelRecording_Click);
-            // 
             // btnSetPlaybackDefault
             // 
             this.btnSetPlaybackDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -1008,6 +1010,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.openControlPanelPlayback)).EndInit();
             this.tapRecording.ResumeLayout(false);
             this.tapRecording.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.openControlPanelRecording)).EndInit();
             this.recordingStrip.ResumeLayout(false);
             this.tapSettings.ResumeLayout(false);
             this.tapSettings.PerformLayout();
@@ -1020,7 +1023,6 @@
             this.notifyIconStrip.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.openControlPanelRecording)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hotKeyBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
