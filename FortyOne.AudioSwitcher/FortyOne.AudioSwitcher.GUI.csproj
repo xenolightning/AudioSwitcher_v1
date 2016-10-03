@@ -82,11 +82,11 @@
   <PropertyGroup />
   <ItemGroup>
     <Reference Include="AudioSwitcher.AudioApi, Version=4.0.0.308, Culture=neutral, PublicKeyToken=fda5729e2db3a64f, processorArchitecture=MSIL">
-      <HintPath>..\packages\AudioSwitcher.AudioApi.4.0.0.0-alpha1\lib\net452\AudioSwitcher.AudioApi.dll</HintPath>
+      <HintPath>..\packages\AudioSwitcher.AudioApi.4.0.0-alpha2\lib\net452\AudioSwitcher.AudioApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="AudioSwitcher.AudioApi.CoreAudio, Version=4.0.0.308, Culture=neutral, PublicKeyToken=fda5729e2db3a64f, processorArchitecture=MSIL">
-      <HintPath>..\packages\AudioSwitcher.AudioApi.CoreAudio.4.0.0-alpha1\lib\net452\AudioSwitcher.AudioApi.CoreAudio.dll</HintPath>
+      <HintPath>..\packages\AudioSwitcher.AudioApi.CoreAudio.4.0.0-alpha3\lib\net452\AudioSwitcher.AudioApi.CoreAudio.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="fastjson, Version=2.1.0.0, Culture=neutral, PublicKeyToken=6b75a806b86095cd, processorArchitecture=MSIL">

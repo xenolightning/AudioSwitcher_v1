@@ -226,7 +226,7 @@ namespace FortyOne.AudioSwitcher
         [DllImport("uxtheme.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
         private static extern int SetWindowTheme(IntPtr hwnd, string pszSubAppName, string pszSubIdList);
 
-        private void Form_Load()
+        private async void Form_Load()
         {
             var icon = Icon.ExtractAssociatedIcon(Environment.ExpandEnvironmentVariables("%windir%\\system32\\control.exe"));
 
@@ -249,18 +249,18 @@ namespace FortyOne.AudioSwitcher
 
             if (dev != null)
             {
-                dev.SetAsDefault();
+                await dev.SetAsDefaultAsync();
                 if (Program.Settings.DualSwitchMode)
-                    dev.SetAsDefaultCommunications();
+                    await dev.SetAsDefaultCommunicationsAsync();
             }
 
             dev = AudioDeviceManager.Controller.GetDevice(Program.Settings.StartupRecordingDeviceID);
 
             if (dev != null)
             {
-                dev.SetAsDefault();
+                await dev.SetAsDefaultAsync();
                 if (Program.Settings.DualSwitchMode)
-                    dev.SetAsDefaultCommunications();
+                    await dev.SetAsDefaultCommunicationsAsync();
             }
 
             BeginInvoke((Action)(() =>
@@ -417,7 +417,7 @@ namespace FortyOne.AudioSwitcher
             }
         }
 
-        private void t_Tick(object sender, EventArgs e)
+        private async void t_Tick(object sender, EventArgs e)
         {
             ((Timer)sender).Stop();
             if (_doubleClickHappened)
@@ -433,10 +433,10 @@ namespace FortyOne.AudioSwitcher
                     var attemptsCount = FavouriteDeviceManager.FavouritePlaybackDeviceCount;
                     for (var i = 0; !changed && i < attemptsCount; i++)
                     {
-                        changed = candidate.SetAsDefault();
+                        changed = await candidate.SetAsDefaultAsync();
 
                         if (changed && Program.Settings.DualSwitchMode)
-                            candidate.SetAsDefaultCommunications();
+                            await candidate.SetAsDefaultCommunicationsAsync();
 
                         if (!changed)
                             candidate = FavouriteDeviceManager.GetNextFavouritePlaybackDevice(candidate);
@@ -1180,23 +1180,23 @@ namespace FortyOne.AudioSwitcher
             }
         }
 
-        private void mnuSetPlaybackCommunicationDefault_Click(object sender, EventArgs e)
+        private async void mnuSetPlaybackCommunicationDefault_Click(object sender, EventArgs e)
         {
             if (SelectedPlaybackDevice == null)
                 return;
 
             var id = SelectedPlaybackDevice.Id;
-            SelectedPlaybackDevice.SetAsDefaultCommunications();
+            await SelectedPlaybackDevice.SetAsDefaultCommunicationsAsync();
             PostPlaybackMenuClick(id);
         }
 
-        private void mnuSetPlaybackDefault_Click(object sender, EventArgs e)
+        private async void mnuSetPlaybackDefault_Click(object sender, EventArgs e)
         {
             if (SelectedPlaybackDevice == null)
                 return;
 
             var id = SelectedPlaybackDevice.Id;
-            SelectedPlaybackDevice.SetAsDefault();
+            await SelectedPlaybackDevice.SetAsDefaultAsync();
             PostPlaybackMenuClick(id);
         }
 
@@ -1214,13 +1214,13 @@ namespace FortyOne.AudioSwitcher
             }
         }
 
-        private void mnuSetRecordingDefault_Click(object sender, EventArgs e)
+        private async void mnuSetRecordingDefault_Click(object sender, EventArgs e)
         {
             if (SelectedRecordingDevice == null)
                 return;
 
             var id = SelectedRecordingDevice.Id;
-            SelectedRecordingDevice.SetAsDefault();
+            await SelectedRecordingDevice.SetAsDefaultAsync();
             PostRecordingMenuClick(id);
         }
 
@@ -1238,17 +1238,17 @@ namespace FortyOne.AudioSwitcher
             }
         }
 
-        private void mnuSetRecordingCommunicationDefault_Click(object sender, EventArgs e)
+        private async void mnuSetRecordingCommunicationDefault_Click(object sender, EventArgs e)
         {
             if (SelectedRecordingDevice == null)
                 return;
 
             var id = SelectedRecordingDevice.Id;
-            SelectedRecordingDevice.SetAsDefaultCommunications();
+            await SelectedRecordingDevice.SetAsDefaultCommunicationsAsync();
             PostRecordingMenuClick(id);
         }
 
-        private void HotKeyManager_HotKeyPressed(object sender, EventArgs e)
+        private async void HotKeyManager_HotKeyPressed(object sender, EventArgs e)
         {
             //Double check here before handling
             if (DisableHotKeyFunction || Program.Settings.DisableHotKeys)
@@ -1261,10 +1261,10 @@ namespace FortyOne.AudioSwitcher
                 if (hk.Device == null || hk.Device.IsDefaultDevice)
                     return;
 
-                hk.Device.SetAsDefault();
+                await hk.Device.SetAsDefaultAsync();
 
                 if (Program.Settings.DualSwitchMode)
-                    hk.Device.SetAsDefaultCommunications();
+                    await hk.Device.SetAsDefaultCommunicationsAsync();
             }
         }
 
@@ -1301,15 +1301,15 @@ namespace FortyOne.AudioSwitcher
             Application.Exit();
         }
 
-        private void notifyIconStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        private async void notifyIconStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             if (e.ClickedItem != null && e.ClickedItem.Tag is IDevice)
             {
                 var dev = (IDevice)e.ClickedItem.Tag;
-                dev.SetAsDefault();
+                await dev.SetAsDefaultAsync();
 
                 if (Program.Settings.DualSwitchMode)
-                    dev.SetAsDefaultCommunications();
+                    await dev.SetAsDefaultCommunicationsAsync();
             }
         }
 

@@ -36,6 +36,10 @@ namespace FortyOne.AudioSwitcher
 
         private static void HandleSystemException(Exception ex, string caption)
         {
+            //Ignore com timeouts
+            if (ex is TimeoutException && ex.Message.IndexOf("COM operation", StringComparison.OrdinalIgnoreCase) >= 0)
+                return;
+
             var edf = new ExceptionDisplayForm("An Unhandled Error Occurred", ex);
             edf.ShowDialog();
         }
