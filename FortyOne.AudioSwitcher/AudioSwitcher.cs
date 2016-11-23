@@ -1278,8 +1278,6 @@ namespace FortyOne.AudioSwitcher
                     Hide();
                     MinimizeFootprint();
                 }
-
-                HotKeyManager.SaveHotKeys();
             }
         }
 
