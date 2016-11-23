@@ -146,7 +146,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
             RegisterHotkey();
         }
 
-        public void UnregsiterHotkey()
+        public void UnregisterHotkey()
         {
             if (IsRegistered && HotKeyWindow != null)
                 HotKeyWindow.UnregisterHotkey();

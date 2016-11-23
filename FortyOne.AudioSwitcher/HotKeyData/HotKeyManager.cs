@@ -25,7 +25,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
         {
             foreach (var hk in _hotkeys)
             {
-                hk.UnregsiterHotkey();
+                hk.UnregisterHotkey();
             }
 
             Program.Settings.HotKeys = "";
@@ -39,7 +39,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
             {
                 foreach (var hk in _hotkeys)
                 {
-                    hk.UnregsiterHotkey();
+                    hk.UnregisterHotkey();
                 }
 
                 _hotkeys.Clear();
@@ -131,7 +131,7 @@ namespace FortyOne.AudioSwitcher.HotKeyData
         public static void DeleteHotKey(HotKey hk)
         {
             //Ensure its unregistered
-            hk.UnregsiterHotkey();
+            hk.UnregisterHotkey();
             _hotkeys.Remove(hk);
             SaveHotKeys();
         }

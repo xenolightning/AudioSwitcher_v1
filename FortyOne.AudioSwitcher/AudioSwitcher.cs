@@ -391,7 +391,7 @@ namespace FortyOne.AudioSwitcher
             {
                 foreach (var hk in HotKeyManager.HotKeys)
                 {
-                    hk.UnregsiterHotkey();
+                    hk.UnregisterHotkey();
                 }
             }
             else
