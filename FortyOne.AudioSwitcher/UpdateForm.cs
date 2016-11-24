@@ -58,7 +58,7 @@ namespace FortyOne.AudioSwitcher
             }
             catch
             {
-                MessageBox.Show("Cannot Update Automatically.\r\nPlease manually download update.");
+                MessageBox.Show(this, "Cannot Update Automatically.\r\nPlease manually download update.");
             }
         }
 
