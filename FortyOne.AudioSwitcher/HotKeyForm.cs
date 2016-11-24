@@ -49,6 +49,7 @@ namespace FortyOne.AudioSwitcher
 
             _mode = HotKeyFormMode.Edit;
 
+            Text = "Edit Hot Key";
             btnAdd.Text = "Save";
         }
 
