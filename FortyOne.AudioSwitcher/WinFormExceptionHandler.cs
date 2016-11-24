@@ -1,5 +1,7 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
+using AudioSwitcher.AudioApi.CoreAudio;
 
 namespace FortyOne.AudioSwitcher
 {
@@ -37,7 +39,7 @@ namespace FortyOne.AudioSwitcher
         private static void HandleSystemException(Exception ex, string caption)
         {
             //Ignore com timeouts
-            if (ex is TimeoutException && ex.Message.IndexOf("COM operation", StringComparison.OrdinalIgnoreCase) >= 0)
+            if (ex is ComInteropTimeoutException || ex is TaskCanceledException)
                 return;
 
             var edf = new ExceptionDisplayForm("An Unhandled Error Occurred", ex);
