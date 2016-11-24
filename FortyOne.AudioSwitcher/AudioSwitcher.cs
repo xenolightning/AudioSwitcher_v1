@@ -697,17 +697,25 @@ namespace FortyOne.AudioSwitcher
         {
             if (hotKeyBindingSource.Current != null)
             {
-                HotKeyManager.DeleteHotKey((HotKey)hotKeyBindingSource.Current);
-                RefreshGrid();
+                DialogResult result = MessageBox.Show(this, "Do you want to delete this hotkey?", "", MessageBoxButtons.OKCancel);
+
+                if (result == DialogResult.OK)
+                {
+                    HotKeyManager.DeleteHotKey((HotKey)hotKeyBindingSource.Current);
+                    RefreshGrid();
+                }
             }
         }
 
         private void btnClearAllHotKeys_Click(object sender, EventArgs e)
         {
-            HotKeyManager.ClearAll();
-            RefreshGrid();
+            DialogResult result = MessageBox.Show(this, "Do you want to clear all hotkeys?", "", MessageBoxButtons.OKCancel);
 
-            MessageBox.Show("Hotkeys Cleared!");
+            if (result == DialogResult.OK)
+            {
+                HotKeyManager.ClearAll();
+                RefreshGrid();
+            }
         }
 
         private void RefreshGrid()
