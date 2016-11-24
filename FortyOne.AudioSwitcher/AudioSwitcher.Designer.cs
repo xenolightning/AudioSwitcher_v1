@@ -553,6 +553,7 @@
             this.btnClearAll.Size = new System.Drawing.Size(62, 25);
             this.btnClearAll.TabIndex = 4;
             this.btnClearAll.Text = "Clear All";
+            this.toolTip1.SetToolTip(this.btnClearAll, "Clear all hotkeys");
             this.btnClearAll.UseVisualStyleBackColor = true;
             this.btnClearAll.Click += new System.EventHandler(this.btnClearAllHotKeys_Click);
             // 
@@ -565,6 +566,7 @@
             this.btnDeleteHotKey.Name = "btnDeleteHotKey";
             this.btnDeleteHotKey.Size = new System.Drawing.Size(25, 25);
             this.btnDeleteHotKey.TabIndex = 3;
+            this.toolTip1.SetToolTip(this.btnDeleteHotKey, "Delete the selected hotkey");
             this.btnDeleteHotKey.UseVisualStyleBackColor = true;
             this.btnDeleteHotKey.Click += new System.EventHandler(this.btnDeleteHotKey_Click);
             // 
@@ -611,6 +613,7 @@
             this.btnEditHotKey.Name = "btnEditHotKey";
             this.btnEditHotKey.Size = new System.Drawing.Size(25, 25);
             this.btnEditHotKey.TabIndex = 2;
+            this.toolTip1.SetToolTip(this.btnEditHotKey, "Edit the selected hotkey");
             this.btnEditHotKey.UseVisualStyleBackColor = true;
             this.btnEditHotKey.Click += new System.EventHandler(this.btnEditHotKey_Click);
             // 
@@ -623,6 +626,7 @@
             this.btnAddHotKey.Name = "btnAddHotKey";
             this.btnAddHotKey.Size = new System.Drawing.Size(25, 25);
             this.btnAddHotKey.TabIndex = 1;
+            this.toolTip1.SetToolTip(this.btnAddHotKey, "Add a hotkey");
             this.btnAddHotKey.UseVisualStyleBackColor = true;
             this.btnAddHotKey.Click += new System.EventHandler(this.btnAddHotKey_Click);
             // 
