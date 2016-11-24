@@ -1418,5 +1418,25 @@ namespace FortyOne.AudioSwitcher
                 //Ignored, something went wrong when trying to open CPL
             }
         }
+
+        private async void listBoxPlayback_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (SelectedPlaybackDevice == null)
+                return;
+
+            var id = SelectedPlaybackDevice.Id;
+            await SelectedPlaybackDevice.SetAsDefaultAsync();
+            PostPlaybackMenuClick(id);
+        }
+
+        private async void listBoxRecording_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (SelectedRecordingDevice == null)
+                return;
+
+            var id = SelectedRecordingDevice.Id;
+            await SelectedRecordingDevice.SetAsDefaultAsync();
+            PostRecordingMenuClick(id);
+        }
     }
 }

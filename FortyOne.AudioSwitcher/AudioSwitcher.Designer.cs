@@ -245,6 +245,7 @@
             this.listBoxPlayback.UseCompatibleStateImageBehavior = false;
             this.listBoxPlayback.View = System.Windows.Forms.View.Tile;
             this.listBoxPlayback.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listBoxPlayback_ItemSelectionChanged);
+            this.listBoxPlayback.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxPlayback_MouseDoubleClick);
             // 
             // columnHeader1
             // 
@@ -364,6 +365,7 @@
             this.listBoxRecording.UseCompatibleStateImageBehavior = false;
             this.listBoxRecording.View = System.Windows.Forms.View.Tile;
             this.listBoxRecording.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listBoxRecording_ItemSelectionChanged);
+            this.listBoxRecording.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxRecording_MouseDoubleClick);
             // 
             // tapSettings
             // 
