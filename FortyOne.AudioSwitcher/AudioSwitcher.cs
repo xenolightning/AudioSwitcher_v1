@@ -26,7 +26,7 @@ namespace FortyOne.AudioSwitcher
         /// <summary>
         ///     EASTER EGG! SHHH!
         /// </summary>
-        private const string KONAMI_CODE = "UUDDLRLRBA";
+        private readonly Keys[] KONAMI_CODE = { Keys.Up, Keys.Up, Keys.Down, Keys.Down, Keys.Left, Keys.Right, Keys.Left, Keys.Right, Keys.B, Keys.A };
 
         private static AudioSwitcher _instance;
         private readonly Icon _originalTrayIcon;
@@ -58,7 +58,7 @@ namespace FortyOne.AudioSwitcher
         private DeviceState _deviceStateFilter = DeviceState.Active;
         private bool _doubleClickHappened;
         private bool _firstStart = true;
-        private string _input = "";
+        private int _konamiIndex = 0;
         private AudioSwitcherVersionInfo _retrievedVersion;
         private bool _updateAvailable;
         public bool DisableHotKeyFunction = false;
@@ -464,29 +464,24 @@ namespace FortyOne.AudioSwitcher
 
         private void AudioSwitcher_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Up)
-                _input += "U";
-            else if (e.KeyCode == Keys.Down)
-                _input += "D";
-            else if (e.KeyCode == Keys.Left)
-                _input += "L";
-            else if (e.KeyCode == Keys.Right)
-                _input += "R";
-            else if (e.KeyCode == Keys.A)
-                _input += "A";
-            else if (e.KeyCode == Keys.B)
-                _input += "B";
-
-            if (_input.Length > KONAMI_CODE.Length)
+            if (e.KeyCode == KONAMI_CODE[_konamiIndex])
             {
-                _input = _input.Substring(1);
+                if (_konamiIndex == KONAMI_CODE.Length - 1)
+                {
+                    _konamiIndex = 0;
+
+                    var rand = new Random();
+                    var index = rand.Next(YOUTUBE_VIDEOS.Length);
+                    Process.Start(YOUTUBE_VIDEOS[index]);
+                }
+                else
+                {
+                    ++_konamiIndex;
+                }
             }
-
-            if (_input == KONAMI_CODE)
+            else
             {
-                var rand = new Random();
-                var index = rand.Next(YOUTUBE_VIDEOS.Length);
-                Process.Start(YOUTUBE_VIDEOS[index]);
+                _konamiIndex = 0;
             }
         }
 
