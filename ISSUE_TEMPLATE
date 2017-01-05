@@ -1,0 +1,7 @@
+Please ensure you include/confirm the following information before submitting an issue.
+
+- [ ] I have listed the Audio Switcher versiong
+- [ ] I have listed my operating system, and version
+- [ ] Include any details about the audio devices on the system
+- [ ] If you are using Nvidia or AMD for sound, include the driver versions
+- [ ] This is not an issue about setting more than one device as default from a hotkey, quick switch or other relating switching activity.
