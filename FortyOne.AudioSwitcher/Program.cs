@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -26,15 +27,23 @@ namespace FortyOne.AudioSwitcher
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Application.ApplicationExit += Application_ApplicationExit;
 
-
+            // OS check
             if (Environment.OSVersion.Version.Major < 6)
             {
                 MessageBox.Show("Audio Switcher only supports Windows Vista and above", "Unsupported Operating System");
                 return;
             }
 
-            Application.ApplicationExit += Application_ApplicationExit;
+
+            // Check if already running and exit if we detect process name
+            if (IsProgramRunning(AppDomain.CurrentDomain.FriendlyName, 0) > 1)
+            {
+                MessageBox.Show("Audio Switcher is already running");
+                Environment.Exit(0);
+            }
+
             AppDataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AudioSwitcher");
 
             if (!Directory.Exists(AppDataDirectory))
@@ -132,6 +141,21 @@ namespace FortyOne.AudioSwitcher
         {
             //Ensure the icon disappears from tray
             AudioSwitcher.Instance.TrayIconVisible = false;
+        }
+
+        public static int IsProgramRunning(string name, int runtime)
+        {
+          // Remove executable extension if needed
+          name = name.Replace(".exe", String.Empty);
+
+          foreach (var clsProcess in Process.GetProcesses())
+          {
+            if (clsProcess.ProcessName.ToLower().Equals(name.ToLower()))
+            {
+              runtime++;
+            }
+          }
+          return runtime;
         }
     }
 }
