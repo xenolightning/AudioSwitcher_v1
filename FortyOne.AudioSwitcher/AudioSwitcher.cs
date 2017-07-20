@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -440,6 +441,35 @@ namespace FortyOne.AudioSwitcher
 
                         if (!changed)
                             candidate = FavouriteDeviceManager.GetNextFavouritePlaybackDevice(candidate);
+                    }
+                }
+                else
+                {
+                    var currentDefault = AudioDeviceManager.Controller.DefaultPlaybackDevice;
+                    var playbackDevices = (await AudioDeviceManager.Controller.GetPlaybackDevicesAsync(DeviceState.Active))
+                                            .OrderBy(x => x.Name)
+                                            .ToList();
+
+                    var deviceIndex = playbackDevices.IndexOf(currentDefault);
+                    var newIndex = deviceIndex;
+
+                    while (true)
+                    {
+                        newIndex = (newIndex + 1) % playbackDevices.Count;
+
+                        if (newIndex == deviceIndex)
+                            break;
+
+                        try
+                        {
+                            var newDevice = playbackDevices[newIndex];
+                            if (await newDevice.SetAsDefaultAsync())
+                                break;
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
                     }
                 }
             }
