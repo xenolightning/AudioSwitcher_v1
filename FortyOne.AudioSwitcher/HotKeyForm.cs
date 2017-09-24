@@ -16,6 +16,8 @@ namespace FortyOne.AudioSwitcher
         private readonly HotKey _hotkey;
         private readonly HotKey _linkedHotKey;
         private readonly HotKeyFormMode _mode = HotKeyFormMode.Normal;
+        private DeviceState _deviceStateFilter = DeviceState.Active;
+
         private bool _firstFocus = true;
 
         public HotKeyForm()
@@ -24,11 +26,18 @@ namespace FortyOne.AudioSwitcher
 
             _hotkey = new HotKey();
 
+            // Keep in mind how the user wants the devices shown
+            if (Program.Settings.ShowDisabledDevices)
+                _deviceStateFilter |= DeviceState.Disabled;
+
+            if (Program.Settings.ShowDisconnectedDevices)
+                _deviceStateFilter |= DeviceState.Unplugged;
+
             cmbDevices.Items.Clear();
-            foreach (var ad in AudioDeviceManager.Controller.GetPlaybackDevices())
+            foreach (var ad in AudioDeviceManager.Controller.GetPlaybackDevices(_deviceStateFilter))
                 cmbDevices.Items.Add(ad);
 
-            foreach (var ad in AudioDeviceManager.Controller.GetCaptureDevices())
+            foreach (var ad in AudioDeviceManager.Controller.GetCaptureDevices(_deviceStateFilter))
                 cmbDevices.Items.Add(ad);
 
             cmbDevices.DisplayMember = "FullName";
