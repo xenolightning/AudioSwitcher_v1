@@ -42,7 +42,12 @@ namespace FortyOne.AudioSwitcher.HotKeyData
 
         public string DeviceName
         {
-            get { return Device.FullName; }
+            get
+            {
+                if (Device == null)
+                    return "Unknown Device";
+                return Device.FullName;
+            }
         }
 
         public string HotKeyString
