@@ -769,6 +769,7 @@ namespace FortyOne.AudioSwitcher
             chkNotifyUpdates.Checked = Program.Settings.UpdateNotificationsEnabled;
 
             chkShowDiabledDevices.Checked = Program.Settings.ShowDisabledDevices;
+	        chkShowUnknownDevicesInHotkeyList.Checked = Program.Settings.ShowUnknownDevicesInHotkeyList;
             chkShowDisconnectedDevices.Checked = Program.Settings.ShowDisconnectedDevices;
             chkShowDPDeviceIconInTray.Checked = Program.Settings.ShowDPDeviceIconInTray;
 
@@ -1463,5 +1464,19 @@ namespace FortyOne.AudioSwitcher
             await SelectedRecordingDevice.SetAsDefaultAsync();
             PostRecordingMenuClick(id);
         }
-    }
+
+		private void chkShowUnknownDevicesInHotkeyList_CheckedChanged(object sender, EventArgs e)
+		{
+			Program.Settings.ShowUnknownDevicesInHotkeyList = chkShowUnknownDevicesInHotkeyList.Checked;
+
+			if (IsHandleCreated)
+			{
+				BeginInvoke((Action)(() =>
+				{
+					HotKeyManager.RefreshHotkeys();
+					RefreshGrid();
+				}));
+			}
+		}
+	}
 }

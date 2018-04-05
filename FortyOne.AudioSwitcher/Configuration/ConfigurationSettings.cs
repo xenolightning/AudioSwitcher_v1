@@ -23,6 +23,7 @@ namespace FortyOne.AudioSwitcher.Configuration
         public const string SETTING_STARTUPPLAYBACKDEVICE = "StartupPlaybackDeviceID";
         public const string SETTING_DUALSWITCHMODE = "DualSwitchMode";
         public const string SETTING_SHOWDISABLEDDEVICES = "ShowDisabledDevices";
+        public const string SETTING_SHOWUNKNOWNDEVICESINHOTKEYLIST = "ShowUnknownDevicesInHotkeyList";
         public const string SETTING_SHOWDISCONNECTEDDDEVICES = "ShowDisconnectedDevices";
         public const string SETTING_SHOWDPDEVICEIICONINTRAY = "ShowDPDeviceIconInTray";
         public const string SETTING_UPDATE_NOTIFICATIONS_ENABLED = "UpdateNotificationsEnabled";
@@ -104,6 +105,16 @@ namespace FortyOne.AudioSwitcher.Configuration
             set { _configWriter.Set(SETTING_SHOWDISABLEDDEVICES, value.ToString()); }
         }
 
+        public bool ShowUnknownDevicesInHotkeyList
+        {
+            get
+            {
+                return
+                    Convert.ToBoolean(_configWriter.Get(SETTING_SHOWUNKNOWNDEVICESINHOTKEYLIST));
+            }
+            set { _configWriter.Set(SETTING_SHOWUNKNOWNDEVICESINHOTKEYLIST, value.ToString()); }
+        }
+        
         public bool ShowDisconnectedDevices
         {
             get
@@ -278,6 +289,9 @@ namespace FortyOne.AudioSwitcher.Configuration
             if (!SettingExists(SETTING_SHOWDISABLEDDEVICES))
                 ShowDisabledDevices = false;
 
+            if (!SettingExists(SETTING_SHOWUNKNOWNDEVICESINHOTKEYLIST))
+                ShowUnknownDevicesInHotkeyList = false;
+            
             if (!SettingExists(SETTING_SHOWDISCONNECTEDDDEVICES))
                 ShowDisconnectedDevices = false;
 
@@ -300,6 +314,7 @@ namespace FortyOne.AudioSwitcher.Configuration
             HotKeys = otherSettings.HotKeys;
             PollForUpdates = otherSettings.PollForUpdates;
             ShowDisabledDevices = otherSettings.ShowDisabledDevices;
+            ShowUnknownDevicesInHotkeyList = otherSettings.ShowUnknownDevicesInHotkeyList;
             ShowDisconnectedDevices = otherSettings.ShowDisconnectedDevices;
             StartMinimized = otherSettings.StartMinimized;
             StartupPlaybackDeviceID = otherSettings.StartupPlaybackDeviceID;

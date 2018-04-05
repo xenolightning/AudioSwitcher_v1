@@ -114,10 +114,15 @@ namespace FortyOne.AudioSwitcher.HotKeyData
             return true;
         }
 
-        private static void RefreshHotkeys()
+        public static void RefreshHotkeys()
         {
             HotKeys.Clear();
-            foreach (var k in _hotkeys.Where(x => x.Device != null))
+            var filterInvalid = !Program.Settings.ShowUnknownDevicesInHotkeyList;
+            IEnumerable<HotKey> hotkeyList = _hotkeys;
+            if (filterInvalid)
+                hotkeyList = hotkeyList.Where(x => x.Device != null);
+            
+            foreach (var k in hotkeyList)
             {
                 HotKeys.Add(k);
             }
