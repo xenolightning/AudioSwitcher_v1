@@ -63,11 +63,14 @@ namespace FortyOne.AudioSwitcher
         private AudioSwitcherVersionInfo _retrievedVersion;
         private bool _updateAvailable;
         public bool DisableHotKeyFunction = false;
+        private int _currentDPI = 0;
 
         public AudioSwitcher()
         {
             InitializeComponent();
             HandleCreated += AudioSwitcher_HandleCreated;
+
+            AdoptForDPI();
 
             try
             {
@@ -100,6 +103,29 @@ namespace FortyOne.AudioSwitcher
         public static AudioSwitcher Instance
         {
             get { return _instance ?? (_instance = new AudioSwitcher()); }
+        }
+
+        private void AdoptForDPI()
+        {
+            using (Graphics g = this.CreateGraphics())
+            {
+                this._currentDPI = (int)g.DpiX;
+            }
+
+            if (this._currentDPI <= 96)
+                return;
+
+            // Devices items for playback and recording
+            this.listBoxPlayback.TileSize = new System.Drawing.Size(370, 60);
+            this.listBoxRecording.TileSize = new System.Drawing.Size(370, 60);
+            // Devices icons for playback and recording
+            this.imageList1.ImageSize = new System.Drawing.Size(48, 48);
+
+            // Hot keys header size
+            this.dataGridView1.ColumnHeadersHeight = 35;
+
+            // Check mark for tray menu
+            this.notifyIconStrip.ImageScalingSize = new System.Drawing.Size(16, 16);
         }
 
         private IDevice SelectedPlaybackDevice
@@ -229,14 +255,16 @@ namespace FortyOne.AudioSwitcher
 
         private async void Form_Load()
         {
+            int iconSize = 48;
+
             var icon = Icon.ExtractAssociatedIcon(Environment.ExpandEnvironmentVariables("%windir%\\system32\\control.exe"));
 
             if (icon != null)
             {
-                using (var i = new Bitmap(25, 25))
+                using (var i = new Bitmap(iconSize, iconSize))
                 using (var g = Graphics.FromImage(i))
                 {
-                    g.DrawImage(new Bitmap(icon.ToBitmap(), 25, 25), new Rectangle(0, 0, 25, 25));
+                    g.DrawImage(new Bitmap(icon.ToBitmap(), iconSize, iconSize), new Rectangle(0, 0, iconSize, iconSize));
                     g.FillRectangle(Brushes.Black, new Rectangle(0, 13, 12, 12));
                     g.DrawImage(Resources.shortcut, new Rectangle(1, 14, 10, 10));
                     openControlPanelPlayback.Image = i.Clone() as Image;
