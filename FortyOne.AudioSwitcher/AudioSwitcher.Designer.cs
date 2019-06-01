@@ -218,7 +218,7 @@
             // 
             this.openControlPanelPlayback.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.openControlPanelPlayback.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.openControlPanelPlayback.Location = new System.Drawing.Point(5, 617);
+            this.openControlPanelPlayback.Location = new System.Drawing.Point(5, 614);
             this.openControlPanelPlayback.Name = "openControlPanelPlayback";
             this.openControlPanelPlayback.Size = new System.Drawing.Size(48, 48);
             this.openControlPanelPlayback.TabIndex = 8;
@@ -259,7 +259,7 @@
             this.listBoxPlayback.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.listBoxPlayback.MultiSelect = false;
             this.listBoxPlayback.Name = "listBoxPlayback";
-            this.listBoxPlayback.Size = new System.Drawing.Size(1100, 605);
+            this.listBoxPlayback.Size = new System.Drawing.Size(1100, 602);
             this.listBoxPlayback.TabIndex = 5;
             this.listBoxPlayback.TileSize = new System.Drawing.Size(200, 50);
             this.listBoxPlayback.UseCompatibleStateImageBehavior = false;
@@ -744,7 +744,7 @@
             // twitterLink
             // 
             this.twitterLink.AutoSize = true;
-            this.twitterLink.Location = new System.Drawing.Point(156, 112);
+            this.twitterLink.Location = new System.Drawing.Point(306, 137);
             this.twitterLink.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.twitterLink.Name = "twitterLink";
             this.twitterLink.Size = new System.Drawing.Size(162, 26);
@@ -758,7 +758,7 @@
             this.pictureBox2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.pictureBox2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBox2.Image = global::FortyOne.AudioSwitcher.Properties.Resources.twitter;
-            this.pictureBox2.Location = new System.Drawing.Point(90, 217);
+            this.pictureBox2.Location = new System.Drawing.Point(544, 538);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Padding = new System.Windows.Forms.Padding(5);
@@ -773,7 +773,7 @@
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBox1.Image = global::FortyOne.AudioSwitcher.Properties.Resources.github;
-            this.pictureBox1.Location = new System.Drawing.Point(144, 217);
+            this.pictureBox1.Location = new System.Drawing.Point(580, 538);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Padding = new System.Windows.Forms.Padding(5);
@@ -786,10 +786,10 @@
             // linkWiki
             // 
             this.linkWiki.BackColor = System.Drawing.Color.Transparent;
-            this.linkWiki.Location = new System.Drawing.Point(167, 134);
+            this.linkWiki.Location = new System.Drawing.Point(348, 163);
             this.linkWiki.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.linkWiki.Name = "linkWiki";
-            this.linkWiki.Size = new System.Drawing.Size(28, 14);
+            this.linkWiki.Size = new System.Drawing.Size(56, 26);
             this.linkWiki.TabIndex = 18;
             this.linkWiki.TabStop = true;
             this.linkWiki.Text = "wiki";
@@ -798,10 +798,10 @@
             // linkIssues
             // 
             this.linkIssues.BackColor = System.Drawing.Color.Transparent;
-            this.linkIssues.Location = new System.Drawing.Point(120, 134);
+            this.linkIssues.Location = new System.Drawing.Point(235, 163);
             this.linkIssues.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.linkIssues.Name = "linkIssues";
-            this.linkIssues.Size = new System.Drawing.Size(36, 14);
+            this.linkIssues.Size = new System.Drawing.Size(77, 26);
             this.linkIssues.TabIndex = 17;
             this.linkIssues.TabStop = true;
             this.linkIssues.Text = "issues";
@@ -810,17 +810,17 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 134);
+            this.label3.Location = new System.Drawing.Point(7, 163);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(335, 26);
+            this.label3.Size = new System.Drawing.Size(347, 26);
             this.label3.TabIndex = 16;
-            this.label3.Text = "Having trouble? Check            or  ";
+            this.label3.Text = "Having trouble? Check              or  ";
             // 
             // linkLabel2
             // 
             this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(8, 43);
+            this.linkLabel2.Location = new System.Drawing.Point(7, 59);
             this.linkLabel2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(211, 26);
@@ -832,7 +832,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(8, 112);
+            this.label6.Location = new System.Drawing.Point(7, 137);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(305, 26);
@@ -842,10 +842,10 @@
             // linkLabel1
             // 
             this.linkLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel1.Location = new System.Drawing.Point(37, 165);
+            this.linkLabel1.Location = new System.Drawing.Point(68, 189);
             this.linkLabel1.Margin = new System.Windows.Forms.Padding(0);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(28, 15);
+            this.linkLabel1.Size = new System.Drawing.Size(59, 33);
             this.linkLabel1.TabIndex = 12;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "here";
@@ -854,20 +854,20 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(10, 165);
+            this.label4.Location = new System.Drawing.Point(7, 189);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(430, 26);
+            this.label4.Size = new System.Drawing.Size(442, 26);
             this.label4.TabIndex = 11;
-            this.label4.Text = "Click          for all versions of AudioSwitcher";
+            this.label4.Text = "Click            for all versions of AudioSwitcher";
             // 
             // btnTestError
             // 
             this.btnTestError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTestError.Location = new System.Drawing.Point(176, 13);
+            this.btnTestError.Location = new System.Drawing.Point(948, 6);
             this.btnTestError.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnTestError.Name = "btnTestError";
-            this.btnTestError.Size = new System.Drawing.Size(74, 23);
+            this.btnTestError.Size = new System.Drawing.Size(149, 43);
             this.btnTestError.TabIndex = 6;
             this.btnTestError.Text = "Test Error";
             this.btnTestError.UseVisualStyleBackColor = true;
@@ -878,7 +878,7 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 260);
+            this.label2.Location = new System.Drawing.Point(320, 587);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(485, 78);
@@ -890,7 +890,7 @@
             // lblCopyright
             // 
             this.lblCopyright.AutoSize = true;
-            this.lblCopyright.Location = new System.Drawing.Point(8, 89);
+            this.lblCopyright.Location = new System.Drawing.Point(7, 111);
             this.lblCopyright.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCopyright.Name = "lblCopyright";
             this.lblCopyright.Size = new System.Drawing.Size(105, 26);
@@ -900,7 +900,7 @@
             // lblVersion
             // 
             this.lblVersion.AutoSize = true;
-            this.lblVersion.Location = new System.Drawing.Point(8, 67);
+            this.lblVersion.Location = new System.Drawing.Point(7, 85);
             this.lblVersion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(92, 26);
@@ -911,7 +911,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(7, 9);
+            this.label1.Location = new System.Drawing.Point(4, 3);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(288, 46);
