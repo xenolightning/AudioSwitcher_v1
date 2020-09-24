@@ -81,6 +81,11 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AudioSwitcher.AudioApi, Version=4.0.0.308, Culture=neutral, PublicKeyToken=fda5729e2db3a64f, processorArchitecture=MSIL">
       <HintPath>..\packages\AudioSwitcher.AudioApi.4.0.0-alpha5\lib\net45\AudioSwitcher.AudioApi.dll</HintPath>
@@ -209,6 +214,7 @@
     <Content Include="Icons\e.png" />
     <Content Include="Icons\f.png" />
     <Content Include="Resources\shortcut.png" />
+    <None Include="app.manifest" />
     <None Include="Icons\github.png" />
     <None Include="Icons\twitter.png" />
     <Content Include="Resources\112_Plus_Green_16x16_72.png" />
