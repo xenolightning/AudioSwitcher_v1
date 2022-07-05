@@ -17,6 +17,7 @@ namespace FortyOne.AudioSwitcher.Configuration
         public const string SETTING_WINDOWHEIGHT = "WindowHeight";
         public const string SETTING_DISABLEHOTKEYS = "DisableHotKeys";
         public const string SETTING_ENABLEQUICKSWITCH = "EnableQuickSwitch";
+        public const string SETTING_DISABLEDOUBLECLICK = "DisableDoubleClick";
         public const string SETTING_CHECKFORUPDATESONSTARTUP = "CheckForUpdatesOnStartup";
         public const string SETTING_POLLFORUPDATES = "PollForUpdates";
         public const string SETTING_STARTUPRECORDINGDEVICE = "StartupRecordingDeviceID";
@@ -230,6 +231,16 @@ namespace FortyOne.AudioSwitcher.Configuration
             set { _configWriter.Set(SETTING_ENABLEQUICKSWITCH, value.ToString()); }
         }
 
+        public bool DisableDoubleClick
+        {
+            get
+            {
+                return
+                    Convert.ToBoolean(_configWriter.Get(SETTING_DISABLEDOUBLECLICK));
+            }
+            set { _configWriter.Set(SETTING_DISABLEDOUBLECLICK, value.ToString()); }
+        }
+
         public bool UpdateNotificationsEnabled
         {
             get
@@ -256,6 +267,9 @@ namespace FortyOne.AudioSwitcher.Configuration
 
             if (!SettingExists(SETTING_ENABLEQUICKSWITCH))
                 EnableQuickSwitch = false;
+
+            if (!SettingExists(SETTING_DISABLEDOUBLECLICK))
+                DisableDoubleClick = false;
 
             if (!SettingExists(SETTING_HOTKEYS))
                 HotKeys = "[]";
@@ -310,6 +324,7 @@ namespace FortyOne.AudioSwitcher.Configuration
             DisableHotKeys = otherSettings.DisableHotKeys;
             DualSwitchMode = otherSettings.DualSwitchMode;
             EnableQuickSwitch = otherSettings.EnableQuickSwitch;
+            DisableDoubleClick = otherSettings.DisableDoubleClick;
             FavouriteDevices = otherSettings.FavouriteDevices;
             HotKeys = otherSettings.HotKeys;
             PollForUpdates = otherSettings.PollForUpdates;

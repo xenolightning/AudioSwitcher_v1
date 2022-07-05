@@ -72,6 +72,7 @@
 			this.chkAutoStartWithWindows = new System.Windows.Forms.CheckBox();
 			this.chkStartMinimized = new System.Windows.Forms.CheckBox();
 			this.chkDisableHotKeys = new System.Windows.Forms.CheckBox();
+			this.chkDisableDblClick = new System.Windows.Forms.CheckBox();
 			this.chkQuickSwitch = new System.Windows.Forms.CheckBox();
 			this.tapHotkeys = new System.Windows.Forms.TabPage();
 			this.btnClearAll = new System.Windows.Forms.Button();
@@ -418,6 +419,7 @@
 			this.tapSettings.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
 			this.tapSettings.Size = new System.Drawing.Size(264, 312);
 			this.tapSettings.TabIndex = 3;
+			this.tapSettings.Controls.Add(this.chkDisableDblClick);
 			this.tapSettings.Text = "Settings";
 			this.tapSettings.UseVisualStyleBackColor = true;
 			// 
@@ -456,6 +458,18 @@
 			this.chkShowDPDeviceIconInTray.Text = "Show Default Playback Device icon in tray";
 			this.chkShowDPDeviceIconInTray.UseVisualStyleBackColor = true;
 			this.chkShowDPDeviceIconInTray.CheckedChanged += new System.EventHandler(this.chkShowDPDeviceIconInTray_CheckedChanged);
+			//
+			// chkDisableDblClick
+			// 
+			this.chkDisableDblClick.AutoSize = true;
+			this.chkDisableDblClick.Location = new System.Drawing.Point(14, 269);
+			this.chkDisableDblClick.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+			this.chkDisableDblClick.Name = "chkDisableDblClick";
+			this.chkDisableDblClick.Size = new System.Drawing.Size(352, 29);
+			this.chkDisableDblClick.TabIndex = 8;
+			this.chkDisableDblClick.Text = "Disable double click to open settings";
+			this.chkDisableDblClick.UseVisualStyleBackColor = true;
+			this.chkDisableDblClick.CheckedChanged += new System.EventHandler(this.chkDisableDblClick_CheckedChanged);
 			// 
 			// btnCheckUpdate
 			// 
@@ -1131,6 +1145,7 @@
         private System.Windows.Forms.PictureBox openControlPanelPlayback;
         private System.Windows.Forms.PictureBox openControlPanelRecording;
 		private System.Windows.Forms.CheckBox chkShowUnknownDevicesInHotkeyList;
+		private System.Windows.Forms.CheckBox chkDisableDblClick;
 	}
 }
 
